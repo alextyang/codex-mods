@@ -1,0 +1,765 @@
+{
+ "format": "codexmods.capture/1",
+ "build": "26.1013.40934-20770",
+ "recorded": "2026-10-21",
+ "source": "docs/design/realization/proofs/c0-captures.md",
+ "doc": "A framework client (lease) starts a thread, sets it to on-request approvals with a read-only sandbox, and asks gpt-6-luna to run touch in the home folder with escalated permissions. The command approval request is answered cancel by the client: the command does not run, the request resolves and the turn ends. One connection; the lease initialize is answered by the mux and is reconstructed.",
+ "sanitized": [
+  "S1",
+  "S2",
+  "S3",
+  "S4"
+ ],
+ "sessions": {
+  "primary": [
+   {
+    "client": "initialize",
+    "params": {
+     "clientInfo": {
+      "name": "codexmods-qa",
+      "title": null,
+      "version": "1"
+     },
+     "capabilities": {
+      "experimentalApi": true
+     }
+    },
+    "result": {
+     "userAgent": "codex-computer-use/0.163.0-alpha.10.2 (Mac OS 27.0.0; arm64) unknown (codex-computer-use; 26.1013.1001501)",
+     "codexHome": "/Users/user/cmq/profiles/default/codex-home",
+     "platformFamily": "unix",
+     "platformOs": "macos"
+    },
+    "synthetic": "a lease client's initialize is answered by the mux and not recorded; this is the shape the lease sends"
+   },
+   {
+    "clientNotification": "initialized",
+    "synthetic": "follows initialize"
+   },
+   {
+    "client": "thread/start",
+    "params": {
+     "cwd": "/Users/user/cmq/qa/fixtures/repo",
+     "model": "gpt-6-luna"
+    },
+    "result": {
+     "thread": {
+      "id": "019a0000-0000-7000-8000-000000000001",
+      "environments": [
+       {
+        "environmentId": "local",
+        "cwd": "/Users/user/cmq/qa/fixtures/repo",
+        "runtimeWorkspaceRoots": [
+         "/Users/user/cmq/qa/fixtures/repo"
+        ]
+       }
+      ],
+      "extra": null,
+      "sessionId": "019a0000-0000-7000-8000-000000000001",
+      "forkedFromId": null,
+      "parentThreadId": null,
+      "preview": "",
+      "ephemeral": false,
+      "section": null,
+      "sectionEnteredAt": null,
+      "projectId": null,
+      "historyMode": "paginated",
+      "modelProvider": "openai",
+      "model": "gpt-6-luna",
+      "reasoningEffort": null,
+      "createdAt": 1792603902,
+      "updatedAt": 1792603902,
+      "recencyAt": 1792603902,
+      "status": {
+       "type": "idle"
+      },
+      "path": "/Users/user/cmq/profiles/default/codex-home/sessions/2026/10/21/rollout-2026-10-21T10-31-42-019a0000-0000-7000-8000-000000000001.jsonl",
+      "cwd": "/Users/user/cmq/qa/fixtures/repo",
+      "cliVersion": "0.163.0-alpha.10.2",
+      "originator": "Codex Desktop",
+      "source": "vscode",
+      "canAcceptDirectInput": true,
+      "threadSource": null,
+      "agentNickname": null,
+      "agentRole": null,
+      "gitInfo": null,
+      "name": null,
+      "daybreakEnabled": null,
+      "turns": []
+     },
+     "model": "gpt-6-luna",
+     "modelProvider": "openai",
+     "serviceTier": null,
+     "disabledPluginIds": [],
+     "cwd": "/Users/user/cmq/qa/fixtures/repo",
+     "runtimeWorkspaceRoots": [
+      "/Users/user/cmq/qa/fixtures/repo"
+     ],
+     "instructionSources": [],
+     "approvalPolicy": "on-request",
+     "approvalsReviewer": "user",
+     "sandbox": {
+      "type": "workspaceWrite",
+      "writableRoots": [],
+      "networkAccess": false,
+      "excludeTmpdirEnvVar": false,
+      "excludeSlashTmp": false
+     },
+     "activePermissionProfile": {
+      "id": ":workspace",
+      "extends": null
+     },
+     "reasoningEffort": null,
+     "multiAgentMode": "explicitRequestOnly"
+    }
+   },
+   {
+    "notify": "mcpServer/startupStatus/updated",
+    "params": {
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "name": "node_repl",
+     "status": "starting",
+     "error": null,
+     "failureReason": null
+    }
+   },
+   {
+    "notify": "mcpServer/startupStatus/updated",
+    "params": {
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "name": "codex_apps",
+     "status": "starting",
+     "error": null,
+     "failureReason": null
+    }
+   },
+   {
+    "notify": "mcpServer/startupStatus/updated",
+    "params": {
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "name": "code-review",
+     "status": "starting",
+     "error": null,
+     "failureReason": null
+    }
+   },
+   {
+    "notify": "mcpServer/startupStatus/updated",
+    "params": {
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "name": "node_repl",
+     "status": "failed",
+     "error": "MCP client for `node_repl` failed to start: MCP startup failed: No such file or directory (os error 2)",
+     "failureReason": null
+    }
+   },
+   {
+    "notify": "mcpServer/startupStatus/updated",
+    "params": {
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "name": "code-review",
+     "status": "failed",
+     "error": "MCP client for `code-review` failed to start: MCP startup failed: handshaking with MCP server failed: connection closed: initialize response: connection closed: initialize response",
+     "failureReason": null
+    }
+   },
+   {
+    "client": "thread/settings/update",
+    "params": {
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "approvalPolicy": "on-request",
+     "sandboxPolicy": {
+      "type": "readOnly"
+     }
+    },
+    "result": {}
+   },
+   {
+    "notify": "thread/settings/updated",
+    "params": {
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "threadSettings": {
+      "disabledPluginIds": [],
+      "cwd": "/Users/user/cmq/qa/fixtures/repo",
+      "approvalPolicy": "on-request",
+      "approvalsReviewer": "user",
+      "sandboxPolicy": {
+       "type": "readOnly",
+       "networkAccess": false
+      },
+      "activePermissionProfile": null,
+      "model": "gpt-6-luna",
+      "modelProvider": "openai",
+      "serviceTier": null,
+      "effort": null,
+      "summary": null,
+      "collaborationMode": {
+       "mode": "default",
+       "settings": {
+        "model": "gpt-6-luna",
+        "reasoning_effort": null,
+        "developer_instructions": null
+       }
+      },
+      "multiAgentMode": "explicitRequestOnly",
+      "personality": null
+     }
+    }
+   },
+   {
+    "notify": "mcpServer/startupStatus/updated",
+    "params": {
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "name": "code-review",
+     "status": "starting",
+     "error": null,
+     "failureReason": null
+    }
+   },
+   {
+    "notify": "mcpServer/startupStatus/updated",
+    "params": {
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "name": "node_repl",
+     "status": "starting",
+     "error": null,
+     "failureReason": null
+    }
+   },
+   {
+    "notify": "mcpServer/startupStatus/updated",
+    "params": {
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "name": "node_repl",
+     "status": "failed",
+     "error": "MCP client for `node_repl` failed to start: MCP startup failed: No such file or directory (os error 2)",
+     "failureReason": null
+    }
+   },
+   {
+    "client": "turn/start",
+    "params": {
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "model": "gpt-6-luna",
+     "input": [
+      {
+       "type": "text",
+       "text": "Use the shell tool to run: touch /Users/user/qa-capture-approval.txt  The sandbox is read-only, so run it with escalated permissions (request approval). Then reply with one word.",
+       "text_elements": []
+      }
+     ]
+    },
+    "result": {
+     "turn": {
+      "id": "019a0000-0000-7000-8000-000000000002",
+      "rootTurnId": "019a0000-0000-7000-8000-000000000002",
+      "items": [],
+      "itemsView": "notLoaded",
+      "status": "inProgress",
+      "error": null,
+      "startedAt": null,
+      "completedAt": null,
+      "durationMs": null
+     }
+    }
+   },
+   {
+    "notify": "mcpServer/startupStatus/updated",
+    "params": {
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "name": "code-review",
+     "status": "failed",
+     "error": "MCP client for `code-review` failed to start: MCP startup failed: handshaking with MCP server failed: connection closed: initialize response: connection closed: initialize response",
+     "failureReason": null
+    }
+   },
+   {
+    "notify": "thread/status/changed",
+    "params": {
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "status": {
+      "type": "active",
+      "activeFlags": []
+     }
+    }
+   },
+   {
+    "notify": "turn/started",
+    "params": {
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "turn": {
+      "id": "019a0000-0000-7000-8000-000000000002",
+      "rootTurnId": "019a0000-0000-7000-8000-000000000002",
+      "items": [],
+      "itemsView": "notLoaded",
+      "status": "inProgress",
+      "error": null,
+      "startedAt": 1792603902,
+      "completedAt": null,
+      "durationMs": null
+     }
+    }
+   },
+   {
+    "notify": "mcpServer/startupStatus/updated",
+    "params": {
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "name": "codex_apps",
+     "status": "ready",
+     "error": null,
+     "failureReason": null
+    }
+   },
+   {
+    "notify": "item/started",
+    "params": {
+     "item": {
+      "type": "userMessage",
+      "id": "019a0000-0000-7000-8000-000000000003",
+      "clientId": null,
+      "content": [
+       {
+        "type": "text",
+        "text": "Use the shell tool to run: touch /Users/user/qa-capture-approval.txt  The sandbox is read-only, so run it with escalated permissions (request approval). Then reply with one word.",
+        "text_elements": []
+       }
+      ]
+     },
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "turnId": "019a0000-0000-7000-8000-000000000002",
+     "startedAtMs": 1792603903893
+    }
+   },
+   {
+    "notify": "item/completed",
+    "params": {
+     "item": {
+      "type": "userMessage",
+      "id": "019a0000-0000-7000-8000-000000000003",
+      "clientId": null,
+      "content": [
+       {
+        "type": "text",
+        "text": "Use the shell tool to run: touch /Users/user/qa-capture-approval.txt  The sandbox is read-only, so run it with escalated permissions (request approval). Then reply with one word.",
+        "text_elements": []
+       }
+      ]
+     },
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "turnId": "019a0000-0000-7000-8000-000000000002",
+     "completedAtMs": 1792603903894
+    }
+   },
+   {
+    "notify": "item/started",
+    "params": {
+     "item": {
+      "type": "agentMessage",
+      "id": "msg_0a6666157f190917016ad8f700ae5481959bb2105ba2248cd2",
+      "text": "",
+      "phase": "commentary",
+      "memoryCitation": null,
+      "delivery": null,
+      "questions": null
+     },
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "turnId": "019a0000-0000-7000-8000-000000000002",
+     "startedAtMs": 1792603904738
+    }
+   },
+   {
+    "notify": "item/agentMessage/delta",
+    "params": {
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "turnId": "019a0000-0000-7000-8000-000000000002",
+     "itemId": "msg_0a6666157f190917016ad8f700ae5481959bb2105ba2248cd2",
+     "delta": "I"
+    }
+   },
+   {
+    "notify": "item/agentMessage/delta",
+    "params": {
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "turnId": "019a0000-0000-7000-8000-000000000002",
+     "itemId": "msg_0a6666157f190917016ad8f700ae5481959bb2105ba2248cd2",
+     "delta": "’ll"
+    }
+   },
+   {
+    "notify": "item/agentMessage/delta",
+    "params": {
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "turnId": "019a0000-0000-7000-8000-000000000002",
+     "itemId": "msg_0a6666157f190917016ad8f700ae5481959bb2105ba2248cd2",
+     "delta": " request"
+    }
+   },
+   {
+    "notify": "item/agentMessage/delta",
+    "params": {
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "turnId": "019a0000-0000-7000-8000-000000000002",
+     "itemId": "msg_0a6666157f190917016ad8f700ae5481959bb2105ba2248cd2",
+     "delta": " the"
+    }
+   },
+   {
+    "notify": "item/agentMessage/delta",
+    "params": {
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "turnId": "019a0000-0000-7000-8000-000000000002",
+     "itemId": "msg_0a6666157f190917016ad8f700ae5481959bb2105ba2248cd2",
+     "delta": " required"
+    }
+   },
+   {
+    "notify": "item/agentMessage/delta",
+    "params": {
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "turnId": "019a0000-0000-7000-8000-000000000002",
+     "itemId": "msg_0a6666157f190917016ad8f700ae5481959bb2105ba2248cd2",
+     "delta": " escalation"
+    }
+   },
+   {
+    "notify": "item/agentMessage/delta",
+    "params": {
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "turnId": "019a0000-0000-7000-8000-000000000002",
+     "itemId": "msg_0a6666157f190917016ad8f700ae5481959bb2105ba2248cd2",
+     "delta": " to"
+    }
+   },
+   {
+    "notify": "item/agentMessage/delta",
+    "params": {
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "turnId": "019a0000-0000-7000-8000-000000000002",
+     "itemId": "msg_0a6666157f190917016ad8f700ae5481959bb2105ba2248cd2",
+     "delta": " create"
+    }
+   },
+   {
+    "notify": "item/agentMessage/delta",
+    "params": {
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "turnId": "019a0000-0000-7000-8000-000000000002",
+     "itemId": "msg_0a6666157f190917016ad8f700ae5481959bb2105ba2248cd2",
+     "delta": " that"
+    }
+   },
+   {
+    "notify": "item/agentMessage/delta",
+    "params": {
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "turnId": "019a0000-0000-7000-8000-000000000002",
+     "itemId": "msg_0a6666157f190917016ad8f700ae5481959bb2105ba2248cd2",
+     "delta": " file"
+    }
+   },
+   {
+    "notify": "item/agentMessage/delta",
+    "params": {
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "turnId": "019a0000-0000-7000-8000-000000000002",
+     "itemId": "msg_0a6666157f190917016ad8f700ae5481959bb2105ba2248cd2",
+     "delta": "."
+    }
+   },
+   {
+    "notify": "item/completed",
+    "params": {
+     "item": {
+      "type": "agentMessage",
+      "id": "msg_0a6666157f190917016ad8f700ae5481959bb2105ba2248cd2",
+      "text": "I’ll request the required escalation to create that file.",
+      "phase": "commentary",
+      "memoryCitation": null,
+      "delivery": null,
+      "questions": null
+     },
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "turnId": "019a0000-0000-7000-8000-000000000002",
+     "completedAtMs": 1792603905126
+    }
+   },
+   {
+    "notify": "thread/status/changed",
+    "params": {
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "status": {
+      "type": "active",
+      "activeFlags": [
+       "waitingOnApproval"
+      ]
+     }
+    }
+   },
+   {
+    "notify": "item/started",
+    "params": {
+     "item": {
+      "type": "commandExecution",
+      "id": "exec-019a0000-0000-7000-8000-000000000004",
+      "pluginId": null,
+      "scriptPath": null,
+      "command": "/bin/zsh -lc 'touch /Users/user/qa-capture-approval.txt'",
+      "cwd": "/Users/user/cmq/qa/fixtures/repo",
+      "processId": null,
+      "source": "agent",
+      "status": "inProgress",
+      "commandActions": [
+       {
+        "type": "unknown",
+        "command": "touch /Users/user/qa-capture-approval.txt"
+       }
+      ],
+      "aggregatedOutput": null,
+      "exitCode": null,
+      "durationMs": null
+     },
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "turnId": "019a0000-0000-7000-8000-000000000002",
+     "startedAtMs": 1792603905746
+    }
+   },
+   {
+    "serverRequest": "item/commandExecution/requestApproval",
+    "params": {
+     "kind": "command",
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "turnId": "019a0000-0000-7000-8000-000000000002",
+     "itemId": "exec-019a0000-0000-7000-8000-000000000004",
+     "startedAtMs": 1792603905744,
+     "environmentId": "local",
+     "reason": "May I create /Users/user/qa-capture-approval.txt with touch?",
+     "command": "/bin/zsh -lc 'touch /Users/user/qa-capture-approval.txt'",
+     "cwd": "/Users/user/cmq/qa/fixtures/repo",
+     "commandActions": [
+      {
+       "type": "unknown",
+       "command": "touch /Users/user/qa-capture-approval.txt"
+      }
+     ],
+     "proposedExecpolicyAmendment": [
+      "touch",
+      "/Users/user/qa-capture-approval.txt"
+     ],
+     "availableDecisions": [
+      "accept",
+      {
+       "acceptWithExecpolicyAmendment": {
+        "execpolicy_amendment": [
+         "touch",
+         "/Users/user/qa-capture-approval.txt"
+        ]
+       }
+      },
+      "cancel"
+     ]
+    },
+    "answer": {
+     "decision": "cancel"
+    }
+   },
+   {
+    "notify": "serverRequest/resolved",
+    "params": {
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "requestId": 8
+    }
+   },
+   {
+    "notify": "turn/moderationMetadata",
+    "params": {
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "turnId": "019a0000-0000-7000-8000-000000000002",
+     "metadata": {
+      "prompt": {
+       "omnimod": {
+        "protection_type": "omnimod",
+        "outputs": [
+         {
+          "results": [
+           {
+            "category_flags": {
+             "A1": false,
+             "A2": false,
+             "A3": false,
+             "C1": false,
+             "C11": false,
+             "C2": false,
+             "E1": false,
+             "E2": false,
+             "E3": false,
+             "H1": false,
+             "H2": false,
+             "H3": false,
+             "JB1": false,
+             "K1": false,
+             "K2": false,
+             "K3": false,
+             "K4": false,
+             "P1": false,
+             "P2": false,
+             "P3": false,
+             "P4": false,
+             "PD1": false,
+             "PD4": false,
+             "S1": false,
+             "S3+": false,
+             "S4": false,
+             "SH": false,
+             "TXT-C3": false,
+             "TXT-C4": false,
+             "V1": false,
+             "V2+": false,
+             "V4+": false,
+             "REFUSED": false,
+             "CBRN-B1+": false,
+             "IMG-C1": false,
+             "IMG-C11": false,
+             "IMG-C2": false,
+             "IMG-S1": false,
+             "IMG-SH": false,
+             "IMG-V1": false,
+             "IMG-V2+": false,
+             "IMG-V4+": false
+            }
+           }
+          ],
+          "is_blocked": false
+         }
+        ]
+       }
+      },
+      "generation": {},
+      "tool_call": {},
+      "tool_response": {}
+     }
+    }
+   },
+   {
+    "notify": "item/completed",
+    "params": {
+     "item": {
+      "type": "commandExecution",
+      "id": "exec-019a0000-0000-7000-8000-000000000004",
+      "pluginId": null,
+      "scriptPath": null,
+      "command": "/bin/zsh -lc 'touch /Users/user/qa-capture-approval.txt'",
+      "cwd": "/Users/user/cmq/qa/fixtures/repo",
+      "processId": null,
+      "source": "agent",
+      "status": "declined",
+      "commandActions": [
+       {
+        "type": "unknown",
+        "command": "touch /Users/user/qa-capture-approval.txt"
+       }
+      ],
+      "aggregatedOutput": null,
+      "exitCode": null,
+      "durationMs": null
+     },
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "turnId": "019a0000-0000-7000-8000-000000000002",
+     "completedAtMs": 1792603905749
+    }
+   },
+   {
+    "notify": "thread/status/changed",
+    "params": {
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "status": {
+      "type": "active",
+      "activeFlags": []
+     }
+    }
+   },
+   {
+    "notify": "thread/tokenUsage/updated",
+    "params": {
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "turnId": "019a0000-0000-7000-8000-000000000002",
+     "tokenUsage": {
+      "total": {
+       "totalTokens": 15613,
+       "inputTokens": 15493,
+       "cachedInputTokens": 11392,
+       "cacheWriteInputTokens": 0,
+       "outputTokens": 120,
+       "reasoningOutputTokens": 0
+      },
+      "last": {
+       "totalTokens": 15613,
+       "inputTokens": 15493,
+       "cachedInputTokens": 11392,
+       "cacheWriteInputTokens": 0,
+       "outputTokens": 120,
+       "reasoningOutputTokens": 0
+      },
+      "modelContextWindow": 258400
+     }
+    }
+   },
+   {
+    "notify": "thread/status/changed",
+    "params": {
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "status": {
+      "type": "idle"
+     }
+    }
+   },
+   {
+    "notify": "turn/completed",
+    "params": {
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "turn": {
+      "id": "019a0000-0000-7000-8000-000000000002",
+      "rootTurnId": "019a0000-0000-7000-8000-000000000002",
+      "items": [],
+      "itemsView": "notLoaded",
+      "status": "interrupted",
+      "error": null,
+      "startedAt": 1792603902,
+      "completedAt": 1792603905,
+      "durationMs": 3170
+     }
+    }
+   },
+   {
+    "client": "thread/archive",
+    "params": {
+     "threadId": "019a0000-0000-7000-8000-000000000001"
+    },
+    "result": {}
+   },
+   {
+    "notify": "thread/status/changed",
+    "params": {
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "status": {
+      "type": "notLoaded"
+     }
+    }
+   },
+   {
+    "notify": "thread/status/changed",
+    "params": {
+     "threadId": "019a0000-0000-7000-8000-000000000001",
+     "status": {
+      "type": "notLoaded"
+     }
+    }
+   },
+   {
+    "notify": "thread/archived",
+    "params": {
+     "threadId": "019a0000-0000-7000-8000-000000000001"
+    }
+   }
+  ]
+ }
+}

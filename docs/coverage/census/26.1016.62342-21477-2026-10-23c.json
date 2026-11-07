@@ -1,0 +1,137 @@
+{
+  "at": "2026-10-24T04:46:17.604Z",
+  "observedThreads": 8,
+  "types": {
+    "CodexAgent": {
+      "count": 1,
+      "state": {
+        "name": 1,
+        "icon": 1,
+        "available": 1
+      },
+      "links": {}
+    },
+    "Model": {
+      "count": 9,
+      "state": {
+        "name": 9,
+        "description": 9,
+        "efforts": 9,
+        "default": 9,
+        "available": 9
+      },
+      "links": {
+        "agent": 9
+      }
+    },
+    "CodexThread": {
+      "count": 51,
+      "state": {
+        "title": 51,
+        "status": 51,
+        "unread": 51,
+        "archived": 51,
+        "origin": 51,
+        "createdAt": 51,
+        "updatedAt": 51,
+        "preview": 49,
+        "client": 51
+      },
+      "links": {
+        "agent": 51,
+        "draft": 51,
+        "project": 8,
+        "model": 51
+      }
+    },
+    "Turn": {
+      "count": 49,
+      "state": {
+        "status": 49,
+        "startedAt": 49,
+        "endedAt": 49,
+        "error": 1
+      },
+      "links": {
+        "thread": 49,
+        "answer": 43
+      }
+    },
+    "UserMessage": {
+      "count": 50,
+      "state": {
+        "content": 50,
+        "createdAt": 50,
+        "steering": 50
+      },
+      "links": {
+        "turn": 50
+      }
+    },
+    "AgentMessage": {
+      "count": 46,
+      "state": {
+        "content": 46,
+        "createdAt": 46,
+        "phase": 46,
+        "streaming": 46
+      },
+      "links": {
+        "turn": 46
+      }
+    },
+    "CommandRun": {
+      "count": 10,
+      "state": {
+        "status": 10,
+        "title": 10,
+        "startedAt": 10,
+        "expanded": 10,
+        "command": 10,
+        "directory": 10,
+        "output": 10,
+        "exitCode": 10,
+        "duration": 10
+      },
+      "links": {
+        "turn": 10
+      }
+    },
+    "Reasoning": {
+      "count": 32,
+      "state": {
+        "status": 32,
+        "title": 32,
+        "startedAt": 32,
+        "expanded": 32,
+        "thinking": 32
+      },
+      "links": {
+        "turn": 32
+      }
+    },
+    "Step": {
+      "count": 7,
+      "state": {
+        "status": 7,
+        "title": 7,
+        "startedAt": 7,
+        "expanded": 7
+      },
+      "links": {
+        "turn": 7
+      }
+    },
+    "LocalProject": {
+      "count": 1,
+      "state": {
+        "name": 1,
+        "location": 1
+      },
+      "links": {
+        "folder": 1,
+        "root": 1
+      }
+    }
+  }
+}

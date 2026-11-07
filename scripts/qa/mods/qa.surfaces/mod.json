@@ -1,0 +1,22 @@
+{
+  "id": "qa.surfaces",
+  "version": "1.36.0",
+  "name": "QA surfaces",
+  "description": "QA only: the plug-and-play mod surfaces (docs/design/mod-surfaces.md), used as a mod author would: host-realm callbacks (each appends the env it got to files/env.log) and a renderer-realm panel view.",
+  "author": "QA",
+  "glyph": "bolt",
+  "about": ["The first paragraph of what this QA mod says of itself.", "A second one, to see the space between them."],
+  "testedWith": ["26.1027.30824-22943"],
+  "media": [{ "id": "one", "src": "media/one.png", "caption": "A wide image", "aspect": "16 / 9" }, { "id": "two", "src": "media/two.png" }],
+  "framework": ">=1 <2",
+  "entry": {
+    "host": "host.mjs",
+    "renderer": "renderer.mjs"
+  },
+  "permissions": [
+    "graph",
+    "graph.read",
+    "graph.present",
+    "graph.act:Draft.insert,Draft.setContent,Draft.clear,Draft.setTarget,Draft.send,Window.openPalette,Window.find"
+  ]
+}

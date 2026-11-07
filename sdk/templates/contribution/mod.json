@@ -1,0 +1,13 @@
+{
+  "id": "example.contribution",
+  "version": "0.1.0",
+  "name": "Chat focus",
+  "description": "A starter: a setting of each chat (its focus, set above the chat's composer) that the agent is given with every message sent in that chat.",
+  "glyph": "plugin",
+  "framework": ">=1 <2",
+  "entry": { "host": "host.mjs", "renderer": "renderer.mjs" },
+  "settings": [
+    { "key": "focus", "kind": "text", "title": "Focus", "description": "What the agent keeps in mind in this chat", "default": "", "scope": "thread", "placeholder": "For example: the release notes" }
+  ],
+  "permissions": ["ui", "graph", "graph.intercept:CodexThread.send", "graph.act:CodexThread.send", "graph.present:Composer"]
+}

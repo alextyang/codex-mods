@@ -1,0 +1,35 @@
+{
+  "id": "codexmods.better-questions",
+  "version": "1.0.2",
+  "name": "Better questions",
+  "description": "The agent asks you with a form, in a window of its own or by iMessage, and Codex's own questions open there too.",
+  "author": "Codex Mods",
+  "glyph": "mention",
+  "framework": ">=1 <2",
+  "entry": { "host": "host.mjs", "renderer": "renderer.mjs" },
+  "about": [
+    "The agent gets a tool that asks you with a form: choices, yes or no, numbers and your own words, as many as it needs. Questions open in a window of their own (or a tab beside the chat), with Codex's own questions.",
+    "If you do not answer within ten minutes, the agent goes on; your answer reaches it as your next message whenever you give it. Optionally, a question still open is texted to you, and your reply answers it."
+  ],
+  "settings": [
+    { "key": "popup", "kind": "choice", "default": "window", "title": "Open questions", "options": [{ "value": "window", "label": "In a window of their own" }, { "value": "tab", "label": "In a tab beside the chat" }, { "value": "off", "label": "Only when I open them" }] },
+    { "group": "iMessage", "items": [
+      { "key": "imessage", "kind": "toggle", "default": false, "title": "Text open questions", "description": "Through your own Sendblue account (its key on the iMessage tab)." },
+      { "key": "phone", "kind": "text", "default": "", "title": "Your phone", "placeholder": "+15555550100", "requires": "imessage" },
+      { "key": "imessageAfterMinutes", "kind": "number", "default": 2, "min": 1, "max": 60, "unit": "min", "title": "Text after", "requires": "imessage" }
+    ] }
+  ],
+  "automatic": [
+    { "id": "imessage", "operation": "Thread.send", "why": "Sends your iMessage reply to the chat that asked, when the agent has stopped waiting.", "perHour": 30 }
+  ],
+  "permissions": [
+    "ui",
+    "graph",
+    "graph.read:CodexQuestion,Thread,Window",
+    "graph.intercept:CodexAgent._startThread,Tool._call",
+    "graph.act:CodexAgent._startThread,Tool._call,CodexQuestion.answer,CodexQuestion.skip,CodexThread.send,Window.focus",
+    "graph.present:SidePanel,SettingsPage",
+    "secrets",
+    "network"
+  ]
+}

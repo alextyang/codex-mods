@@ -1,0 +1,77 @@
+#!/bin/sh
+# codexmods relay (ARCHITECTURE.md 6.1, v1.3). Set as the app's backend override (CODEX_CLI_PATH). Byte pipe between the
+# app's stdio and the Host's app.sock.
+# Rules: (1) framework disabled or no run dir -> exec the real codex; (2) no `app-server` token ANYWHERE in argv -> exec the
+# real codex with the arguments unchanged (the app runs `codex -c k=v app-server --opt ...`); (3) a one-shot app-server run
+# (`--print-startup-config`: 22943's startup policy read prints one JSON object and exits) -> exec the real codex unchanged; (4) otherwise connect stdio to
+# $CODEX_MODS_RUN_DIR/app.sock, first writing ONE header line {"codexmodsRelay":2,"argv":[...],"envHex":"..."} with the app's
+# exact argv and environment (contracts/ipc.d.ts section 4; v1, argv only, when `env -0` is unavailable), then piping stdin
+# unchanged. Waits up to 15 s for the socket; exits non-zero only after that. The environment is never printed or logged.
+real="${CODEX_MODS_REAL_CODEX:-$0.real}"
+if [ -n "${CODEX_MODS_FLAGS_DIR:-}" ] && [ -e "$CODEX_MODS_FLAGS_DIR/disabled" ]; then exec "$real" "$@"; fi
+if [ -z "${CODEX_MODS_RUN_DIR:-}" ]; then exec "$real" "$@"; fi
+found=
+for arg in "$@"; do
+  if [ "$arg" = "app-server" ]; then found=1; fi
+  if [ "$arg" = "--print-startup-config" ]; then exec "$real" "$@"; fi
+done
+if [ -z "$found" ]; then exec "$real" "$@"; fi
+sock="$CODEX_MODS_RUN_DIR/app.sock"
+# The app starts its backend while the Host may still be recovering: wait until the socket ACCEPTS connections (default 15 s,
+# every 100 ms). A stale socket file from a dead Host passes `-S` but refuses connections, so we probe with a real connect
+# (`nc -U` with immediate EOF; macOS `nc -z` does not work on Unix sockets).
+tries=$(( ${CODEX_MODS_RELAY_WAIT_MS:-15000} / 100 ))
+host_up() { [ -S "$sock" ] && /usr/bin/nc -w 1 -U "$sock" </dev/null >/dev/null 2>&1; }
+while ! host_up && [ "$tries" -gt 0 ]; do sleep 0.1; tries=$((tries - 1)); done
+if ! host_up; then echo "codexmods relay: host socket not available: $sock" >&2; exit 69; fi
+
+# JSON-encode one string read from stdin (bytes; a sentinel X protects trailing newlines). Escapes backslash, double quote and
+# control characters; other bytes (UTF-8) pass through unchanged.
+json_escape() {
+  LC_ALL=C awk 'BEGIN { for (i = 1; i < 256; i++) ord[sprintf("%c", i)] = i; ORS = "" }
+    { all = (NR > 1 ? all "\n" : "") $0 }
+    END {
+      n = length(all); out = ""
+      for (i = 1; i <= n - 1; i++) {
+        c = substr(all, i, 1); o = ord[c]
+        if (c == "\\") out = out "\\\\"
+        else if (c == "\"") out = out "\\\""
+        else if (o == 10) out = out "\\n"
+        else if (o == 13) out = out "\\r"
+        else if (o == 9) out = out "\\t"
+        else if (o == 8) out = out "\\b"
+        else if (o == 12) out = out "\\f"
+        else if (o < 32) out = out sprintf("\\u%04x", o)
+        else out = out c
+      }
+      print out
+    }'
+}
+argv='['
+sep=
+for arg in "$@"; do
+  esc=$(printf '%sX' "$arg" | json_escape)
+  argv="$argv$sep\"$esc\""
+  sep=,
+done
+argv="$argv]"
+# The app's environment (mux addition 9): `env -0` lists it as NUL-separated NAME=value entries, and od turns every byte into two
+# hex digits, so values with newlines, quotes or any other bytes survive. The shell adds only its own SHLVL, PWD and `_`.
+if /usr/bin/env -0 >/dev/null 2>&1; then
+  envhex=$(/usr/bin/env -0 | /usr/bin/od -An -v -tx1 | /usr/bin/tr -d ' \n')
+  header="{\"codexmodsRelay\":2,\"argv\":$argv,\"envHex\":\"$envhex\"}"
+else
+  header="{\"codexmodsRelay\":1,\"argv\":$argv}"
+fi
+
+# header + stdin -> fifo -> nc. A fifo (not a pipeline) so the shell can stop the stdin pump when the Host closes the
+# connection: otherwise the relay would linger until the app next writes.
+fifo="$CODEX_MODS_RUN_DIR/relay-$$.fifo"
+mkfifo "$fifo" 2>/dev/null || { echo "codexmods relay: cannot create $fifo" >&2; exit 70; }
+exec 3<&0
+( printf '%s\n' "$header"; exec cat <&3 ) > "$fifo" &
+pump=$!
+trap 'kill $pump 2>/dev/null; rm -f "$fifo"' EXIT
+trap 'exit 143' TERM INT HUP
+/usr/bin/nc -U "$sock" < "$fifo"
+exit $?

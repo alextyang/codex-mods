@@ -1,0 +1,13 @@
+{
+  "id": "qa.rules-e7",
+  "version": "1.7.0",
+  "name": "QA rules E7",
+  "description": "QA only (docs/design/systems.md E7.2): one rule on each slot E7 adds to the conversation, each visible in the app with data-qa-e7: an action in a turn's action row and a region after its answer, a badge in the user's messages, regions at the end of the transcript and above the composer, an action after the composer's \"+\", a control beside its pickers, regions in the composer's card above the input and after the card. What ran is logged to the page console with the prefix \"qa.rules-e7\"; and (E7.3) on the frame: a hover action and a context-menu entry on sidebar rows, an action in a project group's header and the Setup chat added to gh-repo's group, a section and a footer region in the sidebar, an action in the chat's title bar, and a group in the thread menus; and (E7.4) a control in the side panel's strip and beside the file tree's search, an action in a file's header; and (E7.5) a region beside a terminal and an action in the browser's address bar; and (E7.6) a section, a card of rows and a toolbar action on the app's settings pages, an action and a details region on an automation's view, a section and an action on a project's DetailView.",
+  "framework": ">=1 <2",
+  "entry": {
+    "renderer": "renderer.mjs"
+  },
+  "permissions": [
+    "graph.present"
+  ]
+}

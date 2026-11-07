@@ -1,0 +1,26 @@
+{
+  "_about": "Every mod's protocol-plane permissions (appServer.*), each with the graph gap that requires it and the part that closes it, or why the mod is low-level by intent (docs/design/graph-integrity.md G8.1). scripts/protocol-plane.mjs prints the report; tests/protocol-plane.test.mjs keeps this file and the manifests in step.",
+  "mods": {
+    "codexmods.live-usage": {
+      "appServer.clients": {
+        "gap": "the account's rate limits read by the provider, as facts on CodexUsage at the source's fidelity (G1.2)",
+        "closedBy": "GI1"
+      }
+    },
+    "qa.lease": {
+      "appServer.clients": {
+        "lowLevel": "checks the protocol plane's client leases in the QA copy"
+      }
+    },
+    "qa.record": {
+      "appServer.observe": {
+        "lowLevel": "records every frame of the protocol for QA"
+      }
+    },
+    "test.counter": {
+      "appServer.observe": {
+        "lowLevel": "the lifecycle integration test's fixture (tests/integration/slice-lifecycle.test.mjs): counts thread/started on the protocol plane; the SDK's starters lead with the graph (G8.3)"
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "id": "codexmods.thread-settings",
+  "version": "1.0.0",
+  "name": "Chat settings",
+  "description": "A chat's settings in one panel: Codex's, every mod's and each skill's, with a switch to use a skill in that chat and the parameters skills declare.",
+  "author": "Codex Mods",
+  "glyph": "gear",
+  "framework": ">=1 <2",
+  "entry": { "host": "host.mjs", "renderer": "renderer.mjs" },
+  "about": [
+    "Opens beside a chat as a tab of the side panel, from the chat's header or the command palette. Codex's own settings of the chat come first, then each mod's settings for that chat, then the skills the chat can use.",
+    "Each skill gets a switch for the chat. A skill can declare parameters in its SKILL.md (see this mod's README); their values for the chat are given to the agent with each message, with the skills you turned off."
+  ],
+  "permissions": [
+    "ui",
+    "graph",
+    "graph.read:Thread,Setting,SettingsSection,Skill,Mod,Agent",
+    "graph.contribute:Thread,Skill",
+    "graph.act:Setting.set,Setting.reset,CodexThread.send",
+    "graph.intercept:CodexThread.send",
+    "graph.present:SidePanel,ThreadHeader,Palette"
+  ]
+}

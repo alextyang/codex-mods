@@ -1,0 +1,32 @@
+{
+  "name": "codexmods",
+  "version": "1.0.0-dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alextyang/codex-mods.git"
+  },
+  "homepage": "https://github.com/alextyang/codex-mods#readme",
+  "bugs": {
+    "url": "https://github.com/alextyang/codex-mods/issues"
+  },
+  "description": "A modding framework for the Codex/ChatGPT desktop app on macOS",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "os": [
+    "darwin"
+  ],
+  "scripts": {
+    "test": "node --test --test-timeout=600000 \"sdk/**/*.test.mjs\" \"contracts/**/*.test.mjs\" \"loader/**/*.test.mjs\" \"relay/**/*.test.mjs\" \"framework/**/*.test.mjs\" \"adapters/**/*.test.mjs\" \"builder/**/*.test.mjs\" \"cli/**/*.test.mjs\" \"mods/**/*.test.mjs\" \"tests/**/*.test.mjs\"",
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "acorn": "^8.19.0",
+    "eslint": "^10.12.0",
+    "globals": "^17.13.0"
+  }
+}

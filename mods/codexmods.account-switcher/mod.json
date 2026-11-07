@@ -1,0 +1,29 @@
+{
+  "id": "codexmods.account-switcher",
+  "version": "1.0.2",
+  "name": "Account switcher",
+  "description": "Several ChatGPT accounts in one app: each kept signed in, and your chats moved between them between turns so every account's usage is used and fewer chats hit a limit.",
+  "author": "Codex Mods",
+  "glyph": "account",
+  "framework": ">=1 <2",
+  "entry": { "host": "host.mjs", "renderer": "renderer.mjs" },
+  "about": [
+    "Add accounts on its Accounts page. Each signs in in your browser, stays signed in, and has its usage read. A chat keeps its history and settings on any account.",
+    "With \"Starts new chats on the account whose limit resets soonest\" on, new chats start there. With \"Moves a chat to the account it should use\" on (What it may do without asking), a chat moves between turns: soon after it compacts, to the account whose limit resets soonest; and right before an account runs out, the chats that were not just compacted move off it."
+  ],
+  "settings": [
+    { "key": "placeNew", "kind": "toggle", "default": true, "title": "Start new chats on the account whose limit resets soonest", "description": "Otherwise new chats start on the app's own account." },
+    { "key": "near", "kind": "number", "control": "stepper", "default": 90, "min": 50, "max": 99, "step": 1, "unit": "%", "title": "Move chats off an account at", "description": "When an account's most used limit reaches this, its chats that were not just compacted move to another account at the end of their turn." }
+  ],
+  "automatic": [
+    { "id": "place", "operation": "CodexAgent.setStartAccount", "why": "Starts new chats on the account whose limit resets soonest, and changes that as your usage changes.", "perHour": 30 },
+    { "id": "switch", "operation": "Thread.moveToAccount", "why": "Moves a chat to the account it should use between its turns: soon after it compacts, to the account whose limit resets soonest, and off an account about to run out.", "perHour": 60 }
+  ],
+  "permissions": [
+    "ui",
+    "graph",
+    "graph.read:CodexAgent,ChatGPTAccount,CodexUsage,CodexThread",
+    "graph.act:CodexAgent.addAccount,CodexAgent.setStartAccount,Account.signIn,Account.signOut,Account.remove,Thread.moveToAccount",
+    "graph.present:SettingsPage,Menu"
+  ]
+}

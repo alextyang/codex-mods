@@ -1,0 +1,3254 @@
+{
+  "comment": "The coverage ledger (docs/design/breadth.md §3; read by scripts/coverage.mjs, checked by tests/coverage.test.mjs). `censuses`: graph censuses taken natively in a QA copy by qa.graph-census; a member counts as verified on that build when a census shows the native provider filled it. `verified`: members shown natively by a check, with the build, the date and the proof (a file in this repository, with an optional anchor). `excluded`: members left out on purpose, with the reason. A member is `Type` (the type itself), `Type.member`, `Type.state` (its card's core state), `Type.core` (its card's core members) or `Type.*` (all its members).",
+  "censuses": [
+    {
+      "file": "docs/coverage/census/26.1016.62342-21477-2026-10-23.json",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-23"
+    },
+    {
+      "file": "docs/coverage/census/26.1016.62342-21477-2026-10-23b.json",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-23"
+    },
+    {
+      "file": "docs/coverage/census/26.1016.62342-21477-2026-10-23c.json",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-23"
+    },
+    {
+      "file": "docs/coverage/census/26.1016.62342-21477-2026-10-24.json",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-24"
+    },
+    {
+      "file": "docs/coverage/census/26.1016.62342-21477-2026-10-24b.json",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-24"
+    },
+    {
+      "file": "docs/coverage/census/26.1016.62342-21477-2026-10-24c.json",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-24"
+    },
+    {
+      "file": "docs/coverage/census/26.1016.62342-21477-2026-10-24d.json",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-24"
+    },
+    {
+      "file": "docs/coverage/census/26.1016.62342-21477-2026-10-24e.json",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-24"
+    },
+    {
+      "file": "docs/coverage/census/26.1016.62342-21477-2026-10-24f.json",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-24"
+    },
+    {
+      "file": "docs/coverage/census/26.1016.62342-21477-2026-10-24g.json",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-24"
+    },
+    {
+      "file": "docs/coverage/census/26.1016.62342-21477-2026-10-24h.json",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-24"
+    },
+    {
+      "file": "docs/coverage/census/26.1016.62342-21477-2026-10-25.json",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25"
+    },
+    {
+      "file": "docs/coverage/census/26.1016.62342-21477-2026-10-25b.json",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25"
+    },
+    {
+      "file": "docs/coverage/census/26.1016.62342-21477-2026-10-25c.json",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25"
+    },
+    {
+      "file": "docs/coverage/census/26.1016.62342-21477-2026-10-29.json",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29"
+    },
+    {
+      "file": "docs/coverage/census/26.1016.62342-21477-2026-10-29b.json",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29"
+    }
+  ],
+  "verified": [
+    {
+      "member": "SidebarItem",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-22",
+      "proof": "history:docs/design/presentations.md#native-checks-qa-copy-261016623-42-21477-2026-10-22",
+      "note": "G-jsx through the production seam; again with its canary on 2026-10-23 (breadth.md, native checks of D0)"
+    },
+    {
+      "member": "StepBlock",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-22",
+      "proof": "history:docs/design/presentations.md#native-checks-qa-copy-261016623-42-21477-2026-10-22",
+      "note": "a mod's own step named in its group's summary"
+    },
+    {
+      "member": "ThreadHeader",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-22",
+      "proof": "history:docs/design/presentations.md#native-checks-qa-copy-261016623-42-21477-2026-10-22",
+      "note": "the agent beside the titlebar's title"
+    },
+    {
+      "member": "Menu",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-22",
+      "proof": "history:docs/design/presentations.md#native-checks-qa-copy-261016623-42-21477-2026-10-22",
+      "note": "the menus rule: a presented thread's menus leave out what it cannot honour"
+    },
+    {
+      "member": "Draft",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-22",
+      "proof": "history:docs/design/presentations.md#native-checks-qa-copy-261016623-42-21477-2026-10-22",
+      "note": "V11: the native provider's Draft of the new-chat composer"
+    },
+    {
+      "member": "Draft.state",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-22",
+      "proof": "history:docs/design/presentations.md#native-checks-qa-copy-261016623-42-21477-2026-10-22",
+      "note": "V11: the native provider's Draft of the new-chat composer, read by the test agent's newThread"
+    },
+    {
+      "member": "RequestCard",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-23",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D2 bindings: binding:<id> true in the page's probe report (a presented approval and a Codex approval: the binding named the Request through the mux)"
+    },
+    {
+      "member": "TurnView",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-23",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D2 bindings: binding:<id> true in the page's probe report (native and presented turns)"
+    },
+    {
+      "member": "MessageBlock",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-23",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D2 bindings: binding:<id> true in the page's probe report (the user's and the agent's messages, native and presented)"
+    },
+    {
+      "member": "ThreadView",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-23",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D2 bindings: binding:<id> true in the page's probe report (native and presented threads)"
+    },
+    {
+      "member": "Project.rename",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-23",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D3: renamed through the graph (a QA mod with graph.act:Project.rename): the app's own projects.renameLocal ran, its record and window showed the new name (\"What should we build in repo QA?\"), and back"
+    },
+    {
+      "member": "Project.remove",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-23",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D3: a throwaway project removed through the graph: the app's projects.removeLocal ran, the project left the app's record and sidebar, its folder untouched"
+    },
+    {
+      "member": "Project.added",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-23",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D3: a project the app created (projects.createLocal, after its own folder-trust dialog) came with added"
+    },
+    {
+      "member": "Project.opened",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-23",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D3: the app's \"Start new chat in <project>\" selected the project (selected-project) and opened fired"
+    },
+    {
+      "member": "Project.renamed",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-23",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D3: renamed fired for the graph rename and for the rename back"
+    },
+    {
+      "member": "Project.removed",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-23",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D3: removed reached a collection view after the views fix (a terminal event of an instance removed a moment ago)"
+    },
+    {
+      "member": "File.open",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-24",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D3: File.open through the graph ran the app's windows.tabs.open: the file's editor tab opened beside the shown thread; on the home page it was refused (the app needs a thread)"
+    },
+    {
+      "member": "File.changed",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-24",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D3: a file in an observed folder grew; the framework's own fs/watch through the mux brought fs/changed and changed fired"
+    },
+    {
+      "member": "File.deleted",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-24",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D3: the same file was removed; deleted fired and the instance went"
+    },
+    {
+      "member": "SidebarSection",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-24",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D3: binding:sidebar.section true in the page's probe report (a project's section named its LocalProject)"
+    },
+    {
+      "member": "ExternalApp.setComputerUse",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-24",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D3 GUI session (Jump): a QA mod lowered Calculator from always to ask; the user's prompt (R17) appeared, Allow took the app's own approval back (computerUseSettings showed none) and the graph said ask"
+    },
+    {
+      "member": "ExternalApp.changed",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-24",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D3 GUI session: changed fired when Calculator went from always to ask"
+    },
+    {
+      "member": "ExternalApp.open",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-24",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D3 GUI session: open in Finder showed the QA project folder selected in Finder (openIn.open, target fileManager)"
+    },
+    {
+      "member": "LocalProject.reveal",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-24",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D3 GUI session: Finder came forward with the project folder selected in its parent"
+    },
+    {
+      "member": "File.reveal",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-24",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D3 GUI session: Finder came forward with b.txt selected in the project folder"
+    },
+    {
+      "member": "Repository.createBranch",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-24",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D3 git: createBranch('qa-d3-branch') through the graph ran the app's gitRepository.createBranch; the branch joined the repository's branches"
+    },
+    {
+      "member": "Repository.switchBranch",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-24",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D3 git: switched to qa-d3-branch and back to qa-f3 through the app's gitRepository.checkoutBranch; currentBranch followed; a missing branch failed with the app's message"
+    },
+    {
+      "member": "Repository.branchChanged",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-24",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D3 git: branchChanged reached the census's Repository view for each switch"
+    },
+    {
+      "member": "Instructions.edit",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-24",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D3 GUI session: a project's AGENTS.override.md edited through the graph (the app's workspaceFiles.saveText, no prompt); the global AGENTS.md edited by a QA mod after the R17 prompt and Allow (the app's agentInstructions.write; approvedBy user), shown in the app's Settings, Codex instructions"
+    },
+    {
+      "member": "Instructions.open",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-24",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D3 GUI session: refused on the home page; with a thread shown, the project's and the global AGENTS.md opened in the app's editor tab beside it"
+    },
+    {
+      "member": "Instructions.changed",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-24",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D3 GUI session: changed fired for a file changed on disk (its watch), when an override made AGENTS.md not followed, for the graph's edit and for an edit saved in the app's settings"
+    },
+    {
+      "member": "Command.run",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-24",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D3 GUI session: a QA mod ran the repo's \"QA echo one\" through the graph with a thread shown: a terminal tab opened in the thread's panel and ran `cd \"<repo>\" && echo qa-action-one`; named the worktree thread, \"QA echo two\" ran in its worktree; with no thread shown, refused and nothing ran"
+    },
+    {
+      "member": "Command.ran",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-24",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D3 GUI session: ran reached the census's Command view after each run, not after the refused one"
+    },
+    {
+      "member": "Project.open",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-24",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D3 GUI session: a throwaway project opened through the graph: the app's createOrSelectLocalProjects selected it (its composer showed it) and opened fired; repo opened again after"
+    },
+    {
+      "member": "Project.openIn",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-24",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D3 GUI session: openIn(Finder) through the graph: Finder came forward with the repo folder selected"
+    },
+    {
+      "member": "Folder.openIn",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-24",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D3 GUI session: the project's folder openIn(Finder) through the graph: Finder came forward with it selected"
+    },
+    {
+      "member": "Repository.push",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-24",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D3: push through the graph ran the app's gitRepository.push: qa-f3 went from 1 ahead to 0 on the QA repo's local remote"
+    },
+    {
+      "member": "Repository.pushed",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-24",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D3: pushed reached the census's Repository view after the push"
+    },
+    {
+      "member": "Repository.statusChanged",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-24",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D3: a file staged in the QA repo: statusChanged on the next read, staged listed it (census)"
+    },
+    {
+      "member": "WorktreeEnvironment.remove",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-24",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D3 GUI session: a QA mod removed a worktree; the R17 prompt named it and its chat; Allow: its chat archived, the app's managedWorktrees.delete removed it from the repository's worktrees, the instance went"
+    },
+    {
+      "member": "CloudEnvironment.manage",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-24",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D3 GUI session: manage() through the graph sent the app's navigate-to-route: Settings, Codex Cloud with codex-mods-qa-cloud (Edit, Delete)"
+    },
+    {
+      "member": "Branch.switch",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-24",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D3: Branch.switch through the graph (a QA mod with graph.act:Branch.switch): to a new branch and back, the app's checkoutBranch each time, branchChanged fired"
+    },
+    {
+      "member": "File.openIn",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-24",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D3 GUI session: b.txt openIn(Finder) through the graph: Finder came forward in the repo folder with b.txt selected"
+    },
+    {
+      "member": "Setting.set",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D4 GUI session: Theme.set and Setting.set through the graph wrote the app's way (its settings store): the open Appearance page followed, config.toml [desktop] held the value; a setting the app's agent may only read (git-commit-instructions) asked first: Don't Allow refused notAllowed and wrote nothing, Allow wrote it (intent approvedBy user) and the open Git page showed the text"
+    },
+    {
+      "member": "Setting.reset",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D4 GUI session: reset of appearanceTheme wrote the default (system); of git-commit-instructions asked first, Allow wrote \"\" back"
+    },
+    {
+      "member": "Setting.changed",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D4: changed for a graph write and for the user's own change in the app's Appearance page (the System tile)"
+    },
+    {
+      "member": "Theme.set",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D4 GUI session: set(mode, dark) turned the app dark and the open Appearance page selected Dark; the Theme read dark, accent #ff0066 (the dark theme's), background #111111"
+    },
+    {
+      "member": "Theme.changed",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D4: changed when the mode changed (graph or the user's click), not for hidden windows' own looks"
+    },
+    {
+      "member": "App.launched",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D4: launched once after qa launch with the census mod already enabled"
+    },
+    {
+      "member": "App.quitting",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D4: quitting when qa stop quit the app"
+    },
+    {
+      "member": "App.windowOpened",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D4: File > New Window: windowOpened; the app's hidden windows (avatar overlay, detached-window host, hotkey window) none"
+    },
+    {
+      "member": "App.windowClosed",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D4: at quit one windowClosed per window the user saw (two with the second window open), none for hidden ones"
+    },
+    {
+      "member": "App.openHelp",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D4 GUI session: Documentation (learn.chatgpt.com) opened in the browser; after a fix (the app's menu service ids are cleared by the page's own snapshots: one call missed), three of three right after a launch"
+    },
+    {
+      "member": "App.quit",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D4 GUI session: the R17 prompt (\"wants to quit Codex\"); Don't Allow: refused notAllowed, the app kept running (Allow not tried)"
+    },
+    {
+      "member": "App.sendFeedback",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D4 GUI session: the R17 prompt quoting the text, without logs; Don't Allow: refused notAllowed, nothing sent (Allow not tried: it would send to OpenAI)"
+    },
+    {
+      "member": "Account.manage",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D4 GUI session: manage() opened the app's Settings, Account (Account Status pro, as the census's plan)"
+    },
+    {
+      "member": "Account.signOut",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D4 GUI session: the R17 prompt (\"wants to sign out of ChatGPT in Codex\"); Don't Allow: refused notAllowed, still signed in. Signing out for real is A3 (owner)"
+    },
+    {
+      "member": "Account.signIn",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D4: signIn while signed in: done, nothing opened. A sign-in from signed out is A3 (owner)"
+    },
+    {
+      "member": "Usage.changed",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D4: changed when the weekly window moved from 4 to 5 % used; the census's limit matched the app's Usage page (weekly, 95 % left, resets in 6d 22h)"
+    },
+    {
+      "member": "SettingsPage",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D4: binding:settings.page true in the page's probe report after Appearance, Git and Usage & billing (the page's title names its SettingsSection); pages unchanged, no binding fault"
+    },
+    {
+      "member": "ToolServer.edit",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D10: a QA mod's edit replaced the entry in the user config (its prompt, Allow)"
+    },
+    {
+      "member": "ToolServer.enable",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D10: enable wrote mcp_servers.<key>.enabled; with the MCP page open its toggle followed without a reload"
+    },
+    {
+      "member": "ToolServer.disable",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D10: disable wrote enabled = false; statusChanged and toolsChanged; the open MCP page's toggle went off"
+    },
+    {
+      "member": "ToolServer.remove",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D10: remove took the entry out of the user config; the MCP page no longer listed it"
+    },
+    {
+      "member": "ToolServer.restart",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D10: config/mcpServer/reload, every server reloaded (the app has no per-server restart)"
+    },
+    {
+      "member": "ToolServer.signIn",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D10: a loopback OAuth server's sign-in page in the browser, its callback answered; signed in, its tool listed"
+    },
+    {
+      "member": "ToolServer.statusChanged",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D10: after disable, enable and the sign-in"
+    },
+    {
+      "member": "ToolServer.toolsChanged",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D10: after disable, enable and the sign-in"
+    },
+    {
+      "member": "Tool.enable",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D10: disabled_tools written back; the tool, kept while off, enabled again"
+    },
+    {
+      "member": "Tool.disable",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D10: disabled_tools written; the Tool stays with enabled false"
+    },
+    {
+      "member": "Plugin.install",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D10: a local marketplace's plugin installed through the graph (its prompt), then refreshed and synced"
+    },
+    {
+      "member": "Plugin.uninstall",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D10: the same plugin uninstalled; Code Review's uninstall refused as the app refuses it"
+    },
+    {
+      "member": "Plugin.enable",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D10: plugins.<id>.enabled written with the user layer path and reloadUserConfig"
+    },
+    {
+      "member": "Plugin.disable",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D10: as enable"
+    },
+    {
+      "member": "Plugin.connect",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D10: opened the plugin's page (Gmail: Plugins > Gmail, Manage, Enable)"
+    },
+    {
+      "member": "Plugin.installed",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D10: after install"
+    },
+    {
+      "member": "Plugin.uninstalled",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D10: after uninstall"
+    },
+    {
+      "member": "Plugin.enabled",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D10: after enable (and install)"
+    },
+    {
+      "member": "Plugin.disabled",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D10: after disable"
+    },
+    {
+      "member": "Skill.enable",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D10: skills/config/write for a user skill (its prompt)"
+    },
+    {
+      "member": "Skill.disable",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D10: as enable"
+    },
+    {
+      "member": "Skill.edit",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D10: SKILL.md opened beside the shown chat"
+    },
+    {
+      "member": "Skill.install",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D10: a library skill (hatch-pet) installed through the app's recommendedSkills (its prompt)"
+    },
+    {
+      "member": "Skill.delete",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D10: the installed library skill deleted through recommendedSkills (its prompt)"
+    },
+    {
+      "member": "Skill.added",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D10: after the library install"
+    },
+    {
+      "member": "Skill.removed",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D10: after the delete, and the library entry when installed"
+    },
+    {
+      "member": "Skill.use",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: the skill's chip in the shown chat's composer (after the mention-attribute fix)"
+    },
+    {
+      "member": "Thread.send",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: turn/start on a chat the app had not opened (after the withLoadedThread fix); its turn returned"
+    },
+    {
+      "member": "Thread.steer",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: during a long count; the text joined the turn's input and Codex replied done"
+    },
+    {
+      "member": "Thread.stop",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: interrupt after the steer; nothing running afterwards"
+    },
+    {
+      "member": "Thread.archive",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: archived with the app's bookkeeping; archived event"
+    },
+    {
+      "member": "Thread.restore",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: thread/unarchive; restored event"
+    },
+    {
+      "member": "Thread.fork",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: a new chat returned"
+    },
+    {
+      "member": "Thread.delete",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: an archived fork deleted through the app's service (its prompt); deleted event"
+    },
+    {
+      "member": "Thread.compact",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: Context automatically compacted (its prompt)"
+    },
+    {
+      "member": "Thread.setModel",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: the thread's model Setting changed"
+    },
+    {
+      "member": "Thread.pin",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: the app's pinned service; pinned true"
+    },
+    {
+      "member": "Thread.unpin",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: pinned false"
+    },
+    {
+      "member": "Thread.export",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: the transcript as markdown"
+    },
+    {
+      "member": "Thread.enqueue",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: a QueuedMessage returned (its prompt)"
+    },
+    {
+      "member": "Thread.created",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: the fork"
+    },
+    {
+      "member": "Thread.statusChanged",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: with every turn"
+    },
+    {
+      "member": "Thread.turnStarted",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: each turn started"
+    },
+    {
+      "member": "Thread.turnFinished",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: each turn finished"
+    },
+    {
+      "member": "Thread.archived",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: after archive"
+    },
+    {
+      "member": "Thread.restored",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: after restore"
+    },
+    {
+      "member": "Thread.deleted",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: after the fork's delete"
+    },
+    {
+      "member": "Thread.pinned",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: every thread's pinned from the app's pins (census)"
+    },
+    {
+      "member": "QueuedMessage.state",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: a queued message's content as the server's queue holds it"
+    },
+    {
+      "member": "QueuedMessage.thread",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: linked to its chat"
+    },
+    {
+      "member": "QueuedMessage.edit",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: thread/queue/update (its prompt)"
+    },
+    {
+      "member": "QueuedMessage.move",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: clamped, nothing to move with one message"
+    },
+    {
+      "member": "QueuedMessage.sendNow",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: thread/queue/start after the resume; sent (after the fix)"
+    },
+    {
+      "member": "QueuedMessage.remove",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: thread/queue/delete during a running turn"
+    },
+    {
+      "member": "QueuedMessage.queued",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: enqueue during a running turn"
+    },
+    {
+      "member": "QueuedMessage.sent",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: sendNow"
+    },
+    {
+      "member": "QueuedMessage.removed",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: remove"
+    },
+    {
+      "member": "Draft.setContent",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: the text in the shown chat's composer; the app saved it as the draft"
+    },
+    {
+      "member": "Draft.insert",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: text added"
+    },
+    {
+      "member": "Draft.attach",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: through File.attachTo, a file chip"
+    },
+    {
+      "member": "Draft.clear",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: composer.clear (the app's clear keeps attachments)"
+    },
+    {
+      "member": "Draft.send",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: its prompt; Allow sent it and Codex answered; Don't Allow refused it"
+    },
+    {
+      "member": "Draft.changed",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: after setContent and Skill.use"
+    },
+    {
+      "member": "Draft.cleared",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: after clear"
+    },
+    {
+      "member": "File.attachTo",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: add-context-file, a file chip in the composer"
+    },
+    {
+      "member": "Project.newThread",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: the app's new chat in the project; graph-layers L2c (2026-10-29): newThread(spec) refused over the user's text, prepared with replace (model, plan mode), and sent on gpt-6-luna after the user's approval, answering the thread its send made (its preview the prompt, its project and model the spec's)"
+    },
+    {
+      "member": "Model._select",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: thread/settings/update of a chat's model"
+    },
+    {
+      "member": "SlashCommand",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: the custom prompts in the Codex home's prompts/ (census); run inserted /prompts:<id> and submitted (its prompt)"
+    },
+    {
+      "member": "Chip",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: binding:chip.file true with a file chip in the composer"
+    },
+    {
+      "member": "StatusItem",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D5: binding:status.item true with the /status panel open"
+    },
+    {
+      "member": "Shortcut.rebind",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D6: keybindings.json got the binding; the Keyboard shortcuts page showed it without a reload"
+    },
+    {
+      "member": "Shortcut.reset",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D6: keybindings.json emptied again; the page showed the default key"
+    },
+    {
+      "member": "PaletteResult",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D6: binding:palette.command true with the command palette open (after the canary fix)"
+    },
+    {
+      "member": "FilesView",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D6: binding:files.view true with the file tree open"
+    },
+    {
+      "member": "Turn.copy",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D7: the latest answer in the app's clipboard"
+    },
+    {
+      "member": "Message.copy",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D7: a message's text in the app's clipboard"
+    },
+    {
+      "member": "Turn.retry",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D7: the last message ran again; a new Turn returned, the old one gone"
+    },
+    {
+      "member": "Turn.rewind",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D7: the app's own Edit of the last message, in the window that shows the chat; the new Turn returned"
+    },
+    {
+      "member": "CommandRun.copyCommand",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D7: the command as the app shows it (no shell wrapper) in the clipboard"
+    },
+    {
+      "member": "CommandRun.stop",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D7: a running sleep ended by the protocol's terminate (exit 137)"
+    },
+    {
+      "member": "FileChange.revert",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D7: an added file removed (after the fix: no 3-way apply)"
+    },
+    {
+      "member": "FileChange.apply",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D7: the file back"
+    },
+    {
+      "member": "FileChange.viewDiff",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D7: the chat shown with its diff of the file (after the fix)"
+    },
+    {
+      "member": "FileChange.changed",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D7: on a revert and an apply"
+    },
+    {
+      "member": "ChangeSet.changed",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D7: on a revert and an apply"
+    },
+    {
+      "member": "ChangeSet.commit",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D7: a chat's changes committed on its branch, a Commit returned"
+    },
+    {
+      "member": "ChangeSet.committed",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D7: after ChangeSet.commit"
+    },
+    {
+      "member": "ChangeSet.openPullRequest",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D7: the branch published and a pull request opened in the QA test repository (owner's OK), returned as its GitHubPullRequest"
+    },
+    {
+      "member": "Repository.commit",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D7: a commit of one file, returned as a Commit"
+    },
+    {
+      "member": "Repository.committed",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D7: after Repository.commit and ChangeSet.commit"
+    },
+    {
+      "member": "GitRepository.stage",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D7: a file staged (git status M )"
+    },
+    {
+      "member": "GitRepository.unstage",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D7: the file unstaged again"
+    },
+    {
+      "member": "Finding.open",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D7: the file's diff shown with both comments"
+    },
+    {
+      "member": "Finding.dismiss",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D7: the diff's comment count went from 2 to 1 without a reload (after the fix: the app's key has the workspace root)"
+    },
+    {
+      "member": "Hunk.comment",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D7: a draft diff comment, shown as the composer's comment chip"
+    },
+    {
+      "member": "Comment.edit",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D7: the chip's text changed"
+    },
+    {
+      "member": "Comment.send",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D7: the message carries the app's comment chip; Codex answered it"
+    },
+    {
+      "member": "Comment.sent",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D7: after Comment.send"
+    },
+    {
+      "member": "Comment.delete",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D7: a second draft's chip gone"
+    },
+    {
+      "member": "PullRequest.refresh",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D7: state, checks and reviewers read again"
+    },
+    {
+      "member": "PullRequest.merge",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D7: the throwaway pull request MERGED on GitHub"
+    },
+    {
+      "member": "PullRequest.stateChanged",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D7: open to merged"
+    },
+    {
+      "member": "PullRequest.checksChanged",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D7: the checks read after the pull request opened"
+    },
+    {
+      "member": "Terminal",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D8: the terminal panel's shell and a command Codex left running"
+    },
+    {
+      "member": "Terminal.state",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D8: title, folder, shell and who started it, as the panel shows them"
+    },
+    {
+      "member": "Terminal.project",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D8: the shell's project"
+    },
+    {
+      "member": "Terminal.thread",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D8: the agent's background terminal names its chat"
+    },
+    {
+      "member": "Terminal.run",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D8: echo qa-term-ok shown in the terminal"
+    },
+    {
+      "member": "Terminal.stop",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D8: ^C, the prompt back; the agent's sleep 90 ended"
+    },
+    {
+      "member": "Terminal.clear",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D8: the terminal cleared"
+    },
+    {
+      "member": "Terminal.close",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D8: the tab and the instance gone"
+    },
+    {
+      "member": "BrowserTab",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D8: a tab of the in-app browser"
+    },
+    {
+      "member": "BrowserTab.state",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D8: url, title, back and forward, who controls it"
+    },
+    {
+      "member": "BrowserTab.thread",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D8: the chat it opened in (after the fix: a chat begun in this profile maps its client id)"
+    },
+    {
+      "member": "BrowserTab.navigate",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D8: example.org shown"
+    },
+    {
+      "member": "BrowserTab.back",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D8: the previous page shown"
+    },
+    {
+      "member": "BrowserTab.reload",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D8: the page reloaded"
+    },
+    {
+      "member": "BrowserTab.close",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D8: the tab gone"
+    },
+    {
+      "member": "Automation",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D9: a task scheduled from a chat in the app, in the graph within a minute"
+    },
+    {
+      "member": "Automation.state",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D9: name, prompt, calendar schedule, enabled, next run"
+    },
+    {
+      "member": "Automation.disable",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D9: the Scheduled page dropped it from Upcoming without a reload"
+    },
+    {
+      "member": "Automation.enable",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D9: the Scheduled page showed it again"
+    },
+    {
+      "member": "Automation.edit",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D9: the new name on the Scheduled page"
+    },
+    {
+      "member": "Automation.delete",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D9: gone from the Scheduled page"
+    },
+    {
+      "member": "Notification",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D9: an automation run's and a turn's completion notifications"
+    },
+    {
+      "member": "Notification.state",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D9: kind, title, body, read"
+    },
+    {
+      "member": "Notification.source",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D9: the chat"
+    },
+    {
+      "member": "Notification.open",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D9: the app showed the notification's chat"
+    },
+    {
+      "member": "Notification.shown",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D9: at the app's notification manager"
+    },
+    {
+      "member": "Notification.dismissed",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D9: when the app cleared a turn's notification"
+    },
+    {
+      "member": "Notification.opened",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D9 (A9): clicking a turn's notification in Notification Center brought the app forward on its chat; `opened`, and the Notification read"
+    },
+    {
+      "member": "Automation.nextRunAt",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D9: the next run as the Scheduled page shows it (tomorrow 9:00)"
+    },
+    {
+      "member": "Automation.watches",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D9: the heartbeat automation watches the chat it was scheduled from"
+    },
+    {
+      "member": "PullRequest.thread",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-25",
+      "proof": "history:docs/design/breadth.md#4-areas-in-order",
+      "note": "D7: the pull request opened for a chat's changes names the chat (its attachment)"
+    },
+    {
+      "member": "Setting.overridden",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E3 QA session: qa.settings-v2's mode at a thread said overridden after Short was chosen in the composer, and its menu offered Use the default, which reset it (no longer overridden)"
+    },
+    {
+      "member": "Setting.scopes",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E3 QA session: qa.settings-v2's settings listed their scopes (mode and verbose app/project/thread, notes app/project, limit app); qa.settings-v1's app only"
+    },
+    {
+      "member": "SettingsSection.children",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E3 QA session: qa.settings-v1's section had its Advanced group as a child section, and its page showed the group's card from it"
+    },
+    {
+      "member": "Mod.settings",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E3 QA session: qa.settings-v1's and qa.settings-v2's Mods linked their own sections, from which their pages drew their rows"
+    },
+    {
+      "member": "Feature",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E4 QA session: the census mod listed 482 Features of the framework's provider: 285 features and 185 mechanics present, exposure:Select unknown, and the ids mods name that the log lacks (graph:Nope) unknown"
+    },
+    {
+      "member": "Feature.kind",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E4 QA session: feature or mechanic (graph:Thread a feature, exposure:Select a mechanic)"
+    },
+    {
+      "member": "Feature.title",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E4 QA session: \"the Thread.rename operation\", \"the app's Select (as the copy exposes it)\""
+    },
+    {
+      "member": "Feature.version",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E4 QA session: \"1\" for every feature of the log"
+    },
+    {
+      "member": "Feature.status",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E4 QA session: the running build's status (present; exposure:Select unknown, the pack could not locate it)"
+    },
+    {
+      "member": "Feature.needs",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E4 QA session: graph:Thread.rename needs graph:Thread and protocol:thread/name/set; presentation:SidebarItem its binding, React's exposure and the jsx seam"
+    },
+    {
+      "member": "Mod.features",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E4 QA session: qa.compat-risk linked exposure:Select, graph:Thread.rename, graph:Nope and its grant's graph:Draft"
+    },
+    {
+      "member": "Mod.compatibility",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E4 QA session: qa.compat-risk atRisk (its required exposure:Select unknown); the other QA mods compatible; qa.compat-blocked's install refused (the statusbar anchor missing)"
+    },
+    {
+      "member": "Mod.reasons",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E4 QA session: qa.compat-risk's two sentences, shown on its page in the app's Settings (\"May not work with this version of the app\")"
+    },
+    {
+      "member": "Presentation.decorate",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E2 (two rule QA mods): badges of both mods on the same rows in order, a label, a header badge, a message action whose click ran it"
+    },
+    {
+      "member": "Presentation.hide",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E2 (two rule QA mods): a sidebar row hidden, back without a reload when its mod was disabled"
+    },
+    {
+      "member": "Presentation.replace",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E2 (two rule QA mods): a sidebar row replaced (the app's own row inside the mod's), gone with its mod"
+    },
+    {
+      "member": "Presentation.add",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E2 (two rule QA mods): a menu entry in the thread's native context menu whose choice ran the mod's callback"
+    },
+    {
+      "member": "Presentation.host",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E2 (two rule QA mods): a region hosted above the transcript"
+    },
+    {
+      "member": "Presentation.style",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E2 done: a style rule held the accent at the danger token over another mod's, the next owner's and then the app's value on removal"
+    },
+    {
+      "member": "SidebarItem.badges",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E2 (two rule QA mods): badges of both mods on the same rows, in order, and a host-realm data badge"
+    },
+    {
+      "member": "ThreadHeader.badges",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E2 (two rule QA mods): a header badge; E2 done: the ThreadHeader presented from the route with its decoration"
+    },
+    {
+      "member": "MessageBlock.actions",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E2 (two rule QA mods): a message action whose click ran the mod's callback"
+    },
+    {
+      "member": "ThreadView.header",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E2 (two rule QA mods): a region above the transcript (the header slot)"
+    },
+    {
+      "member": "Presentation",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E2c: the semantic tree: a thread's view under its Window, its turns under it, its messages under their turns, rows under their project's section"
+    },
+    {
+      "member": "Presentation.slot",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E2c: the slot each binding states, in the presentations' state"
+    },
+    {
+      "member": "Presentation.hidden",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E2c: hidden in the presentations' state under a hiding rule; shown again when the mod was disabled"
+    },
+    {
+      "member": "Presentation.decorations",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E2c: the decorations of both rule mods in the presentations' state"
+    },
+    {
+      "member": "Presentation.selected",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E2c: the row the app marks active is selected; the selected event"
+    },
+    {
+      "member": "Presentation.subject",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E2c: each presentation names its subject (threads, turns, messages, rows)"
+    },
+    {
+      "member": "Presentation.window",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E2c: each presentation names its Window"
+    },
+    {
+      "member": "Presentation.parent",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E2c: parents resolved by subject (turns under their thread's view, messages under their turns, after they arrive)"
+    },
+    {
+      "member": "Presentation.shown",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E2c: shown when the hiding mod was disabled"
+    },
+    {
+      "member": "Presentation.hidden",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E2c: the hidden event under a hiding rule"
+    },
+    {
+      "member": "Presentation.selected",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E2c: the selected event for the row the app marks active"
+    },
+    {
+      "member": "Presentation.acted",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E2c: acted when a mod's message action was clicked"
+    },
+    {
+      "member": "Presentation._act",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E2c: Window and SidebarItem operations invoked by a QA mod through the graph, as ui.act does; a ref of an older generation refused"
+    },
+    {
+      "member": "Window",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E2c: a Window per window with the app's shell (hidden pages have none)"
+    },
+    {
+      "member": "Window.current",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E2c: current follows the main view"
+    },
+    {
+      "member": "Window.history",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E2c: history follows the main views shown"
+    },
+    {
+      "member": "Window.sidebar",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-01",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "WL1a (was sidebarOpen, E2c on 21477): open and width from the shell, followed through toggleSidebar and a divider drag"
+    },
+    {
+      "member": "Window.open",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E2c: open of a thread and of a settings section; E6.6c: of a Feature, a Mod and a project (DetailView)"
+    },
+    {
+      "member": "Window.back",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E2c: back done"
+    },
+    {
+      "member": "Window.forward",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E2c: forward done"
+    },
+    {
+      "member": "Window.focus",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E2c: focus done"
+    },
+    {
+      "member": "Window.toggleSidebar",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E2c: toggleSidebar done, the shell's attribute followed"
+    },
+    {
+      "member": "Window.togglePanel",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E2c: togglePanel done"
+    },
+    {
+      "member": "Window.navigated",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E2c: the navigated event"
+    },
+    {
+      "member": "SidebarItem._select",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-27",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E2c: select of a Codex thread and of a mod's presented thread"
+    },
+    {
+      "member": "SettingsRow",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E6.5a: the overview's mod and activity rows and QA settings v2's five setting rows, read through the census mod"
+    },
+    {
+      "member": "Dialog",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E6.5a: the remove Dialog of a Mod in the window, gone with Escape"
+    },
+    {
+      "member": "NotificationBanner",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E6.5a: three band lines as NotificationBanners"
+    },
+    {
+      "member": "ComposerPicker",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E6.5a: two composer pickers under a chat's Composer"
+    },
+    {
+      "member": "DetailView",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E6.6c: Window.open of a Feature and of the QA project showed their DetailView"
+    },
+    {
+      "member": "Presentation._read",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.0: ctx.ui.read of a window's presentations (its Window, sections, rows, the new chat's view, band lines) and of one type"
+    },
+    {
+      "member": "Presentation.children",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.0: the Window's children (its sections, main view and band lines) through related"
+    },
+    {
+      "member": "Presentation.reorder",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.0: qa.rules-b's reorder put its badge before qa.rules-a's two on every row"
+    },
+    {
+      "member": "Window.fullScreen",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.0: true in full screen and false after (the window manager's setFullScreen, as View > Toggle Full Screen does)"
+    },
+    {
+      "member": "Window.opened",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.0: opened for a second window"
+    },
+    {
+      "member": "Window.close",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.1: the second window closed through the graph (done; then closed and App.windowClosed)"
+    },
+    {
+      "member": "Window.closed",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.1: closed when the second window closed"
+    },
+    {
+      "member": "Composer",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.0: a chat's Composer, presenting its Draft"
+    },
+    {
+      "member": "Composer._focus",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.1: the focus in the chat composer's textbox"
+    },
+    {
+      "member": "Composer._insert",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.1: \"hello from E7\" in that chat's composer (Draft.insert as the mod)"
+    },
+    {
+      "member": "TurnView._collapse",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.1: on a finished turn, \"Ran echo e7-fold\" hidden under \"Worked for 2s\""
+    },
+    {
+      "member": "TurnView._expand",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.1: on a finished turn, \"Ran echo e7-fold\" shown under \"Worked for 2s\""
+    },
+    {
+      "member": "ThreadHeader._rename",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.1: the app's Rename chat dialog opened (Escape closed it)"
+    },
+    {
+      "member": "SidebarItem._rename",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.1: the shown chat's row opened the app's Rename chat dialog; another chat's row refused"
+    },
+    {
+      "member": "SidebarSection._collapse",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.1: a project group collapsed in that window (the app's own marker followed)"
+    },
+    {
+      "member": "SidebarSection._expand",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.1: the group expanded again"
+    },
+    {
+      "member": "Chip._open",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.1: a file attached to a draft opened in the side panel (File.open as the mod, the file read on demand)"
+    },
+    {
+      "member": "Chip._remove",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.1: the chip left the draft"
+    },
+    {
+      "member": "FilesView._select",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.1: a.txt selected and previewed in the review panel's sectioned tree"
+    },
+    {
+      "member": "PaletteResult._choose",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.1: Toggle Sidebar chosen (Command.run as the mod): the sidebar closed, then the palette"
+    },
+    {
+      "member": "StatusItem._open",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.1: the /status tray's item opened its chat in its window (the one shown)"
+    },
+    {
+      "member": "TurnView.actions",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.2: qa.rules-e7's action at the end of each final answer's action row (the agent message's twin TurnView)"
+    },
+    {
+      "member": "TurnView.afterAnswer",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.2: qa.rules-e7's region after each final answer, before its action row"
+    },
+    {
+      "member": "MessageBlock.decorations",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.2: a badge in each user message's header, once"
+    },
+    {
+      "member": "ThreadView.transcript",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.2: a region at the end of the transcript (the scroll layout's twin ThreadView)"
+    },
+    {
+      "member": "ThreadView.aboveComposer",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.2: a region above the chat's composer"
+    },
+    {
+      "member": "Composer.toolbar",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.2: an action after the composer's \"+\""
+    },
+    {
+      "member": "Composer.pickers",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.2: a control beside the composer's pickers, before the framework's own"
+    },
+    {
+      "member": "Composer.aboveInput",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.2: a region in the composer's card above the input; the editor took text and focus with it there"
+    },
+    {
+      "member": "Composer.belowInput",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.2: a region after the composer's card; the editor took text and focus with it there"
+    },
+    {
+      "member": "ComposerPicker._open",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.2: the app's model menu opened (Escape closed it); the framework's own picker refused"
+    },
+    {
+      "member": "ComposerPicker._choose",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.2: GPT-5.6 Luna chosen and back to GPT-6 Luna (the model Setting's set as the mod)"
+    },
+    {
+      "member": "QueueItem",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.2: three queued follow-ups as QueueItems under the chat's Composer"
+    },
+    {
+      "member": "QueueItem._move",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.2: the third moved to the front (the QueuedMessage's move)"
+    },
+    {
+      "member": "QueueItem._remove",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.2: one removed from the queue (the QueuedMessage's remove)"
+    },
+    {
+      "member": "QueueItem._edit",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.2: one put back in the composer for editing (the app's onEditMessage)"
+    },
+    {
+      "member": "Menu.groups",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.3: a sidebar row's native menu with a Menu rule's group and a row rule's group, each behind its separator"
+    },
+    {
+      "member": "SidebarItem.contextMenu",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.3: a row rule's entry in the row's own menu, chosen: it ran, acted on the SidebarItem"
+    },
+    {
+      "member": "SidebarItem.trailingActions",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.3: a hover action on every row (the row's renderActions), run by the user: acted on the SidebarItem"
+    },
+    {
+      "member": "SidebarSection.headerActions",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.3: an action in each project group's header, run by the user: acted on the SidebarSection"
+    },
+    {
+      "member": "SidebarSection.items",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.3: the Setup chat added to gh-repo's group, shown in it"
+    },
+    {
+      "member": "ThreadHeader.actions",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.3: an action in the chat's title bar (the app's HeaderAction), run by the user: acted on the ThreadHeader"
+    },
+    {
+      "member": "Sidebar",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.3: the Sidebar under its Window, with the project groups as its children"
+    },
+    {
+      "member": "Sidebar.sections",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.3: a mod's section region in the sidebar, after the app's sections"
+    },
+    {
+      "member": "Sidebar.footer",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.3: a mod's region beside the sidebar's profile footer"
+    },
+    {
+      "member": "Sidebar._newThread",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.3: the window went from a chat to a new chat (the app's new-chat message)"
+    },
+    {
+      "member": "Palette",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.3: the open command palette, its results under it"
+    },
+    {
+      "member": "Palette._open",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.3: the open palette searching for \"rename\" (its search box held it)"
+    },
+    {
+      "member": "Palette._close",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.3: the palette closed by its own close"
+    },
+    {
+      "member": "SidePanel",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.4: the right panel of the chat, under its Window, its file tabs under it"
+    },
+    {
+      "member": "SidePanel.toolbar",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.4: a mod's control in the panel's tab strip"
+    },
+    {
+      "member": "SidePanel._open",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.4: b.txt opened as the panel's active tab (the app's windows.tabs.open in that window)"
+    },
+    {
+      "member": "SidePanel._close",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.4: the panel closed (the app's toggle, told to close); its presentations went"
+    },
+    {
+      "member": "PanelTab",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.4: the panel's file tabs as PanelTabs of their Files"
+    },
+    {
+      "member": "PanelTab._select",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.4: the d7-bug.js tab became the active one (the panel's controller)"
+    },
+    {
+      "member": "PanelTab._move",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.4: the d7-bug.js tab moved to the second place"
+    },
+    {
+      "member": "PanelTab._close",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.4: the a.txt tab closed"
+    },
+    {
+      "member": "FilesView.toolbar",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.4: a mod's control beside the file tree's search box"
+    },
+    {
+      "member": "FilesView._filter",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.4: the tree's search held \"b.t\" (the pane's own onQueryChange, through its twin)"
+    },
+    {
+      "member": "FilePreview",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.4: a.txt's header as the FilePreview of its File"
+    },
+    {
+      "member": "FilePreview.toolbar",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.4: a mod's action in the file header's trailing controls"
+    },
+    {
+      "member": "TerminalView",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.5: a local terminal's view under its PanelTab, presenting its Terminal"
+    },
+    {
+      "member": "TerminalView.toolbar",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.5: a mod's region beside the terminal, once (its panel passes its props on to inner mounts)"
+    },
+    {
+      "member": "BrowserView",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.5: the in-app browser's view presenting its BrowserTab (the native provider's id)"
+    },
+    {
+      "member": "BrowserView.toolbar",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.5: a mod's action in the browser's address bar row"
+    },
+    {
+      "member": "SettingsPage.sections",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.6: a mod's section after the Git settings page's own (the frame's twin, named by its title's slug)"
+    },
+    {
+      "member": "SettingsPage.rows",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.6: a mod's rows in a card of their own after the page's sections"
+    },
+    {
+      "member": "SettingsPage.pageActions",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.6: a mod's action in the page frame's toolbar"
+    },
+    {
+      "member": "DetailView.sections",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.6: a mod's section on a project's DetailView (an instance the framework does not own)"
+    },
+    {
+      "member": "DetailView.actions",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.6: a mod's action in an Actions section of a project's DetailView"
+    },
+    {
+      "member": "Window.side",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-01",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "WL1a (was panelOpen, E7 on 21477): the side panel open, its size and full, from the shell"
+    },
+    {
+      "member": "Presentation.expanded",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7: a folded turn's TurnView reports expanded false (its binding reads the app's isCollapsed)"
+    },
+    {
+      "member": "ThreadView._scrollTo",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.2b: the transcript's own reveal brought a chat's first turn into view (scrollTop 8890 to 4470, the turn centred as the app's search does)"
+    },
+    {
+      "member": "ThreadView._jumpToLatest",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.2b: the chat's latest turn (found by the Host) revealed again (scrollTop 4470 to 8927)"
+    },
+    {
+      "member": "TerminalView._focus",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.2b: focus moved from the composer to the terminal's input (its xterm's own focus)"
+    },
+    {
+      "member": "TerminalView._copySelection",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.2b: a word selected in the terminal was on the clipboard (Edit > Paste in the composer gave it)"
+    },
+    {
+      "member": "Dialog._confirm",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.6c: a mod's question confirmed by the mod that asked (its first action, settled as the requester's)"
+    },
+    {
+      "member": "Dialog._cancel",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.6c: a mod's question cancelled by the mod that asked (settled as the requester's)"
+    },
+    {
+      "member": "Dialog.body",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.6c: another mod's region in a mod's question about a chat"
+    },
+    {
+      "member": "Dialog.actions",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.6c: another mod's action in a mod's question about a chat, run from it"
+    },
+    {
+      "member": "ChangesView",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.5b: the Changes tab's body, controls, scope picker and file list as one ChangesView of the chat's ChangeSet, under its PanelTab"
+    },
+    {
+      "member": "ChangesView.header",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.5b: a mod's row after the tab's own header row"
+    },
+    {
+      "member": "ChangesView.toolbarActions",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.5b: a mod's action after the controls row's own"
+    },
+    {
+      "member": "ChangesView._selectFile",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.5b: a file selected in the list and its diff scrolled to"
+    },
+    {
+      "member": "ChangesView._setScope",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.5b: turn (the latest turn) and uncommitted (the working tree) shown; thread is refused: the app has no view of a chat's changes as a whole"
+    },
+    {
+      "member": "DiffView",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.5b: each file's section a DiffView of its FileChange, under the ChangesView"
+    },
+    {
+      "member": "DiffView.fileActions",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.5b: a mod's action in each file's header, its click its own"
+    },
+    {
+      "member": "DiffView._commentOn",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.5b: the app's comment editor opened at a changed line"
+    },
+    {
+      "member": "DiffView._openFile",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.5b: the file opened in a tab of the panel"
+    },
+    {
+      "member": "DockBadge",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.6b: the App's Dock badge presented outside any window while framework-main runs"
+    },
+    {
+      "member": "DockBadge._set",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.6b: a mod's count and text shown, let go to the app's own count, and given back when the mod stopped"
+    },
+    {
+      "member": "RequestCard.body",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.7: a mod's region in the body of an approval card (the test agent's CommandApproval), by the card's Request"
+    },
+    {
+      "member": "StepBlock.body",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.7b: a mod's region as the body of the test agent's own step, shown while expanded"
+    },
+    {
+      "member": "StepBlock.actions",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.7b: a mod's action in the step's row, run from it"
+    },
+    {
+      "member": "StepBlock.badges",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.7b: a mod's badge in the step's row"
+    },
+    {
+      "member": "StepBlock._expand",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.7b: the step's body shown (the row's chevron with it)"
+    },
+    {
+      "member": "StepBlock._collapse",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.7b: the step's body hidden again"
+    },
+    {
+      "member": "QueueItem._sendNow",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7 GUI batch: a queued follow-up sent now through the app's approval (Allow), the queue emptied"
+    },
+    {
+      "member": "BrowserView._focus",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7 GUI batch: the panel browser's page took focus from the window's document after a page loaded"
+    },
+    {
+      "member": "NotificationBanner._open",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.6b: a desktop notification's banner opened its chat in the window (the Notification's own open); the banner went once read"
+    },
+    {
+      "member": "NotificationBanner._dismiss",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7.6b: a desktop notification's banner dismissed (the Notification's own dismiss); the banner went"
+    },
+    {
+      "member": "Agent.newAutomation",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7 rework: a paused weekly automation created by a mod through the graph (asked first); the app's Edit task showed its name, prompt and schedule"
+    },
+    {
+      "member": "Automation.open",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7 rework: the app's Scheduled page opened on the automation"
+    },
+    {
+      "member": "Automation.where",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E7 rework: a created automation reads local"
+    },
+    {
+      "member": "SidePanel.tabs",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E8.2: a mod's panel views as tabs of the app's panels (the framework's durable kind): opened from a chat's menu and the panels' launcher, its state kept, restored after a relaunch, the off placeholder when its mod was disabled; a bottom-only, non-persisted view"
+    },
+    {
+      "member": "NewThreadView",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E8.3a: the home page presents the new chat's Draft (new:app:new-conversation); its composer is in it, a mod's composer control there wrote into that Draft"
+    },
+    {
+      "member": "Draft.setTarget",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E8.3a: a mod set the new chat's project (the app's home moved to it, its text kept), then sent: the chat started in that project"
+    },
+    {
+      "member": "Palette.resultSources",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E8.5: a mod's rows in the app's own palette groups (static, filtered by the palette) and a searched source's rows; chosen with the pointer and with Enter, run in the worker or the page"
+    },
+    {
+      "member": "Palette.groups",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-28",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E8.5: a source with a title of its own drawn as a group of the palette (\"QA notes\"), its searched rows in it"
+    },
+    {
+      "member": "ContentView",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E8.8: the markdown of a chat's answers drawn with mods' parts at every markdown site (the markdown seam); the site's subject (the answer's Message) given to the part"
+    },
+    {
+      "member": "ContentView.partRenderers",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E8.8: a qa-chart code block (streaming, then complete, the app's own block kept inside), inline code QA-42, links by host and subdomain, and a qa-note directive drawn by one mod's part renderers in a chat's answers"
+    },
+    {
+      "member": "SettingsPage.pages",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E8.9a: a mod's own page in the app's Settings: its entry at the end of the app's Integrations group, the page in the app's frame with the mod's component"
+    },
+    {
+      "member": "App.addProject",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E8.9: a folder added as a project through the app's own createLocal (its trust dialog answered); the call returned the new LocalProject"
+    },
+    {
+      "member": "TitleBar.right",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-01",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "WL1b (was Window.titleBar, E8.9b on 21477): a mod's button in the title bar's right position (the app's HeaderAction), run with the App"
+    },
+    {
+      "member": "SettingsRow.trailingActions",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E8.9k: a mod's action after the app's own Branch prefix row (Settings › Git), run with its Setting git-branch-prefix; the page's rows reported as SettingsRows of their Settings"
+    },
+    {
+      "member": "MenuEntry",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E8.4b: the app's 33 own menu bar entries (no roles, Settings, Quit, About or Log Out), each its Command's where its title names one (New Chat, Toggle Sidebar, Find)"
+    },
+    {
+      "member": "MenuEntry._choose",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E8.4b: choosing View › Toggle Sidebar closed the sidebar (Window.sidebarOpen false) and again opened it; a disabled entry was refused"
+    },
+    {
+      "member": "Sidebar._filter",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E8.9j: filter(\"PLANOK\") listed only the matching chat (its project group, Recents), other groups hidden, with the notice naming the mod; {unread: true} the unread chats; the user's Show all cleared it"
+    },
+    {
+      "member": "Window.banner",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E8.9i: a mod's region in the app's page banner box on the home page, a chat page (where the app writes its own banner) and Settings; gone when the mod is disabled, back when enabled"
+    },
+    {
+      "member": "TitleBar.left",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-01",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "WL1b (was Sidebar.toolbar, E8.9b on 21477): a mod's button at the end of the title bar's left position (the sidebar's top bar), run with the App"
+    },
+    {
+      "member": "RequestCard.actions",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E8.9c: a mod's action in the approval card's own button row (the app's button), run with the Request"
+    },
+    {
+      "member": "NewThreadView.aboveComposer",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E8.9c: a mod's region in the home page's container right above the new chat's composer"
+    },
+    {
+      "member": "FilesView.rowActions",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E8.9c: a mod's entry in a Files tree row's menu, run with its File"
+    },
+    {
+      "member": "ChangesView.fileRowActions",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E8.9c: a mod's entry in a changed file row's menu in the Changes tab, run with its FileChange"
+    },
+    {
+      "member": "ThreadView._find",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E8.9d: the app's own find bar opened with the text, its matches counted and highlighted"
+    },
+    {
+      "member": "SidebarSection.footer",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E8.9e: a mod's region after a project group's list, folded with the group"
+    },
+    {
+      "member": "SidebarSection._showMore",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E8.9e: the group's own Show more (its expander state): 15 chats instead of 5"
+    },
+    {
+      "member": "AutomationView",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E8.9f: a scheduled task's page and its Edit task dialog present the task"
+    },
+    {
+      "member": "AutomationView.actions",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E8.9f: a mod's action after the task's card and beside the dialog's Pause/Resume, run with the Automation"
+    },
+    {
+      "member": "AutomationView.details",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E8.9f: a mod's region after the task's card and at the end of the Edit task dialog's form"
+    },
+    {
+      "member": "SidePanel._resize",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "E8.9h: the panel resized as the app's own drag does (980 px to 519 px), kept after a reload"
+    },
+    {
+      "member": "App.newChatDraft",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "graph-layers L2a: the App names the new chat's Draft (new:app:new-conversation), read through the census"
+    },
+    {
+      "member": "Project.draft",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "graph-layers L2a: each LocalProject names the same new-chat Draft (an alias on 21477), read through the census"
+    },
+    {
+      "member": "Window.openPalette",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "graph-layers L3: a host-realm mod's Command ran Window.openPalette(['qa']) on the window in front: the app's palette opened on “qa” with the mods' rows"
+    },
+    {
+      "member": "Sidebar.filter",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "graph-layers L3: a host-realm ui.sidebar.filter turned on in the window in front through the Host (the notice “QA replies (QA surfaces)” with Show all; chats without “reply” gone), and off"
+    },
+    {
+      "member": "Thread.requestOpened",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "L4: the chat's requestOpened when its command asked for approval (the census's events log)"
+    },
+    {
+      "member": "Thread.rename",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "L4: renamed through the graph (state title, titleChanged)"
+    },
+    {
+      "member": "Thread.titleChanged",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "L4: on Thread.rename (the census's events log)"
+    },
+    {
+      "member": "Thread.markRead",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "L4: done through the graph (unread false)"
+    },
+    {
+      "member": "Thread.open",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "L4: shown in the window through the graph"
+    },
+    {
+      "member": "CodexThread.setGoal",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "L4: set through the graph (goal: objective, status active, usage); the app ran the agent toward it"
+    },
+    {
+      "member": "CodexThread.goal",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "L4: read after setGoal (objective, status, usage)"
+    },
+    {
+      "member": "CodexThread.clearGoal",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "L4: cleared through the graph"
+    },
+    {
+      "member": "Window.find",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "L4: the app's find bar ('Find in chat') opened on the chat the window shows"
+    },
+    {
+      "member": "App.frontWindow",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "L4: answered Window 1, the window in front"
+    },
+    {
+      "member": "Turn.started",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "L4: the census's events log on a native chat's turns"
+    },
+    {
+      "member": "Turn.stepAdded",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "L4: the census's events log"
+    },
+    {
+      "member": "Turn.completed",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "L4: the census's events log"
+    },
+    {
+      "member": "Step.started",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "L4: CommandRun and Reasoning steps (the census's events log)"
+    },
+    {
+      "member": "Step.finished",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "L4: CommandRun and Reasoning steps (the census's events log)"
+    },
+    {
+      "member": "AgentMessage.updated",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "L4: streamed answers (the census's events log)"
+    },
+    {
+      "member": "AgentMessage.completed",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "L4: the census's events log"
+    },
+    {
+      "member": "Request.answeredAt",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "L4: set when the native CommandApproval was denied"
+    },
+    {
+      "member": "Request.opened",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "L4: the native CommandApproval's opened (the census's events log)"
+    },
+    {
+      "member": "Request.answered",
+      "build": "26.1016.62342-21477",
+      "date": "2026-10-29",
+      "proof": "history:docs/design/systems.md#5-progress",
+      "note": "L4: the native CommandApproval's answered on deny (the census's events log)"
+    },
+    {
+      "member": "Approval.answer",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi1-native-check-qa-copy-261027308-24-22943-2026-11-05",
+      "note": "GI1: a mod's answer with the server's proposed rule (acceptWithExecpolicyAmendment), after the user allowed it; the command ran"
+    },
+    {
+      "member": "Approval.options",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi1-native-check-qa-copy-261027308-24-22943-2026-11-05",
+      "note": "GI1: the server's own options on a native command approval"
+    },
+    {
+      "member": "CodexCommandApproval",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi1-native-check-qa-copy-261027308-24-22943-2026-11-05",
+      "note": "GI1: a native command approval asked outside the workspace"
+    },
+    {
+      "member": "CodexCommandApproval.proposedExecpolicyAmendment",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi1-native-check-qa-copy-261027308-24-22943-2026-11-05",
+      "note": "GI1: the rule the server proposed, as given"
+    },
+    {
+      "member": "CodexCommandApproval.commandActions",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi1-native-check-qa-copy-261027308-24-22943-2026-11-05",
+      "note": "GI1: the server's parsed actions, as given"
+    },
+    {
+      "member": "Turn.startedBy",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi1-native-check-qa-copy-261027308-24-22943-2026-11-05",
+      "note": "GI1: a composer send: user; the app's ambient-suggestions chat: app"
+    },
+    {
+      "member": "CodexTurn",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi1-native-check-qa-copy-261027308-24-22943-2026-11-05",
+      "note": "GI1: native turns"
+    },
+    {
+      "member": "CodexTurn.durationMs",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi1-native-check-qa-copy-261027308-24-22943-2026-11-05",
+      "note": "GI1: as the server reports it"
+    },
+    {
+      "member": "CodexTurn.rootTurnId",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi1-native-check-qa-copy-261027308-24-22943-2026-11-05",
+      "note": "GI1: as the server reports it"
+    },
+    {
+      "member": "CodexTurn.moderated",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi1-native-check-qa-copy-261027308-24-22943-2026-11-05",
+      "note": "GI1: the server's moderation report, per model call"
+    },
+    {
+      "member": "CodexThread.tokenUsageReported",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi1-native-check-qa-copy-261027308-24-22943-2026-11-05",
+      "note": "GI1: every model call's token report, as given"
+    },
+    {
+      "member": "CodexThread.usage",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi1-native-check-qa-copy-261027308-24-22943-2026-11-05",
+      "note": "GI1: the last token report, as given"
+    },
+    {
+      "member": "CodexThread.warning",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi1-native-check-qa-copy-261027308-24-22943-2026-11-05",
+      "note": "GI1: the server's warning on a chat"
+    },
+    {
+      "member": "CodexThread.cwd",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi1-native-check-qa-copy-261027308-24-22943-2026-11-05",
+      "note": "GI1: as the server reports it"
+    },
+    {
+      "member": "CodexThread.sessionId",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi1-native-check-qa-copy-261027308-24-22943-2026-11-05",
+      "note": "GI1: as the server reports it"
+    },
+    {
+      "member": "CodexUsage",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi1-native-check-qa-copy-261027308-24-22943-2026-11-05",
+      "note": "GI1: the account's usage"
+    },
+    {
+      "member": "CodexUsage.snapshots",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi1-native-check-qa-copy-261027308-24-22943-2026-11-05",
+      "note": "GI1: keyed by limitId, with credits, as given"
+    },
+    {
+      "member": "CodexUsage.reported",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi1-native-check-qa-copy-261027308-24-22943-2026-11-05",
+      "note": "GI1: every rate-limit push, as given"
+    },
+    {
+      "member": "CodexUsage.ordinaryUsageAllowed",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi1-native-check-qa-copy-261027308-24-22943-2026-11-05",
+      "note": "GI1: from the read"
+    },
+    {
+      "member": "CodexCommandRun",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi1-native-check-qa-copy-261027308-24-22943-2026-11-05",
+      "note": "GI1: native command steps"
+    },
+    {
+      "member": "CodexReasoning",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi1-native-check-qa-copy-261027308-24-22943-2026-11-05",
+      "note": "GI1: native reasoning steps"
+    },
+    {
+      "member": "App.openWindow",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi5-2026-11-05",
+      "note": "GI5: a mod opened a window, it reported its facts and closed"
+    },
+    {
+      "member": "CodexAgent._startThread",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi3b-2026-11-05",
+      "note": "GI3b: the app's own start held, with two mods' instructions in order"
+    },
+    {
+      "member": "CodexThread._resume",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi3b-2026-11-05",
+      "note": "GI3b: a resume with both blocks, before and after a relaunch"
+    },
+    {
+      "member": "Tool._call",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi3b-2026-11-05",
+      "note": "GI3b: the agent's call of a mod's tool routed to the mod after a relaunch, and refused while it is off"
+    },
+    {
+      "member": "Turn.stoppedBy",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi6b-2026-11-05",
+      "note": "GI6b: the agent's own turns stopped by a mod, stoppedBy naming it"
+    },
+    {
+      "member": "Request.answeredBy",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi7-2026-11-05",
+      "note": "GI7: the user's answer through a mod's surface and a mod's own, each named"
+    },
+    {
+      "member": "Request.outcome",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi7-2026-11-05",
+      "note": "GI7: the option an approval was answered with"
+    },
+    {
+      "member": "CodexAgent.addAccount",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-07",
+      "proof": "history:docs/design/reference-mods.md#rm10-account-switcher-2026-11-07",
+      "note": "RM10: the switcher page's Add account, as the user: an added account's backend, its home and its sign-in page"
+    },
+    {
+      "member": "CodexAgent.accounts",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-07",
+      "proof": "history:docs/design/reference-mods.md#rm10-account-switcher-2026-11-07",
+      "note": "RM10: the app's account and an added one, listed on the switcher page, again after a restart"
+    },
+    {
+      "member": "ChatGPTAccount.added",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-07",
+      "proof": "history:docs/design/reference-mods.md#rm10-account-switcher-2026-11-07",
+      "note": "RM10: the added account told apart from the app's"
+    },
+    {
+      "member": "Account.remove",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-07",
+      "proof": "history:docs/design/reference-mods.md#rm10-account-switcher-2026-11-07",
+      "note": "RM10: an added account removed from the switcher page: its record and home gone, the app's chats untouched"
+    },
+    {
+      "member": "Thread.account",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-07",
+      "proof": "history:docs/design/reference-mods.md#rm10-account-switcher-2026-11-07",
+      "note": "RM10: every chat linked to the app's account (a census list), counted per account on the switcher page"
+    }
+  ],
+  "excluded": [
+    {
+      "member": "AccessRule.*",
+      "reason": "Not realizable natively yet (breadth.md D2): the app has no read API for command, edit or network rules, the tool and app approval modes in the config carry no creation time or origin approval, and the native provider never writes standing permissions (approve always is refused). Revisit with F9 (the agent's configuration) in D10.",
+      "date": "2026-10-23"
+    },
+    {
+      "member": "Instructions.enable",
+      "reason": "The app has no switch for an instructions file (21477): Codex follows every AGENTS.md on a thread's path, and an AGENTS.override.md that is not empty replaces the one beside it (Instructions.enabled says which).",
+      "date": "2026-10-24"
+    },
+    {
+      "member": "Instructions.disable",
+      "reason": "The app has no switch for an instructions file (21477): see Instructions.enable.",
+      "date": "2026-10-24"
+    },
+    {
+      "member": "Repository.pull",
+      "reason": "The app has no pull (21477): its git paths are the git worker's reads and gitRepository's push, createBranch and checkoutBranch.",
+      "date": "2026-10-24"
+    },
+    {
+      "member": "Repository.fetch",
+      "reason": "The app has no fetch of its own (21477): only a setting that fetches before a worktree is made.",
+      "date": "2026-10-24"
+    },
+    {
+      "member": "Branch.behind",
+      "reason": "The app reports no commits behind (21477): its git worker gives the ahead count only.",
+      "date": "2026-10-24"
+    },
+    {
+      "member": "Branch.push",
+      "reason": "The app pushes only the current branch (21477): Repository.push.",
+      "date": "2026-10-24"
+    },
+    {
+      "member": "Branch.delete",
+      "reason": "The app deletes no branch (21477).",
+      "date": "2026-10-24"
+    },
+    {
+      "member": "Project.lastOpenedAt",
+      "reason": "The app records no time a project was opened (21477).",
+      "date": "2026-10-24"
+    },
+    {
+      "member": "Environment.description",
+      "reason": "Neither the app's local environments nor its cloud environment configs carry a description (21477).",
+      "date": "2026-10-24"
+    },
+    {
+      "member": "CloudEnvironment.location",
+      "reason": "The newer cloud environments (owner decision 2026-10-24) have no address; the app manages them in its settings.",
+      "date": "2026-10-24"
+    },
+    {
+      "member": "CodexThread.cloudTask",
+      "reason": "C18, settled natively 2026-10-24: a cloud thread offers no web page on 21477; its menu's link is the app's deeplink codex://threads/<id>, and Share makes a separate public copy. Hosted threads also run on the app's remote connection, which the mux does not see.",
+      "date": "2026-10-24"
+    },
+    {
+      "member": "Theme.density",
+      "reason": "The app has no density setting (21477): its Appearance page sets mode, theme, accent, colours, fonts and font sizes.",
+      "date": "2026-10-25"
+    },
+    {
+      "member": "SettingsSection.parent",
+      "reason": "The app's settings pages are flat (21477): its navigation groups them under headings (Personal, Integrations, Coding) that are not pages and hold no settings.",
+      "date": "2026-10-25"
+    },
+    {
+      "member": "SettingsSection.description",
+      "reason": "The app's settings pages have a title only (21477).",
+      "date": "2026-10-25"
+    },
+    {
+      "member": "ToolServer.signOut",
+      "reason": "The app-server's protocol has no MCP sign-out (21477: only mcpServer/oauth/login), and the app's MCP page offers none; the credentials stay in the Codex home's store. Owner decision 2026-10-25.",
+      "date": "2026-10-25"
+    },
+    {
+      "member": "Plugin.account",
+      "reason": "A plugin's account connection is the hosted connector's, reachable only through the app's own ChatGPT client (21477); local plugins are not tied to the account. Plugin.connect and disconnect open the plugin's page instead. Owner decision 2026-10-25.",
+      "date": "2026-10-25"
+    },
+    {
+      "member": "DiffView.lineGutter",
+      "reason": "The owner excluded the diff's internals (2026-10-28, docs/design/mod-surfaces.md §5): the app's diff gutter, hunk actions and its per-view layout toggle have no stable store or seam worth a mod surface.",
+      "date": "2026-10-29"
+    },
+    {
+      "member": "DiffView.hunkActions",
+      "reason": "The owner excluded the diff's internals (2026-10-28, docs/design/mod-surfaces.md §5): the app's diff gutter, hunk actions and its per-view layout toggle have no stable store or seam worth a mod surface.",
+      "date": "2026-10-29"
+    },
+    {
+      "member": "DiffView._setLayout",
+      "reason": "The owner excluded the diff's internals (2026-10-28, docs/design/mod-surfaces.md §5): the app's diff gutter, hunk actions and its per-view layout toggle have no stable store or seam worth a mod surface.",
+      "date": "2026-10-29"
+    },
+    {
+      "member": "ReviewView",
+      "reason": "The owner excluded ReviewView where the build shows no review view of its own (2026-10-28, mod-surfaces.md §5): 21477 has none (a review's findings show only as cards in the diffs, systems.md E7.5).",
+      "date": "2026-10-29"
+    },
+    {
+      "member": "ReviewView._selectFinding",
+      "reason": "The owner excluded ReviewView where the build shows no review view of its own (2026-10-28, mod-surfaces.md §5): 21477 has none (a review's findings show only as cards in the diffs, systems.md E7.5).",
+      "date": "2026-10-29"
+    },
+    {
+      "member": "ReviewView.findingActions",
+      "reason": "The owner excluded ReviewView where the build shows no review view of its own (2026-10-28, mod-surfaces.md §5): 21477 has none (a review's findings show only as cards in the diffs, systems.md E7.5).",
+      "date": "2026-10-29"
+    },
+    {
+      "member": "ReviewView.header",
+      "reason": "The owner excluded ReviewView where the build shows no review view of its own (2026-10-28, mod-surfaces.md §5): 21477 has none (a review's findings show only as cards in the diffs, systems.md E7.5).",
+      "date": "2026-10-29"
+    }
+  ]
+}

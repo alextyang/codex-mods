@@ -1,0 +1,9 @@
+{
+  "id": "qa.test-agent",
+  "version": "1.0.0",
+  "name": "Test agent",
+  "description": "A scripted agent for the framework's tests and the QA copy's native checks (graph-integrity G2.4). It serves its own threads through ctx.graph and answers each message with a reasoning step, a command step and a streamed reply. Its chats open to its own view (renderer.mjs: its ThreadView, drawn with the parts the framework lends; graph-integrity G2.2). No model traffic.",
+  "framework": ">=1 <2",
+  "entry": { "host": "host.mjs", "renderer": "renderer.mjs" },
+  "permissions": ["graph", "graph.read:Draft", "ui", "graph.present:ThreadView"]
+}

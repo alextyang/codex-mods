@@ -1,0 +1,9 @@
+{
+  "id": "qa.panes",
+  "version": "1.2.0",
+  "name": "QA panes",
+  "description": "QA only (graph-integrity G5): a region of two panes (beside the chat and the sidebar), each hosting the chat dropped on it from the sidebar (the app's rows or the framework's); which chat is in which pane is this mod's own data, kept in its storage and restored at start; commands that move the keyboard between the panes of a window; a turn's steps unfolded and the app's command steps expanded by default.",
+  "framework": ">=1 <2",
+  "entry": { "host": "host.mjs", "renderer": "renderer.mjs" },
+  "permissions": ["ui", "graph", "graph.read", "graph.present:Window", "graph.act:Window.focusPane,StepBlock._expand,StepBlock._collapse,TurnView._expand,TurnView._collapse"]
+}

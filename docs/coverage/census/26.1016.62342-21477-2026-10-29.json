@@ -1,0 +1,896 @@
+{
+  "at": "2026-10-29T20:38:31.202Z",
+  "observedThreads": 8,
+  "types": {
+    "CodexAgent": {
+      "count": 1,
+      "state": {
+        "name": 1,
+        "icon": 1,
+        "available": 1
+      },
+      "links": {
+        "account": 1,
+        "settings": 1,
+        "instructions": 1,
+        "skills": 1,
+        "toolServers": 1,
+        "plugins": 1
+      }
+    },
+    "Model": {
+      "count": 11,
+      "state": {
+        "name": 11,
+        "description": 11,
+        "efforts": 11,
+        "default": 11,
+        "available": 11
+      },
+      "links": {
+        "agent": 11
+      }
+    },
+    "CodexThread": {
+      "count": 68,
+      "state": {
+        "title": 68,
+        "status": 68,
+        "unread": 68,
+        "archived": 68,
+        "origin": 68,
+        "createdAt": 68,
+        "updatedAt": 68,
+        "preview": 65,
+        "client": 68,
+        "pinned": 68,
+        "usage": 3,
+        "context": 3
+      },
+      "links": {
+        "agent": 68,
+        "draft": 68,
+        "project": 46,
+        "environment": 44,
+        "model": 68,
+        "changes": 6
+      }
+    },
+    "Turn": {
+      "count": 9,
+      "state": {
+        "status": 9,
+        "startedAt": 9,
+        "endedAt": 9,
+        "usage": 3
+      },
+      "links": {
+        "thread": 9,
+        "answer": 9,
+        "changes": 7
+      }
+    },
+    "UserMessage": {
+      "count": 9,
+      "state": {
+        "content": 9,
+        "createdAt": 9,
+        "steering": 9
+      },
+      "links": {
+        "turn": 9
+      }
+    },
+    "AgentMessage": {
+      "count": 10,
+      "state": {
+        "content": 10,
+        "createdAt": 10,
+        "phase": 10,
+        "streaming": 10
+      },
+      "links": {
+        "turn": 10
+      }
+    },
+    "Draft": {
+      "count": 70,
+      "state": {
+        "content": 70,
+        "dictating": 70,
+        "target": 2
+      },
+      "links": {
+        "thread": 68
+      }
+    },
+    "Reasoning": {
+      "count": 2,
+      "state": {
+        "status": 2,
+        "title": 2,
+        "startedAt": 2,
+        "thinking": 2
+      },
+      "links": {
+        "turn": 2
+      }
+    },
+    "ToolCall": {
+      "count": 3,
+      "state": {
+        "status": 3,
+        "title": 3,
+        "startedAt": 3,
+        "input": 3,
+        "output": 3
+      },
+      "links": {
+        "turn": 3,
+        "tool": 3
+      }
+    },
+    "CommandRun": {
+      "count": 2,
+      "state": {
+        "status": 2,
+        "title": 2,
+        "startedAt": 2,
+        "command": 2,
+        "directory": 2,
+        "output": 2,
+        "exitCode": 2,
+        "duration": 2
+      },
+      "links": {
+        "turn": 2
+      }
+    },
+    "LocalProject": {
+      "count": 3,
+      "state": {
+        "name": 3,
+        "location": 3
+      },
+      "links": {
+        "folder": 3,
+        "root": 3,
+        "draft": 3,
+        "repository": 2
+      }
+    },
+    "Folder": {
+      "count": 3,
+      "state": {
+        "path": 3,
+        "name": 3
+      },
+      "links": {
+        "project": 3
+      }
+    },
+    "ExternalApp": {
+      "count": 5,
+      "state": {
+        "name": 5,
+        "icon": 5,
+        "opens": 5,
+        "computerUse": 5
+      },
+      "links": {}
+    },
+    "LocalEnvironment": {
+      "count": 3,
+      "state": {
+        "name": 3,
+        "status": 3
+      },
+      "links": {
+        "project": 3,
+        "folder": 3
+      }
+    },
+    "WorktreeEnvironment": {
+      "count": 5,
+      "state": {
+        "name": 5,
+        "status": 5,
+        "path": 5,
+        "setup": 1
+      },
+      "links": {
+        "project": 5,
+        "base": 5,
+        "branch": 1
+      }
+    },
+    "CloudEnvironment": {
+      "count": 1,
+      "state": {
+        "name": 1,
+        "status": 1
+      },
+      "links": {}
+    },
+    "GitRepository": {
+      "count": 2,
+      "state": {
+        "kind": 2,
+        "dirty": 2,
+        "remotes": 2
+      },
+      "links": {
+        "project": 2,
+        "currentBranch": 2
+      }
+    },
+    "Branch": {
+      "count": 6,
+      "state": {
+        "name": 6,
+        "current": 6,
+        "ahead": 2,
+        "upstream": 2
+      },
+      "links": {
+        "repository": 6
+      }
+    },
+    "Instructions": {
+      "count": 1,
+      "state": {
+        "scope": 1,
+        "text": 1,
+        "enabled": 1,
+        "location": 1
+      },
+      "links": {
+        "agents": 1
+      }
+    },
+    "SlashCommand": {
+      "count": 2,
+      "state": {
+        "title": 2,
+        "category": 2,
+        "enabled": 2,
+        "name": 2,
+        "custom": 2,
+        "arguments": 1,
+        "prompt": 2
+      },
+      "links": {}
+    },
+    "ProjectAction": {
+      "count": 2,
+      "state": {
+        "title": 2,
+        "category": 2,
+        "enabled": 2,
+        "command": 2,
+        "icon": 2
+      },
+      "links": {
+        "project": 2
+      }
+    },
+    "Command": {
+      "count": 182,
+      "state": {
+        "title": 182,
+        "category": 182,
+        "enabled": 182,
+        "appliesTo": 9
+      },
+      "links": {
+        "shortcut": 87
+      }
+    },
+    "Shortcut": {
+      "count": 97,
+      "state": {
+        "keys": 97,
+        "custom": 97
+      },
+      "links": {
+        "command": 97
+      }
+    },
+    "App": {
+      "count": 1,
+      "state": {
+        "version": 1,
+        "onboarded": 1
+      },
+      "links": {
+        "theme": 1,
+        "agents": 1,
+        "accounts": 1,
+        "settings": 1,
+        "projects": 1,
+        "externalApps": 1,
+        "newChatDraft": 1,
+        "automations": 1
+      }
+    },
+    "Theme": {
+      "count": 1,
+      "state": {
+        "mode": 1,
+        "appearance": 1,
+        "accent": 1,
+        "fonts": 1,
+        "tokens": 1
+      },
+      "links": {
+        "app": 1,
+        "settings": 1
+      }
+    },
+    "Setting": {
+      "count": 111,
+      "state": {
+        "title": 111,
+        "value": 91,
+        "default": 75,
+        "scope": 111,
+        "kind": 111,
+        "definedBy": 111,
+        "description": 82,
+        "overridden": 13,
+        "scopes": 13,
+        "choices": 52
+      },
+      "links": {
+        "section": 111,
+        "project": 7,
+        "thread": 14
+      }
+    },
+    "SettingsSection": {
+      "count": 22,
+      "state": {
+        "title": 22
+      },
+      "links": {
+        "parent": 4
+      }
+    },
+    "ChatGPTAccount": {
+      "count": 1,
+      "state": {
+        "service": 1,
+        "name": 1,
+        "signedIn": 1,
+        "email": 1,
+        "plan": 1
+      },
+      "links": {
+        "usage": 1
+      }
+    },
+    "Usage": {
+      "count": 1,
+      "state": {
+        "limits": 1,
+        "nearLimit": 1
+      },
+      "links": {
+        "account": 1
+      }
+    },
+    "ToolServer": {
+      "count": 4,
+      "state": {
+        "name": 4,
+        "transport": 4,
+        "status": 4,
+        "auth": 4
+      },
+      "links": {
+        "agents": 4,
+        "plugin": 3,
+        "account": 1
+      }
+    },
+    "Tool": {
+      "count": 548,
+      "state": {
+        "name": 548,
+        "description": 548,
+        "enabled": 548,
+        "source": 548
+      },
+      "links": {
+        "server": 548,
+        "plugin": 90
+      }
+    },
+    "Plugin": {
+      "count": 93,
+      "state": {
+        "name": 93,
+        "description": 93,
+        "installed": 93,
+        "enabled": 93,
+        "connected": 14
+      },
+      "links": {
+        "agents": 24
+      }
+    },
+    "Skill": {
+      "count": 49,
+      "state": {
+        "name": 49,
+        "description": 49,
+        "scope": 49,
+        "source": 49,
+        "installed": 49,
+        "enabled": 49
+      },
+      "links": {
+        "agents": 47,
+        "plugin": 41
+      }
+    },
+    "ChangeSet": {
+      "count": 13,
+      "state": {
+        "fileCount": 13,
+        "added": 13,
+        "removed": 13,
+        "state": 13
+      },
+      "links": {
+        "thread": 13,
+        "turn": 7,
+        "environment": 13
+      }
+    },
+    "Commit": {
+      "count": 4,
+      "state": {
+        "id": 4,
+        "message": 4,
+        "author": 4,
+        "time": 4,
+        "files": 4
+      },
+      "links": {
+        "repository": 4,
+        "branch": 4
+      }
+    },
+    "GitHubPullRequest": {
+      "count": 1,
+      "state": {
+        "title": 1,
+        "state": 1,
+        "url": 1,
+        "number": 1,
+        "checks": 1
+      },
+      "links": {
+        "repository": 1,
+        "branch": 1
+      }
+    },
+    "Automation": {
+      "count": 1,
+      "state": {
+        "name": 1,
+        "prompt": 1,
+        "schedule": 1,
+        "enabled": 1,
+        "where": 1,
+        "archiveRuns": 1,
+        "notifications": 1
+      },
+      "links": {
+        "agent": 1,
+        "project": 1
+      }
+    },
+    "CodexMods": {
+      "count": 1,
+      "state": {
+        "version": 1,
+        "safeMode": 1,
+        "updatePolicy": 1,
+        "previousVersion": 1,
+        "lastChecked": 1,
+        "checkProblem": 1,
+        "lastKnownGood": 1
+      },
+      "links": {
+        "mods": 1,
+        "operations": 1,
+        "features": 1,
+        "app": 1
+      }
+    },
+    "Mod": {
+      "count": 15,
+      "state": {
+        "name": 15,
+        "version": 15,
+        "status": 15,
+        "compatibility": 15,
+        "development": 15,
+        "permissions": 11,
+        "description": 15,
+        "running": 15,
+        "faults": 15,
+        "dataBytes": 15,
+        "quarantine": 3,
+        "reasons": 2,
+        "storedOverrides": 1,
+        "publisher": 2
+      },
+      "links": {
+        "codexMods": 15,
+        "features": 7,
+        "settings": 2
+      }
+    },
+    "Operation": {
+      "count": 50,
+      "state": {
+        "kind": 50,
+        "outcome": 50,
+        "startedAt": 50,
+        "phase": 50,
+        "endedAt": 50,
+        "message": 11,
+        "waitingFor": 8
+      },
+      "links": {
+        "mod": 50,
+        "codexMods": 50
+      }
+    },
+    "Feature": {
+      "count": 671,
+      "state": {
+        "kind": 671,
+        "title": 671,
+        "version": 671,
+        "status": 671
+      },
+      "links": {
+        "needs": 399
+      }
+    }
+  },
+  "projects": {
+    "37428553-2eb6-45ee-b52a-4181b3c7bb6f": {
+      "active": [
+        "01a15f7f-a525-73a1-86e9-8f0bf8360183",
+        "01a15f80-416b-7f00-9dad-ad59e03f469e",
+        "01a15f80-d132-70b0-89a0-9ad0cb2e586f",
+        "01a15f99-6008-7151-8f35-8c8c5bd5326a",
+        "01a15f9e-9268-7d33-b879-e91fe67bc9bc",
+        "01a15fa9-d463-7b71-a333-bf5f9568d6a3",
+        "01a15fc1-200a-73f2-88c1-ae34e3a2c9b3",
+        "01a15fc2-1a9f-7c70-9676-8873498ada0b",
+        "01a16277-4c4e-71c3-a94f-5840ae838796",
+        "01a16279-ae62-7ca1-94d4-3b62662e1922",
+        "01a1627b-f158-72e3-8128-57b066b9ece2",
+        "01a16657-1824-74c0-963f-df34d0df9d1f",
+        "01a170e1-90f2-7431-9708-a2d0abd49d5f",
+        "01a170e6-485c-79a2-a434-a7db353f23f2",
+        "01a170ec-29ac-7b00-98b6-9cb319325f84",
+        "01a17161-f9c9-7641-977d-d1958907a810",
+        "01a171bc-ad98-7c80-ada3-4c1081e22e09",
+        "01a1867f-2832-71f2-b222-105d0e7d6236",
+        "01a186d0-1f3c-7b42-a7b4-964908d5de25",
+        "01a1874d-c816-7132-8cc8-2cb3c938b53b",
+        "01a187ab-fd60-7ee1-9f92-de4aacd4d670",
+        "01a187e7-734f-7940-857d-59923833985d",
+        "01a187e8-f411-7011-856f-8aaeb85efe52",
+        "01a18931-3935-7a33-810b-cfdc86e4c015"
+      ],
+      "archived": [
+        "01a15f81-dd47-7ac2-b922-e695e59ba143",
+        "01a15f82-d31f-7481-b34e-e1463855ae19",
+        "01a15f83-ccb2-7933-be23-4867f9b3fb94",
+        "01a15f84-d1de-7af2-bb2e-393c87ff74eb",
+        "01a15f98-0b14-7363-bf92-d234f937883f",
+        "01a15f98-8060-7e43-a59d-6dfc5c2a32f4",
+        "01a15f9a-a205-7a83-911a-3ada92daf696",
+        "01a15fa0-a72a-7a61-894a-5f1f9261831b",
+        "01a15fa2-0f4a-7e33-a801-150bb6401c4f",
+        "01a15fa2-d50c-7201-bf28-cc22947cd79d",
+        "01a15fa5-8683-78b2-b78b-7976b24ac7e8",
+        "01a15fa7-0dfa-7f00-82e6-d04e49d06eb1",
+        "01a15fc5-7bf8-7b50-a6e0-ec4b409ca2ff",
+        "01a15fdd-4e85-7ee2-9e2f-88a79eb23bab",
+        "01a15fe8-00ce-7ba0-9e88-6e0c74255ff5",
+        "01a15fef-67a1-7243-9e15-59fc6d9e9ef8",
+        "01a15fef-a5c9-7ce1-a863-7f032363373f",
+        "01a15ff4-686a-7b91-8ec0-eafde5ec598a",
+        "01a15ff6-d566-7553-b4b5-cef7c3bb621f",
+        "01a1716c-6eb3-7193-a6bb-3f92426c604c"
+      ]
+    },
+    "434d2a4d-ad4b-41f1-84a3-5c781dcaa4db": {
+      "active": [
+        "01a176a2-c87b-7531-8634-21f657180d48"
+      ],
+      "archived": []
+    },
+    "(none)": {
+      "active": [
+        "01a12d76-1241-7123-bae5-892b134031c4",
+        "01a12d7a-21ef-7522-80bf-6cd84507d239",
+        "01a12dab-e291-7382-9e21-24a339b32464",
+        "01a1378c-ba5f-7a40-af1f-57b7230fcbdc",
+        "01a13790-9cc4-7562-b6f6-da60c040b964",
+        "01a15b9e-d39a-7d83-9ce2-ad4eba5405b1",
+        "01a15c23-e9ae-7280-8c36-33f2687b4ca0",
+        "01a15c28-2544-7b61-8c45-ed8fe35eba9d",
+        "01a15c2c-b3eb-7430-bf3e-60be030511a7",
+        "01a15c33-2d36-7e83-bbcd-69254c7737bd",
+        "01a15c8c-06b3-7373-8833-1eef2b8a2fe9",
+        "01a15c8d-6cb0-7ca3-814a-763f468516ad",
+        "01a15d33-bdff-74f3-9bb9-285e255ae9f8",
+        "01a15fa4-8c8a-7720-a9fa-36ab5781bd4f",
+        "01a16051-6f2b-7250-b498-31cf81874e49",
+        "01a16066-f3ee-7260-b5cf-afc7259d4ff0",
+        "01a1617d-5707-72f1-af14-394d860f0f19",
+        "01a161d7-f9c6-73b1-a616-682e70f5c145",
+        "01a175d8-4034-75c0-b670-ffeaaaee5291",
+        "01a1894f-5f2f-73c1-a74d-bb2f554e244e",
+        "01a1894f-9749-7d60-8ca7-33d26d27bb56"
+      ],
+      "archived": [
+        "01a13772-b909-72d1-a329-2d197f98f33c"
+      ]
+    },
+    "2db0f623-e34b-4488-8793-6971d2db11fb": {
+      "active": [],
+      "archived": [
+        "01a18632-6f26-7760-b490-f39d251c3195"
+      ]
+    }
+  },
+  "environments": {
+    "LocalEnvironment:local:434d2a4d-ad4b-41f1-84a3-5c781dcaa4db": {
+      "state": {
+        "name": "This computer",
+        "status": "ready"
+      },
+      "links": {
+        "project": {
+          "type": "LocalProject",
+          "provider": "codex",
+          "id": "434d2a4d-ad4b-41f1-84a3-5c781dcaa4db"
+        },
+        "folder": {
+          "type": "Folder",
+          "provider": "codex",
+          "id": "/Users/qauser/cmq/qa/fixtures/gh-repo"
+        }
+      },
+      "threads": [
+        "01a176a2-c87b-7531-8634-21f657180d48"
+      ]
+    },
+    "LocalEnvironment:local:2db0f623-e34b-4488-8793-6971d2db11fb": {
+      "state": {
+        "name": "This computer",
+        "status": "ready"
+      },
+      "links": {
+        "project": {
+          "type": "LocalProject",
+          "provider": "codex",
+          "id": "2db0f623-e34b-4488-8793-6971d2db11fb"
+        },
+        "folder": {
+          "type": "Folder",
+          "provider": "codex",
+          "id": "/Users/qauser/cmq/qa/fixtures/market"
+        }
+      },
+      "threads": [
+        "01a18632-6f26-7760-b490-f39d251c3195"
+      ]
+    },
+    "LocalEnvironment:local:37428553-2eb6-45ee-b52a-4181b3c7bb6f": {
+      "state": {
+        "name": "This computer",
+        "status": "ready"
+      },
+      "links": {
+        "project": {
+          "type": "LocalProject",
+          "provider": "codex",
+          "id": "37428553-2eb6-45ee-b52a-4181b3c7bb6f"
+        },
+        "folder": {
+          "type": "Folder",
+          "provider": "codex",
+          "id": "/Users/qauser/cmq/qa/fixtures/repo"
+        }
+      },
+      "threads": [
+        "01a18931-3935-7a33-810b-cfdc86e4c015",
+        "01a187ab-fd60-7ee1-9f92-de4aacd4d670",
+        "01a1874d-c816-7132-8cc8-2cb3c938b53b",
+        "01a186d0-1f3c-7b42-a7b4-964908d5de25",
+        "01a1627b-f158-72e3-8128-57b066b9ece2",
+        "01a170ec-29ac-7b00-98b6-9cb319325f84",
+        "01a170e6-485c-79a2-a434-a7db353f23f2",
+        "01a170e1-90f2-7431-9708-a2d0abd49d5f",
+        "01a16657-1824-74c0-963f-df34d0df9d1f",
+        "01a16279-ae62-7ca1-94d4-3b62662e1922",
+        "01a16277-4c4e-71c3-a94f-5840ae838796",
+        "01a15fc2-1a9f-7c70-9676-8873498ada0b",
+        "01a15fc1-200a-73f2-88c1-ae34e3a2c9b3",
+        "01a15fa9-d463-7b71-a333-bf5f9568d6a3",
+        "01a15f9e-9268-7d33-b879-e91fe67bc9bc",
+        "01a15f99-6008-7151-8f35-8c8c5bd5326a",
+        "01a15f80-d132-70b0-89a0-9ad0cb2e586f",
+        "01a15f80-416b-7f00-9dad-ad59e03f469e",
+        "01a15f7f-a525-73a1-86e9-8f0bf8360183",
+        "01a15ff6-d566-7553-b4b5-cef7c3bb621f",
+        "01a15ff4-686a-7b91-8ec0-eafde5ec598a",
+        "01a15fef-a5c9-7ce1-a863-7f032363373f",
+        "01a15fef-67a1-7243-9e15-59fc6d9e9ef8",
+        "01a15fe8-00ce-7ba0-9e88-6e0c74255ff5",
+        "01a15fc5-7bf8-7b50-a6e0-ec4b409ca2ff",
+        "01a15fa7-0dfa-7f00-82e6-d04e49d06eb1",
+        "01a15fa5-8683-78b2-b78b-7976b24ac7e8",
+        "01a15fa2-d50c-7201-bf28-cc22947cd79d",
+        "01a15fa2-0f4a-7e33-a801-150bb6401c4f",
+        "01a15fa0-a72a-7a61-894a-5f1f9261831b",
+        "01a15f9a-a205-7a83-911a-3ada92daf696",
+        "01a15f98-8060-7e43-a59d-6dfc5c2a32f4",
+        "01a15f98-0b14-7363-bf92-d234f937883f",
+        "01a15f84-d1de-7af2-bb2e-393c87ff74eb",
+        "01a15f83-ccb2-7933-be23-4867f9b3fb94",
+        "01a15f82-d31f-7481-b34e-e1463855ae19",
+        "01a15f81-dd47-7ac2-b922-e695e59ba143"
+      ]
+    },
+    "WorktreeEnvironment:/Users/qauser/cmq/profiles/default/codex-home/worktrees/a4f2/repo": {
+      "state": {
+        "name": "Worktree",
+        "status": "ready",
+        "path": "/Users/qauser/cmq/profiles/default/codex-home/worktrees/a4f2/repo"
+      },
+      "links": {
+        "project": {
+          "type": "LocalProject",
+          "provider": "codex",
+          "id": "37428553-2eb6-45ee-b52a-4181b3c7bb6f"
+        },
+        "branch": null,
+        "base": {
+          "type": "Branch",
+          "provider": "codex",
+          "id": "37428553-2eb6-45ee-b52a-4181b3c7bb6f:main"
+        }
+      },
+      "threads": [
+        "01a1867f-2832-71f2-b222-105d0e7d6236"
+      ]
+    },
+    "WorktreeEnvironment:/Users/qauser/cmq/profiles/default/codex-home/worktrees/9f26/repo": {
+      "state": {
+        "name": "qa-wt-branch",
+        "status": "ready",
+        "path": "/Users/qauser/cmq/profiles/default/codex-home/worktrees/9f26/repo"
+      },
+      "links": {
+        "project": {
+          "type": "LocalProject",
+          "provider": "codex",
+          "id": "37428553-2eb6-45ee-b52a-4181b3c7bb6f"
+        },
+        "branch": {
+          "type": "Branch",
+          "provider": "codex",
+          "id": "37428553-2eb6-45ee-b52a-4181b3c7bb6f:qa-wt-branch"
+        },
+        "base": {
+          "type": "Branch",
+          "provider": "codex",
+          "id": "37428553-2eb6-45ee-b52a-4181b3c7bb6f:main"
+        }
+      },
+      "threads": [
+        "01a17161-f9c9-7641-977d-d1958907a810"
+      ]
+    },
+    "WorktreeEnvironment:/Users/qauser/cmq/profiles/default/codex-home/worktrees/6334/repo": {
+      "state": {
+        "name": "Worktree",
+        "status": "ready",
+        "path": "/Users/qauser/cmq/profiles/default/codex-home/worktrees/6334/repo",
+        "setup": {
+          "parts": [
+            {
+              "kind": "text",
+              "text": "echo qa-setup"
+            }
+          ]
+        }
+      },
+      "links": {
+        "project": {
+          "type": "LocalProject",
+          "provider": "codex",
+          "id": "37428553-2eb6-45ee-b52a-4181b3c7bb6f"
+        },
+        "branch": null,
+        "base": {
+          "type": "Branch",
+          "provider": "codex",
+          "id": "37428553-2eb6-45ee-b52a-4181b3c7bb6f:main"
+        }
+      },
+      "threads": [
+        "01a171bc-ad98-7c80-ada3-4c1081e22e09"
+      ]
+    },
+    "WorktreeEnvironment:/Users/qauser/cmq/profiles/default/codex-home/worktrees/7897/repo": {
+      "state": {
+        "name": "Worktree",
+        "status": "ready",
+        "path": "/Users/qauser/cmq/profiles/default/codex-home/worktrees/7897/repo"
+      },
+      "links": {
+        "project": {
+          "type": "LocalProject",
+          "provider": "codex",
+          "id": "37428553-2eb6-45ee-b52a-4181b3c7bb6f"
+        },
+        "branch": null,
+        "base": {
+          "type": "Branch",
+          "provider": "codex",
+          "id": "37428553-2eb6-45ee-b52a-4181b3c7bb6f:qa-wt-branch"
+        }
+      },
+      "threads": [
+        "01a187e7-734f-7940-857d-59923833985d"
+      ]
+    },
+    "WorktreeEnvironment:/Users/qauser/cmq/profiles/default/codex-home/worktrees/313c/repo": {
+      "state": {
+        "name": "Worktree",
+        "status": "ready",
+        "path": "/Users/qauser/cmq/profiles/default/codex-home/worktrees/313c/repo"
+      },
+      "links": {
+        "project": {
+          "type": "LocalProject",
+          "provider": "codex",
+          "id": "37428553-2eb6-45ee-b52a-4181b3c7bb6f"
+        },
+        "branch": null,
+        "base": {
+          "type": "Branch",
+          "provider": "codex",
+          "id": "37428553-2eb6-45ee-b52a-4181b3c7bb6f:qa-f3"
+        }
+      },
+      "threads": [
+        "01a187e8-f411-7011-856f-8aaeb85efe52"
+      ]
+    },
+    "CloudEnvironment:b43d24fa-fa22-4185-b6d3-4eb6b61f1230~asenvcfg_175e731deb48819181f410140586420c": {
+      "state": {
+        "name": "codex-mods-qa-cloud",
+        "status": "ready"
+      },
+      "links": {
+        "project": null
+      },
+      "threads": []
+    }
+  }
+}

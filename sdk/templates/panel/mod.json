@@ -1,0 +1,10 @@
+{
+  "id": "example.panel",
+  "version": "0.1.0",
+  "name": "Chat outline",
+  "description": "A starter: a tab of the side panel beside a chat, listing what was asked in each of its turns, live.",
+  "glyph": "plugin",
+  "framework": ">=1 <2",
+  "entry": { "renderer": "renderer.mjs" },
+  "permissions": ["ui", "graph", "graph.read:Thread,Turn,UserMessage", "graph.present:SidePanel"]
+}

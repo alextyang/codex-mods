@@ -1,0 +1,258 @@
+{
+  "about": "The round-trip axis of the coverage ledger (docs/design/graph-integrity.md G9.2): what a mod's own instances get from the app's shared surfaces, and what the parts the framework lends draw of a mod's data. Each row is checked natively through a mod's path (scripts/qa/mods/qa.conformance: its own kind of each concept the shared surfaces show) on a build. `surfaces`: each shared surface, what it does for a mod's instance, and a row per concept it shows. `lentParts`: a row per lent part: it draws the mod's data in the mod's own surface as the app draws its own. A row is {status: 'open'} until checked, then {status: 'green', build, date, proof} (proof: a file in this repository with an optional anchor), or {status: 'none', why} where that surface does not show the concept. scripts/roundtrip.mjs prints it; tests/roundtrip.test.mjs keeps it in step with the lent parts and the conformance mod.",
+  "surfaces": {
+    "sidebarRow": {
+      "what": "its chat is a row in the sidebar's group for its agent, after the app's own groups, drawn as the app's rows, with its mark",
+      "rows": {
+        "Thread": {
+          "status": "green",
+          "build": "26.1027.30824-22943",
+          "date": "2026-11-05",
+          "proof": "history:docs/design/graph-integrity.md#gi9-2026-11-05",
+          "note": "its row with its mark (the badge its rules give it), after the fix that draws marks on the framework's rows"
+        }
+      }
+    },
+    "sidebarGroup": {
+      "what": "a group in the sidebar named for its agent, after the app's own groups",
+      "rows": {
+        "Agent": {
+          "status": "green",
+          "build": "26.1027.30824-22943",
+          "date": "2026-11-05",
+          "proof": "history:docs/design/graph-integrity.md#gi9-2026-11-05",
+          "note": "the app's group headings carry no icon, its own as the agents' ones"
+        }
+      }
+    },
+    "rowMenu": {
+      "what": "the row's menu offers the shared actions the chat supports, each the user's own act",
+      "rows": {
+        "Thread": {
+          "status": "green",
+          "build": "26.1027.30824-22943",
+          "date": "2026-11-05",
+          "proof": "history:docs/design/graph-integrity.md#gi2b-2026-11-05",
+          "note": "checked with the test agent's chats: the menu offered Archive, which took the chat out of its group; not driven again (a scripted press does not open the kit's menu)"
+        }
+      }
+    },
+    "rowWaiting": {
+      "what": "its chat's row says the chat waits for the user while it does (its status, set by its provider while one of its requests is pending)",
+      "rows": {
+        "Thread": {
+          "status": "green",
+          "build": "26.1027.30824-22943",
+          "date": "2026-11-05",
+          "proof": "history:docs/design/graph-integrity.md#gi9-2026-11-05",
+          "note": "the waiting dot while its requests were pending"
+        }
+      }
+    },
+    "unread": {
+      "what": "a finished reply leaves its row unread until its view is shown",
+      "rows": {
+        "Thread": {
+          "status": "green",
+          "build": "26.1027.30824-22943",
+          "date": "2026-11-05",
+          "proof": "history:docs/design/graph-integrity.md#gi9-2026-11-05",
+          "note": "unread until its view was shown, then read (the dot itself with the test agent, GI2b: a waiting chat shows the waiting dot first)"
+        }
+      }
+    },
+    "openView": {
+      "what": "a row opens its chat to the view the mod registered for its kind",
+      "rows": {
+        "Thread": {
+          "status": "green",
+          "build": "26.1027.30824-22943",
+          "date": "2026-11-05",
+          "proof": "history:docs/design/graph-integrity.md#gi9-2026-11-05"
+        }
+      }
+    },
+    "palette": {
+      "what": "the palette's Agents' chats finds its chat and opens its view",
+      "rows": {
+        "Thread": {
+          "status": "green",
+          "build": "26.1027.30824-22943",
+          "date": "2026-11-05",
+          "proof": "history:docs/design/graph-integrity.md#gi2b-2026-11-05",
+          "note": "with the test agent's chats: its Agents' chats result opened its view; not driven again (the QA account's palette lists its own chats)"
+        }
+      }
+    },
+    "windowOpen": {
+      "what": "Window.open of its chat opens its view",
+      "rows": {
+        "Thread": {
+          "status": "green",
+          "build": "26.1027.30824-22943",
+          "date": "2026-11-05",
+          "proof": "history:docs/design/graph-integrity.md#gi9-2026-11-05"
+        }
+      }
+    },
+    "card": {
+      "what": "a pending request shows as the lent card in its chat's view and is answered there, as the user",
+      "rows": {
+        "CommandApproval": {
+          "status": "green",
+          "build": "26.1027.30824-22943",
+          "date": "2026-11-05",
+          "proof": "history:docs/design/graph-integrity.md#gi9-2026-11-05",
+          "note": "answered in its lent card as the user"
+        },
+        "EditApproval": {
+          "status": "green",
+          "build": "26.1027.30824-22943",
+          "date": "2026-11-05",
+          "proof": "history:docs/design/graph-integrity.md#gi9-2026-11-05",
+          "note": "answered in its lent card as the user"
+        },
+        "NetworkApproval": {
+          "status": "green",
+          "build": "26.1027.30824-22943",
+          "date": "2026-11-05",
+          "proof": "history:docs/design/graph-integrity.md#gi9-2026-11-05",
+          "note": "answered in its lent card as the user"
+        },
+        "ToolApproval": {
+          "status": "green",
+          "build": "26.1027.30824-22943",
+          "date": "2026-11-05",
+          "proof": "history:docs/design/graph-integrity.md#gi9-2026-11-05",
+          "note": "answered in its lent card as the user"
+        },
+        "ComputerUseApproval": {
+          "status": "green",
+          "build": "26.1027.30824-22943",
+          "date": "2026-11-05",
+          "proof": "history:docs/design/graph-integrity.md#gi9-2026-11-05",
+          "note": "answered in its lent card as the user"
+        },
+        "Question": {
+          "status": "green",
+          "build": "26.1027.30824-22943",
+          "date": "2026-11-05",
+          "proof": "history:docs/design/graph-integrity.md#gi9-2026-11-05",
+          "note": "answered in its lent card as the user"
+        }
+      }
+    },
+    "scheduled": {
+      "what": "its automation is listed in the app's Scheduled section, beside the app's own",
+      "rows": {
+        "Automation": {
+          "status": "green",
+          "build": "26.1027.30824-22943",
+          "date": "2026-11-05",
+          "proof": "history:docs/design/graph-integrity.md#gi9-2026-11-05",
+          "note": "running it from there: unit tests"
+        }
+      }
+    }
+  },
+  "lentParts": {
+    "Transcript": {
+      "status": "green",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi9-2026-11-05",
+      "note": "drawn with the mod's data in its view or its region, light theme (both themes with fixtures: GI2a)"
+    },
+    "Turn": {
+      "status": "green",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi9-2026-11-05",
+      "note": "drawn with the mod's data in its view or its region, light theme (both themes with fixtures: GI2a)"
+    },
+    "Message": {
+      "status": "green",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi9-2026-11-05",
+      "note": "drawn with the mod's data in its view or its region, light theme (both themes with fixtures: GI2a)"
+    },
+    "StepRow": {
+      "status": "green",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi9-2026-11-05",
+      "note": "drawn with the mod's data in its view or its region, light theme (both themes with fixtures: GI2a)"
+    },
+    "DiffView": {
+      "status": "green",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi9-2026-11-05",
+      "note": "drawn with the mod's data in its view or its region, light theme (both themes with fixtures: GI2a)"
+    },
+    "FileChip": {
+      "status": "green",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi9-2026-11-05",
+      "note": "drawn with the mod's data in its view or its region, light theme (both themes with fixtures: GI2a)"
+    },
+    "ApprovalCard": {
+      "status": "green",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi9-2026-11-05",
+      "note": "drawn with the mod's data in its view or its region, light theme (both themes with fixtures: GI2a)"
+    },
+    "QuestionCard": {
+      "status": "green",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi9-2026-11-05",
+      "note": "drawn with the mod's data in its view or its region, light theme (both themes with fixtures: GI2a)"
+    },
+    "ThreadHeader": {
+      "status": "green",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi9-2026-11-05",
+      "note": "drawn with the mod's data in its view or its region, light theme (both themes with fixtures: GI2a)"
+    },
+    "Composer": {
+      "status": "green",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi9-2026-11-05",
+      "note": "drawn with the mod's data in its view or its region, light theme (both themes with fixtures: GI2a)"
+    },
+    "ModelPicker": {
+      "status": "green",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi9-2026-11-05",
+      "note": "drawn with the mod's data in its view or its region, light theme (both themes with fixtures: GI2a)"
+    },
+    "EffortPicker": {
+      "status": "green",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi9-2026-11-05",
+      "note": "drawn with the mod's data in its view or its region, light theme (both themes with fixtures: GI2a)"
+    },
+    "ChatRow": {
+      "status": "green",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi9-2026-11-05",
+      "note": "drawn with the mod's data in its view or its region, light theme (both themes with fixtures: GI2a)"
+    },
+    "DropTarget": {
+      "status": "green",
+      "build": "26.1027.30824-22943",
+      "date": "2026-11-05",
+      "proof": "history:docs/design/graph-integrity.md#gi9-2026-11-05",
+      "note": "drawn with the mod's data in its view or its region, light theme (both themes with fixtures: GI2a)"
+    }
+  }
+}

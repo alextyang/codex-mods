@@ -1,0 +1,14 @@
+{
+  "id": "example.agent-a",
+  "version": "1.0.0",
+  "name": "Agent A",
+  "description": "A fixture for the SDK's agent helpers (graph-integrity G3.5): its instructions, a turn's context and a tool.",
+  "framework": ">=1 <2",
+  "entry": { "host": "host.mjs" },
+  "permissions": [
+    "graph",
+    "graph.read",
+    "graph.intercept:CodexAgent._startThread,CodexThread._resume,CodexThread.fork,CodexThread.send",
+    "graph.act:CodexAgent._startThread,CodexThread._resume,CodexThread.fork,CodexThread.send"
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "id": "codexmods.multi-panel",
+  "version": "3.0.1",
+  "name": "Split view",
+  "description": "Two or more chats open at once: a split view beside the chat you are in, with up to three chats live, each with its own composer, and a chat beside yours in the side panel.",
+  "author": "Codex Mods",
+  "glyph": "sidebar",
+  "framework": ">=1 <2",
+  "entry": {
+    "renderer": "renderer.mjs"
+  },
+  "about": [
+    "Drag a chat from the sidebar onto a pane of the split view, or choose \"Open in split view\" in a chat's menu. Each pane is the chat itself, with its own composer, its approvals and its questions.",
+    "Command-Shift-Backslash shows or hides the split view; \"Next pane\" and \"Previous pane\" move the keyboard between the chats on the screen. The panes and their sizes come back after a restart."
+  ],
+  "permissions": [
+    "ui",
+    "graph",
+    "graph.read",
+    "graph.act:Window.open,Window.setRegion,Window.focusPane,Thread.open",
+    "graph.present:Palette,Menu,Window"
+  ],
+  "settings": [
+    {
+      "key": "panes",
+      "kind": "choice",
+      "control": "segmented",
+      "default": 2,
+      "options": [
+        {
+          "value": 1,
+          "label": "One"
+        },
+        {
+          "value": 2,
+          "label": "Two"
+        },
+        {
+          "value": 3,
+          "label": "Three"
+        }
+      ],
+      "title": "Panes",
+      "description": "How many chats the split view holds."
+    },
+    {
+      "key": "keyboardShortcut",
+      "kind": "toggle",
+      "default": true,
+      "title": "Keyboard shortcuts",
+      "description": "Command-Backslash opens the current chat beside it; Command-Shift-Backslash shows or hides the split view."
+    }
+  ]
+}

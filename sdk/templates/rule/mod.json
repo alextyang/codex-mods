@@ -1,0 +1,10 @@
+{
+  "id": "example.rule",
+  "version": "0.1.0",
+  "name": "Chat origins",
+  "description": "A starter: a presentation rule that badges each chat that did not start from you (a fork, a delegation, a scheduled run) in the sidebar and in its header.",
+  "glyph": "plugin",
+  "framework": ">=1 <2",
+  "entry": { "renderer": "renderer.mjs" },
+  "permissions": ["ui", "graph.present:SidebarItem,ThreadHeader"]
+}

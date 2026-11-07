@@ -1,0 +1,9 @@
+{
+  "id": "qa.record",
+  "version": "1.0.0",
+  "name": "QA recorder",
+  "description": "QA only: records every app-server frame the mux sees (all kinds, all sessions, from the boot ring on) to <dataDir>/files/frames.jsonl (mode 0600) for scripts/qa/capture.mjs. Frames of credential-bearing methods are kept as their method and id only.",
+  "framework": ">=1 <2",
+  "entry": { "host": "host.mjs" },
+  "permissions": ["appServer.observe"]
+}

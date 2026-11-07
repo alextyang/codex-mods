@@ -1,0 +1,17 @@
+{
+  "id": "example.graph-mod",
+  "version": "1.0.0",
+  "name": "Graph mod",
+  "description": "A fixture for the testing kit's graph: it renames chats it is asked to, refuses archiving those marked keep, and serves a count of what it saw.",
+  "framework": ">=1 <2",
+  "entry": {
+    "host": "host.mjs",
+    "renderer": "renderer.mjs"
+  },
+  "permissions": [
+    "graph",
+    "graph.read:Thread",
+    "graph.act:Thread.rename",
+    "graph.intercept:Thread.archive"
+  ]
+}

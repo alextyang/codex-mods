@@ -1,0 +1,11 @@
+{
+  "id": "qa.compat-risk",
+  "version": "1.0.0",
+  "name": "QA compat at risk",
+  "description": "QA only (docs/design/systems.md E4): it requires what this build cannot show (the app's Select, which no pack exposes) and the Thread.rename operation, and can use a feature this framework does not know. At risk on every build; enabled, it does nothing.",
+  "framework": ">=1 <2",
+  "entry": { "host": "host.mjs" },
+  "permissions": ["graph.read:Draft"],
+  "requires": { "features": ["exposure:Select", "graph:Thread.rename"] },
+  "optional": { "features": ["graph:Nope"] }
+}

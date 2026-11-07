@@ -1,0 +1,661 @@
+{
+  "generatedAt": "2026-11-01T22:26:13.042Z",
+  "from": "26.1016.62342-21477",
+  "to": "26.1027.30824-22943",
+  "transforms": {
+    "cua-relocate-dir": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-relocate-config": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-relocate-installer": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-disable-locked-use": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-helper-private-home": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-relocate-approvals": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-service-path-env": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-container": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-bundle-id:src:1": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-bundle-id:main:1": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-bundle-id:main:2": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-bundle-id:main:3": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-bundle-id:worker:1": {
+      "missed": false,
+      "derived": true
+    },
+    "managed-config-no-persist": {
+      "missed": false,
+      "derived": true
+    },
+    "managed-config-no-persist-cua-repl": {
+      "missed": false,
+      "derived": true
+    },
+    "managed-config-cua-repl-thread": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-skills-no-expose": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-disable-cu-peer-auth": {
+      "missed": false,
+      "derived": true
+    },
+    "seam-jsx": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-lazy": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-tap:commands": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-tap:handlers": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-tap:messages": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-menu": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-menu:file-tree": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-menu:workspace-file": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-menu:tab": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-launcher": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-markdown:components": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-markdown:directives": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-markdown:text": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-copy": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-copy-origin:markdown": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-copy-origin:folder": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-copy-origin:link": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-command": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-attach": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-review-action": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-pr-create": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-props:mcp-row": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-props:mcp-row-plugin": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-props:mcp-row-forward": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-props:model-menu": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-props:model-row": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-props:branch-list": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-app-host": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-menu-command": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-main-modules": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:agent-activity-item": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:agent-activity-item-row": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:app-initial": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:app-primary": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:app-runtime": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:app-shared": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:followup-analytics": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:settings-content-layout": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:settings-group": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    }
+  },
+  "anchors": {
+    "settings.section": {
+      "missed": false,
+      "selectors": [
+        {
+          "selector": "body:has([data-settings-panel-slug=\"general-settings\"][aria-current=\"page\"]) [class~=\"group/settings\"][data-density] > div:last-child",
+          "status": "found"
+        },
+        {
+          "selector": "body:has([data-settings-panel-slug=\"general-settings\"][aria-current=\"page\"]) [class~=\"group/settings\"][data-density]",
+          "status": "found"
+        },
+        {
+          "selector": "body:has([data-settings-panel-slug=\"general-settings\"][aria-current=\"page\"]) div[class~=\"overflow-y-auto\"]:has(> [class~=\"group/settings\"])",
+          "status": "found"
+        }
+      ]
+    },
+    "sidebar": {
+      "missed": false,
+      "selectors": [
+        {
+          "selector": "nav[role=\"navigation\"][class*=\"_Navigation_\"]",
+          "status": "found"
+        },
+        {
+          "selector": "[data-app-shell-page-sidebar]",
+          "status": "found"
+        },
+        {
+          "selector": "[data-app-navigation-rail]",
+          "status": "found"
+        }
+      ]
+    },
+    "sidebar.footer": {
+      "missed": false,
+      "selectors": [
+        {
+          "selector": "nav[role=\"navigation\"][class*=\"_Navigation_\"] > div.absolute.inset-x-0.bottom-0",
+          "status": "found"
+        },
+        {
+          "selector": "[data-app-shell-page-sidebar] div.absolute.inset-x-0.bottom-0",
+          "status": "found"
+        }
+      ]
+    },
+    "titlebar": {
+      "missed": false,
+      "selectors": [
+        {
+          "selector": "[data-app-shell-titlebar]",
+          "status": "found"
+        },
+        {
+          "selector": "[data-app-shell-main-titlebar]",
+          "status": "found"
+        },
+        {
+          "selector": "[data-app-shell-titlebar-slot=\"main\"]",
+          "status": "found"
+        }
+      ]
+    },
+    "thread.header": {
+      "missed": false,
+      "selectors": [
+        {
+          "selector": "[data-app-shell-header-toolbar]",
+          "status": "found"
+        },
+        {
+          "selector": "[data-app-shell-page-header]",
+          "status": "found"
+        },
+        {
+          "selector": "[data-app-shell-titlebar-content]",
+          "status": "found"
+        }
+      ]
+    },
+    "thread.footer": {
+      "missed": false,
+      "selectors": [
+        {
+          "selector": "[data-codex-composer-root]",
+          "status": "found"
+        },
+        {
+          "selector": "[data-composer-layout]",
+          "status": "found"
+        }
+      ]
+    },
+    "composer": {
+      "missed": false,
+      "selectors": [
+        {
+          "selector": "[data-codex-composer-root]",
+          "status": "found"
+        },
+        {
+          "selector": "[data-composer-layout]",
+          "status": "found"
+        },
+        {
+          "selector": "[data-codex-composer]",
+          "status": "found"
+        }
+      ]
+    },
+    "workspace": {
+      "missed": false,
+      "selectors": [
+        {
+          "selector": "[data-app-shell-workspace-layout]",
+          "status": "found"
+        },
+        {
+          "selector": "[data-app-shell-main-content-layout]",
+          "status": "found"
+        },
+        {
+          "selector": "main[data-app-shell-main-surface]",
+          "status": "found"
+        }
+      ]
+    }
+  },
+  "protocol": {
+    "regenerated": true,
+    "counts": {
+      "clientRequests": 106,
+      "clientNotifications": 1,
+      "serverRequests": 10,
+      "serverNotifications": 85
+    },
+    "census": {
+      "written": true,
+      "failed": [
+        "bus.fromView",
+        "bus.toView",
+        "bus.fetchHandlers",
+        "state.globalKeys",
+        "state.persistedAtoms",
+        "state.sharedObjects",
+        "settings.slugs",
+        "panel.tabKinds",
+        "apphost.services",
+        "routes.paths",
+        "protocol.wireOnly"
+      ]
+    }
+  },
+  "binaryPatches": {
+    "derived": 31,
+    "previous": 31,
+    "missing": []
+  },
+  "declarations": {
+    "components": [],
+    "react": false,
+    "seams": []
+  },
+  "uiSeams": {
+    "applied": [
+      "jsx",
+      "lazy",
+      "taps",
+      "menus",
+      "file-menu",
+      "workspace-file-menu",
+      "tab-menu",
+      "launcher",
+      "markdown",
+      "markdown-text",
+      "copy",
+      "copy-origin",
+      "command",
+      "attach",
+      "review-action",
+      "pr-create",
+      "props:mcp-row",
+      "props:model-menu",
+      "props:branch-list",
+      "app-host",
+      "menu-command",
+      "main-modules",
+      "seam-expose:agent-activity-item",
+      "seam-expose:agent-activity-item-row",
+      "seam-expose:app-initial",
+      "seam-expose:app-primary",
+      "seam-expose:app-runtime",
+      "seam-expose:app-shared",
+      "seam-expose:followup-analytics",
+      "seam-expose:settings-content-layout",
+      "seam-expose:settings-group"
+    ],
+    "dropped": [],
+    "missing": [],
+    "previous": [
+      "seam-jsx",
+      "seam-lazy",
+      "seam-tap:commands",
+      "seam-tap:handlers",
+      "seam-tap:messages",
+      "seam-menu",
+      "seam-menu:file-tree",
+      "seam-menu:workspace-file",
+      "seam-menu:tab",
+      "seam-launcher",
+      "seam-markdown:components",
+      "seam-markdown:directives",
+      "seam-markdown:text",
+      "seam-copy",
+      "seam-copy-origin:markdown",
+      "seam-copy-origin:folder",
+      "seam-copy-origin:link",
+      "seam-command",
+      "seam-attach",
+      "seam-review-action",
+      "seam-pr-create",
+      "seam-props:mcp-row",
+      "seam-props:mcp-row-plugin",
+      "seam-props:mcp-row-forward",
+      "seam-props:model-menu",
+      "seam-props:model-row",
+      "seam-props:branch-list",
+      "seam-app-host",
+      "seam-menu-command",
+      "seam-expose:agent-activity-item",
+      "seam-expose:app-initial",
+      "seam-expose:app-primary",
+      "seam-expose:app-shared"
+    ],
+    "declared": {
+      "abi": 1,
+      "jsx": "seam-jsx",
+      "lazy": "seam-lazy",
+      "taps": [
+        "seam-tap:commands",
+        "seam-tap:handlers",
+        "seam-tap:messages"
+      ],
+      "menuItems": "seam-menu",
+      "menuKinds": {
+        "file-tree": "seam-menu:file-tree",
+        "workspace-file": "seam-menu:workspace-file",
+        "tab": "seam-menu:tab"
+      },
+      "launcher": "seam-launcher",
+      "markdown": [
+        "seam-markdown:components",
+        "seam-markdown:directives",
+        "seam-markdown:text"
+      ],
+      "props": [
+        "seam-props:mcp-row",
+        "seam-props:mcp-row-plugin",
+        "seam-props:mcp-row-forward",
+        "seam-props:model-menu",
+        "seam-props:model-row",
+        "seam-props:branch-list"
+      ],
+      "appHost": "seam-app-host",
+      "mainModules": "seam-main-modules",
+      "copy": "seam-copy",
+      "command": "seam-command",
+      "attach": "seam-attach",
+      "reviewAction": "seam-review-action",
+      "pullRequestCreate": "seam-pr-create",
+      "exposures": {
+        "dynamicToolRenderers": "seam-expose:agent-activity-item",
+        "activityRow": "seam-expose:agent-activity-item-row",
+        "headerSlots": "seam-expose:app-initial",
+        "tabRegistry": "seam-expose:app-initial",
+        "panelControllers": "seam-expose:app-initial",
+        "modal": "seam-expose:app-initial",
+        "commandStack": "seam-expose:app-initial",
+        "commandRegistered": "seam-expose:app-initial",
+        "slashRegistry": "seam-expose:app-initial",
+        "slashHooks": "seam-expose:app-initial",
+        "ComposerScope": "seam-expose:app-initial",
+        "RouteScope": "seam-expose:app-initial",
+        "ThreadScope": "seam-expose:app-initial",
+        "TextField": "seam-expose:app-initial",
+        "NavItem": "seam-expose:app-initial",
+        "NavGroup": "seam-expose:app-initial",
+        "sidebarShowAll": "seam-expose:app-initial",
+        "threadFind": "seam-expose:app-initial",
+        "terminalManager": "seam-expose:app-initial",
+        "markdownComponents": "seam-expose:app-initial",
+        "commandMenu": "seam-expose:app-initial",
+        "commandMenuItem": "seam-expose:app-initial",
+        "ComposerControllerContext": "seam-expose:app-initial",
+        "commandMenuState": "seam-expose:app-initial",
+        "appShell": "seam-expose:app-primary",
+        "panelSlots": "seam-expose:app-primary",
+        "shellSignals": "seam-expose:app-primary",
+        "composerBanners": "seam-expose:app-primary",
+        "panelWidth": "seam-expose:app-primary",
+        "SidebarGroup": "seam-expose:app-primary",
+        "SidebarList": "seam-expose:app-primary",
+        "ComposerDropdown": "seam-expose:app-primary",
+        "commandMenuSections": "seam-expose:app-primary",
+        "commandMenuAsyncValue": "seam-expose:app-primary",
+        "routes": "seam-expose:app-runtime",
+        "commandMenuPages": "seam-expose:app-runtime",
+        "AppScope": "seam-expose:app-shared",
+        "toast": "seam-expose:app-shared",
+        "bus": "seam-expose:app-shared",
+        "react": "seam-expose:app-shared",
+        "useScope": "seam-expose:app-shared",
+        "reactDom": "seam-expose:app-shared",
+        "Button": "seam-expose:app-shared",
+        "CodexButton": "seam-expose:app-shared",
+        "Switch": "seam-expose:app-shared",
+        "Menu": "seam-expose:app-shared",
+        "MenuParts": "seam-expose:app-shared",
+        "Dialog": "seam-expose:app-shared",
+        "DialogParts": "seam-expose:app-shared",
+        "SettingsRow": "seam-expose:app-shared",
+        "SettingsCard": "seam-expose:app-shared",
+        "Tooltip": "seam-expose:app-shared",
+        "Icon": "seam-expose:app-shared",
+        "KeysLabel": "seam-expose:app-shared",
+        "transcriptReveal": "seam-expose:followup-analytics",
+        "SettingsPageFrame": "seam-expose:settings-content-layout",
+        "SettingsSection": "seam-expose:settings-group"
+      }
+    }
+  },
+  "retargetedOverrides": [
+    "backend.configOverrides.mcp_servers.node_repl.env.BROWSER_USE_CODEX_APP_VERSION"
+  ],
+  "mandatoryEdits": [
+    "cua-relocate-dir",
+    "cua-relocate-config",
+    "cua-relocate-installer",
+    "cua-disable-locked-use",
+    "cua-helper-private-home",
+    "cua-relocate-approvals",
+    "cua-service-path-env",
+    "cua-container",
+    "managed-config-no-persist",
+    "managed-config-no-persist-cua-repl",
+    "managed-config-cua-repl-thread",
+    "keychain-service-name",
+    "keychain-service-name-account",
+    "aura-fallback-service",
+    "aura-fallback-account",
+    "cua-container:bin/node_repl:1",
+    "cua-container:lib/node_modules/@oai/cua/dist/project/cua/sky_js/src/targets/mac/native-pipe.js:1",
+    "cua-container:lib/node_modules/@oai/cua/dist/project/cua/sky_js/src/targets/mac/native-pipe.js:2",
+    "cua-container:lib/node_modules/@oai/cua/dist/project/cua/sky_js/src/targets/mac/native-pipe.js:3",
+    "cua-container:lib/node_modules/@oai/cua/dist/project/cua/sky_js/src/targets/mac/native-pipe.js:4",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/Info.plist:1",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/MacOS/SkyComputerUseService:1",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/MacOS/SkyComputerUseService:2",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/MacOS/SkyComputerUseService:3",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/MacOS/SkyComputerUseService:4",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/CUALockScreenGuardian.app/Contents/Info.plist:1",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/CUALockScreenGuardian.app/Contents/MacOS/CUALockScreenGuardian:1",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/CUALockScreenGuardian.app/Contents/MacOS/CUALockScreenGuardian:2",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/CUALockScreenGuardian.app/Contents/MacOS/CUALockScreenGuardian:3",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/Codex Computer Use Installer.app/Contents/Info.plist:1",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/Codex Computer Use Installer.app/Contents/Resources/CodexComputerUseAuthorizationPlugin.bundle/Contents/Info.plist:1",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/Codex Computer Use Installer.app/Contents/Resources/CodexComputerUseAuthorizationPlugin.bundle/Contents/MacOS/CodexComputerUseAuthorizationPlugin:1",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/Codex Computer Use Installer.app/Contents/Resources/CodexComputerUseAuthorizationPlugin.bundle/Contents/MacOS/CodexComputerUseAuthorizationPlugin:2",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/Codex Computer Use Installer.app/Contents/Resources/CodexComputerUseAuthorizationPlugin.bundle/Contents/MacOS/CodexComputerUseAuthorizationPlugin:3",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/Codex Computer Use Installer.app/Contents/Resources/CodexComputerUseAuthorizationPluginInstallerTool:1",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/Info.plist:1",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient:1",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient:2",
+    "cua-container:lib/node_modules/@oai/sky/dist/project/cua/sky_js/src/targets/mac/native-pipe.js:1",
+    "cua-container:lib/node_modules/@oai/sky/dist/project/cua/sky_js/src/targets/mac/native-pipe.js:2",
+    "cua-container:lib/node_modules/@oai/sky/dist/project/cua/sky_js/src/targets/mac/native-pipe.js:3",
+    "cua-container:lib/node_modules/@oai/sky/dist/project/cua/sky_js/src/targets/mac/native-pipe.js:4",
+    "cua-skills-no-expose",
+    "cua-disable-cu-peer-auth",
+    "cua-bundle-id:src:1",
+    "cua-bundle-id:main:1",
+    "cua-bundle-id:main:2",
+    "cua-bundle-id:main:3",
+    "cua-bundle-id:worker:1"
+  ]
+}

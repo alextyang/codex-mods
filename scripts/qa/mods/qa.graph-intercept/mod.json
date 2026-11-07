@@ -1,0 +1,9 @@
+{
+  "id": "qa.graph-intercept",
+  "version": "1.0.0",
+  "name": "QA graph interception",
+  "description": "QA only (G-intercept through the graph, C4): intercepts Thread.send, archive and stop with ctx.graph.intercept and logs each call to <dataDir>/files/intercept.log. A send whose letters contain gintercept is refused; one with 'gwait N' is held N seconds before it goes on (the interceptor's deadline is 20 s); one with 'gchange' goes on with changed text. Archive is refused while <dataDir>/files/refuse-archive exists.",
+  "framework": ">=1 <2",
+  "entry": { "host": "host.mjs" },
+  "permissions": ["graph", "graph.intercept:Thread.send,Thread.archive,Thread.stop"]
+}

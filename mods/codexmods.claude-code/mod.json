@@ -1,0 +1,27 @@
+{
+  "id": "codexmods.claude-code",
+  "version": "1.0.3",
+  "name": "Claude Code",
+  "description": "Claude Code as an agent in Codex: its chats beside Codex's, each a real Claude Code session in the project's folder, with its steps, approvals and answers in Codex's own look.",
+  "author": "Codex Mods",
+  "glyph": "terminal",
+  "framework": ">=1 <2",
+  "entry": { "host": "host.mjs", "renderer": "renderer.mjs" },
+  "about": [
+    "Start a Claude Code chat with \"New Claude Code chat\" in the command palette. It runs the claude program installed on your Mac, signed in as you, in the folder of the project you're in.",
+    "Claude Code asks before it runs a command or changes a file; you answer in the chat. A chat goes on in its session after a restart."
+  ],
+  "processes": {
+    "claude": { "kind": "session", "executable": "claude", "args": [], "start": "on-demand", "instances": 8 }
+  },
+  "permissions": [
+    "ui",
+    "graph",
+    "graph.read:Draft,Project,Window",
+    "graph.contribute:Project",
+    "graph.act:Window.open",
+    "graph.present:ThreadView,Palette",
+    "processes",
+    "processes.exec:claude"
+  ]
+}

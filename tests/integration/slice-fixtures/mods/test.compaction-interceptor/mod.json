@@ -1,0 +1,18 @@
+{
+  "id": "test.compaction-interceptor",
+  "version": "1.0.0",
+  "name": "Test fixture: compaction interceptor",
+  "description": "Test fixture only. A request interceptor that sets config.compact_prompt on thread/start, thread/resume and thread/fork.",
+  "framework": ">=1 <2",
+  "entry": { "host": "host.mjs" },
+  "permissions": ["appServer.intercept:thread/start,thread/resume,thread/fork"],
+  "settings": [
+    {
+      "key": "prompt",
+      "kind": "text",
+      "default": "TEST FIXTURE COMPACTION PROMPT: summarise the conversation so far for the next model, keeping decisions, open questions, file references and the exact state of any work in progress.",
+      "title": "Compaction prompt",
+      "description": "Test fixture setting: the prompt written to config.compact_prompt on threads started, resumed or forked after the change."
+    }
+  ]
+}

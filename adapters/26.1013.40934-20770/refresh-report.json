@@ -1,0 +1,318 @@
+{
+  "generatedAt": "2026-10-21T19:59:23.048Z",
+  "from": "26.1007.30912-20156",
+  "to": "26.1013.40934-20770",
+  "transforms": {
+    "expose-components:app-initial": {
+      "missed": true,
+      "reason": "`find` not found in the new bundle"
+    },
+    "expose-components:app-shared": {
+      "missed": true,
+      "reason": "`find` not found in the new bundle"
+    },
+    "seam-host:thread-header": {
+      "missed": true,
+      "reason": "`find` not found in the new bundle"
+    },
+    "trusted-view-context": {
+      "missed": true,
+      "reason": "`find` not found in the new bundle"
+    },
+    "trusted-view-sender": {
+      "missed": true,
+      "reason": "`find` not found in the new bundle"
+    },
+    "trusted-view-startup": {
+      "missed": true,
+      "reason": "another transform of the trusted-sender seam is missing, and the seam works only whole"
+    },
+    "cua-relocate-dir": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-relocate-config": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-relocate-installer": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-disable-locked-use": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-helper-private-home": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-relocate-approvals": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-service-path-env": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-container": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-bundle-id:main:1": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-bundle-id:main:2": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-bundle-id:main:3": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-bundle-id:src:1": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-bundle-id:worker:1": {
+      "missed": false,
+      "derived": true
+    },
+    "managed-config-no-persist": {
+      "missed": false,
+      "derived": true
+    },
+    "managed-config-no-persist-cua-repl": {
+      "missed": false,
+      "derived": true
+    },
+    "managed-config-cua-repl-thread": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-skills-no-expose": {
+      "missed": false,
+      "derived": true
+    }
+  },
+  "anchors": {
+    "settings.section": {
+      "missed": false,
+      "selectors": [
+        {
+          "selector": "body:has([data-settings-panel-slug=\"general-settings\"][aria-current=\"page\"]) [class~=\"group/settings\"][data-density] > div:last-child",
+          "status": "found"
+        },
+        {
+          "selector": "body:has([data-settings-panel-slug=\"general-settings\"][aria-current=\"page\"]) [class~=\"group/settings\"][data-density]",
+          "status": "found"
+        },
+        {
+          "selector": "body:has([data-settings-panel-slug=\"general-settings\"][aria-current=\"page\"]) div[class~=\"overflow-y-auto\"]:has(> [class~=\"group/settings\"])",
+          "status": "found"
+        }
+      ]
+    },
+    "sidebar": {
+      "missed": false,
+      "selectors": [
+        {
+          "selector": "nav[role=\"navigation\"][class*=\"_Navigation_\"]",
+          "status": "found"
+        },
+        {
+          "selector": "[data-app-shell-page-sidebar]",
+          "status": "found"
+        },
+        {
+          "selector": "[data-app-navigation-rail]",
+          "status": "found"
+        }
+      ]
+    },
+    "sidebar.footer": {
+      "missed": false,
+      "selectors": [
+        {
+          "selector": "nav[role=\"navigation\"][class*=\"_Navigation_\"] > div.absolute.inset-x-0.bottom-0",
+          "status": "found"
+        },
+        {
+          "selector": "[data-app-shell-page-sidebar] div.absolute.inset-x-0.bottom-0",
+          "status": "found"
+        }
+      ]
+    },
+    "titlebar": {
+      "missed": false,
+      "selectors": [
+        {
+          "selector": "[data-app-shell-titlebar]",
+          "status": "found"
+        },
+        {
+          "selector": "[data-app-shell-main-titlebar]",
+          "status": "found"
+        },
+        {
+          "selector": "[data-app-shell-titlebar-slot=\"main\"]",
+          "status": "found"
+        }
+      ]
+    },
+    "thread.header": {
+      "missed": false,
+      "selectors": [
+        {
+          "selector": "[data-app-shell-header-toolbar]",
+          "status": "found"
+        },
+        {
+          "selector": "[data-app-shell-page-header]",
+          "status": "found"
+        },
+        {
+          "selector": "[data-app-shell-titlebar-content]",
+          "status": "found"
+        }
+      ]
+    },
+    "thread.footer": {
+      "missed": false,
+      "selectors": [
+        {
+          "selector": "[data-codex-composer-root]",
+          "status": "found"
+        },
+        {
+          "selector": "[data-composer-layout]",
+          "status": "found"
+        }
+      ]
+    },
+    "composer": {
+      "missed": false,
+      "selectors": [
+        {
+          "selector": "[data-codex-composer-root]",
+          "status": "found"
+        },
+        {
+          "selector": "[data-composer-layout]",
+          "status": "found"
+        },
+        {
+          "selector": "[data-codex-composer]",
+          "status": "found"
+        }
+      ]
+    },
+    "workspace": {
+      "missed": false,
+      "selectors": [
+        {
+          "selector": "[data-app-shell-workspace-layout]",
+          "status": "found"
+        },
+        {
+          "selector": "[data-app-shell-main-content-layout]",
+          "status": "found"
+        },
+        {
+          "selector": "main[data-app-shell-main-surface]",
+          "status": "found"
+        }
+      ]
+    }
+  },
+  "protocol": {
+    "regenerated": true,
+    "counts": {
+      "clientRequests": 105,
+      "clientNotifications": 1,
+      "serverRequests": 10,
+      "serverNotifications": 85
+    },
+    "census": {
+      "written": true,
+      "failed": []
+    }
+  },
+  "binaryPatches": {
+    "derived": 31,
+    "previous": 31,
+    "missing": []
+  },
+  "declarations": {
+    "components": [
+      "Button",
+      "Switch",
+      "Dialog",
+      "Tooltip",
+      "Icon",
+      "SettingsRow",
+      "Menu",
+      "TextField",
+      "SettingsSection"
+    ],
+    "react": true,
+    "seams": [
+      "thread.header",
+      "thread.panel"
+    ]
+  },
+  "retargetedOverrides": [
+    "backend.configOverrides.mcp_servers.node_repl.env.BROWSER_USE_CODEX_APP_VERSION"
+  ],
+  "mandatoryEdits": [
+    "cua-relocate-dir",
+    "cua-relocate-config",
+    "cua-relocate-installer",
+    "cua-disable-locked-use",
+    "cua-helper-private-home",
+    "cua-relocate-approvals",
+    "cua-service-path-env",
+    "cua-container",
+    "cua-bundle-id:main:1",
+    "cua-bundle-id:main:2",
+    "cua-bundle-id:main:3",
+    "cua-bundle-id:src:1",
+    "cua-bundle-id:worker:1",
+    "managed-config-no-persist",
+    "managed-config-no-persist-cua-repl",
+    "managed-config-cua-repl-thread",
+    "keychain-service-name",
+    "keychain-service-name-account",
+    "aura-fallback-service",
+    "aura-fallback-account",
+    "cua-container:bin/node_repl:1",
+    "cua-container:lib/node_modules/@oai/cua/dist/project/cua/sky_js/src/targets/mac/native-pipe.js:1",
+    "cua-container:lib/node_modules/@oai/cua/dist/project/cua/sky_js/src/targets/mac/native-pipe.js:2",
+    "cua-container:lib/node_modules/@oai/cua/dist/project/cua/sky_js/src/targets/mac/native-pipe.js:3",
+    "cua-container:lib/node_modules/@oai/cua/dist/project/cua/sky_js/src/targets/mac/native-pipe.js:4",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/Info.plist:1",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/MacOS/SkyComputerUseService:1",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/MacOS/SkyComputerUseService:2",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/MacOS/SkyComputerUseService:3",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/MacOS/SkyComputerUseService:4",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/CUALockScreenGuardian.app/Contents/Info.plist:1",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/CUALockScreenGuardian.app/Contents/MacOS/CUALockScreenGuardian:1",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/CUALockScreenGuardian.app/Contents/MacOS/CUALockScreenGuardian:2",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/CUALockScreenGuardian.app/Contents/MacOS/CUALockScreenGuardian:3",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/Codex Computer Use Installer.app/Contents/Info.plist:1",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/Codex Computer Use Installer.app/Contents/Resources/CodexComputerUseAuthorizationPlugin.bundle/Contents/Info.plist:1",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/Codex Computer Use Installer.app/Contents/Resources/CodexComputerUseAuthorizationPlugin.bundle/Contents/MacOS/CodexComputerUseAuthorizationPlugin:1",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/Codex Computer Use Installer.app/Contents/Resources/CodexComputerUseAuthorizationPlugin.bundle/Contents/MacOS/CodexComputerUseAuthorizationPlugin:2",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/Codex Computer Use Installer.app/Contents/Resources/CodexComputerUseAuthorizationPlugin.bundle/Contents/MacOS/CodexComputerUseAuthorizationPlugin:3",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/Codex Computer Use Installer.app/Contents/Resources/CodexComputerUseAuthorizationPluginInstallerTool:1",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/Info.plist:1",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient:1",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient:2",
+    "cua-container:lib/node_modules/@oai/sky/dist/project/cua/sky_js/src/targets/mac/native-pipe.js:1",
+    "cua-container:lib/node_modules/@oai/sky/dist/project/cua/sky_js/src/targets/mac/native-pipe.js:2",
+    "cua-container:lib/node_modules/@oai/sky/dist/project/cua/sky_js/src/targets/mac/native-pipe.js:3",
+    "cua-container:lib/node_modules/@oai/sky/dist/project/cua/sky_js/src/targets/mac/native-pipe.js:4",
+    "cua-skills-no-expose"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "id": "codexmods.live-usage",
+  "version": "2.0.6",
+  "name": "Live usage",
+  "description": "Your limits between whole percentage points, your pace and the time left, each chat's share, and a reserve that holds messages until your limit resets.",
+  "author": "Codex Mods",
+  "glyph": "usage",
+  "framework": ">=1 <2",
+  "entry": { "host": "host.mjs", "renderer": "renderer.mjs" },
+  "about": [
+    "Codex reports a limit in whole percentage points, and only when a response ends. Live usage learns what a point costs from the token reports in between, so it can show where you are inside a point, how fast you are going and how long you have at that pace.",
+    "With a reserve set, a message sent past it is held and sent when the limit resets. A chat can keep working past the reserve from its Chat settings. The menu bar app reads the same numbers."
+  ],
+  "settings": [
+    { "key": "reserve", "kind": "number", "control": "stepper", "default": 0, "min": 0, "max": 99, "step": 1, "unit": "%", "title": "Reserve", "description": "Hold new messages once your most used limit reaches this. 0 is off." },
+    { "key": "stopRunning", "kind": "toggle", "default": false, "title": "Stop working chats at the reserve", "description": "Also stops a chat that is working when the reserve is reached, and tells it to continue after the reset. Turn on its automatic action on the Permissions tab so it does not ask each time.", "requires": "reserve" },
+    { "key": "status", "kind": "choice", "default": "both", "title": "Show usage in", "options": [{ "value": "both", "label": "The composer and the title bar" }, { "value": "composer", "label": "The composer" }, { "value": "off", "label": "Nowhere" }] },
+    { "key": "keepWorking", "kind": "toggle", "default": false, "scope": "thread", "title": "Keep working past the reserve", "description": "This chat's messages are never held, and it is not stopped." }
+  ],
+  "automatic": [
+    { "id": "resume", "operation": "Thread.send", "why": "Sends the messages it held, and \"Continue\" to the chats it stopped, when your limit resets.", "perHour": 60 },
+    { "id": "pause", "operation": "Thread.stop", "why": "Stops a chat that is working once your usage passes your reserve.", "perHour": 30 }
+  ],
+  "permissions": [
+    "ui",
+    "graph",
+    "graph.read:CodexThread,CodexUsage",
+    "graph.intercept:CodexThread.send",
+    "graph.act:CodexThread.send,CodexThread.stop",
+    "graph.present:Composer,Window,SettingsPage",
+    "appServer.clients"
+  ]
+}

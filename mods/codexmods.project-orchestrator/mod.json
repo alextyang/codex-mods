@@ -1,0 +1,26 @@
+{
+  "id": "codexmods.project-orchestrator",
+  "version": "1.0.2",
+  "name": "Project orchestrator",
+  "description": "A project's orchestrator: a chat that learns the project, settles its open questions with you, hears what its other chats do, and coordinates the work with you.",
+  "author": "Codex Mods",
+  "glyph": "sparkle",
+  "framework": ">=1 <2",
+  "entry": { "host": "host.mjs", "renderer": "renderer.mjs" },
+  "about": [
+    "Choose \"New project orchestrator\" in a project's menu. It starts a chat that reads the project's goals, plans and current chats, then asks you about what's still open, one question at a time.",
+    "Each message it gets says what changed in the project's other chats since its last one. With \"Tells the orchestrator when a chat finishes\" on (What it may do without asking), it also hears when a chat finishes. It can read a chat, message one or start one; you're asked before it sends anything."
+  ],
+  "automatic": [
+    { "id": "update", "operation": "Thread.send", "why": "Tells the orchestrator when one of its project's chats finishes, so it can act on it.", "perHour": 30 }
+  ],
+  "permissions": [
+    "ui",
+    "graph",
+    "graph.read:Project,CodexThread,Turn,Message,CodexAgent",
+    "graph.intercept:CodexAgent._startThread,CodexAgent._setSkillRoots,CodexThread.send,Tool._call",
+    "graph.act:CodexAgent._startThread,CodexAgent._setSkillRoots,CodexThread.send,Tool._call,Project.newThread",
+    "graph.attach:CodexThread",
+    "graph.present:Menu,SidebarItem,ThreadHeader"
+  ]
+}

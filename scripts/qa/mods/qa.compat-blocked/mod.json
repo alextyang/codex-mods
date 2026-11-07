@@ -1,0 +1,10 @@
+{
+  "id": "qa.compat-blocked",
+  "version": "1.0.0",
+  "name": "QA compat blocked",
+  "description": "QA only (docs/design/systems.md E4): it requires the statusbar anchor, which no pack has, so its install is refused with the reason.",
+  "framework": ">=1 <2",
+  "entry": { "renderer": "renderer.mjs" },
+  "permissions": [],
+  "requires": { "features": ["anchor:statusbar"] }
+}

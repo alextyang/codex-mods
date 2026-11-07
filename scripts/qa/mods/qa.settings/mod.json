@@ -1,0 +1,245 @@
+{
+  "id": "qa.settings",
+  "version": "2.5.0",
+  "name": "QA settings",
+  "description": "QA only (docs/design/systems.md E3): a mod's settings, one of each control, at the app, a project and a thread. Its host realm logs every change to files/changes.log and acts on trigger files: set ({key, value, scope?}), reset ({key, scope?}) and get ({key, where?}, the answer in files/get.json). Its renderer realm logs changes as console warnings, and sets limit to 5 when tags holds \"renderer-set\". Its panel tab \"QA chat settings\" draws its chat settings (mode, verbose) for the open chat with the kit's SettingRow, as this mod reads and sets them (graph-integrity G3.6); it opens itself once a chat shows. It adds its own block to each chat's developer instructions (the QA colour), with the SDK's instructions helper (graph-integrity G3.5).",
+  "framework": ">=1 <2",
+  "entry": {
+    "host": "host.mjs",
+    "renderer": "renderer.mjs"
+  },
+  "permissions": ["ui", "graph", "graph.read:Thread", "graph.present:SidePanel", "graph.intercept:CodexAgent._startThread,CodexThread._resume,CodexThread.fork", "graph.act:CodexAgent._startThread,CodexThread._resume,CodexThread.fork"],
+  "settings": [
+    {
+      "key": "mode",
+      "kind": "choice",
+      "title": "Reply mode",
+      "description": "How this chat's replies are written",
+      "default": "short",
+      "scope": "thread",
+      "options": [
+        {
+          "value": "short",
+          "label": "Short"
+        },
+        {
+          "value": "long",
+          "label": "Long"
+        }
+      ]
+    },
+    {
+      "key": "verbose",
+      "kind": "toggle",
+      "title": "Verbose",
+      "description": "Log every step of this chat",
+      "default": false,
+      "scope": "thread"
+    },
+    { "key": "budget", "kind": "number", "title": "QA budget", "description": "This chat's own budget (graph-integrity G4.1)", "default": 3, "min": 1, "max": 9, "scope": "thread" },
+    { "key": "memo", "kind": "text", "title": "QA memo", "description": "A note for this chat only", "default": "", "scope": "thread" },
+    {
+      "key": "limit",
+      "kind": "number",
+      "title": "Limit",
+      "description": "How many items to keep",
+      "default": 3,
+      "min": 1,
+      "max": 9,
+      "unit": "items"
+    },
+    {
+      "key": "tags",
+      "kind": "list",
+      "title": "Tags",
+      "description": "Labels, one per row",
+      "default": [],
+      "placeholder": "Add a label"
+    },
+    {
+      "key": "count",
+      "kind": "toggle",
+      "title": "Count chats",
+      "description": "Counts your chats when it starts",
+      "default": false,
+      "needs": "appServer.request:thread/list"
+    },
+    {
+      "group": "Every control",
+      "icon": "customize",
+      "description": "One of each, as a mod declares them.",
+      "media": {
+        "id": "banner",
+        "src": "media/banner.png",
+        "caption": "A group's image",
+        "aspect": "3 / 1"
+      },
+      "items": [
+        {
+          "key": "segment",
+          "kind": "choice",
+          "control": "segmented",
+          "title": "Segmented",
+          "default": "One",
+          "options": [
+            "One",
+            "Two",
+            "Three"
+          ]
+        },
+        {
+          "key": "picked",
+          "kind": "choice",
+          "control": "thumbnails",
+          "title": "Thumbnails",
+          "default": "a",
+          "options": [
+            {
+              "value": "a",
+              "label": "Blue",
+              "media": {
+                "id": "a",
+                "src": "media/a.png"
+              }
+            },
+            {
+              "value": "b",
+              "label": "Orange",
+              "media": {
+                "id": "b",
+                "src": "media/b.png"
+              }
+            },
+            {
+              "value": "c",
+              "label": "None"
+            }
+          ]
+        },
+        {
+          "key": "select",
+          "kind": "choice",
+          "title": "Select",
+          "default": 1,
+          "options": [
+            {
+              "value": 1,
+              "label": "One"
+            },
+            {
+              "value": 2,
+              "label": "Two"
+            }
+          ]
+        },
+        {
+          "key": "volume",
+          "kind": "number",
+          "control": "slider",
+          "title": "Slider",
+          "description": "Hidden while Segmented is Three",
+          "default": 60,
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "unit": "%",
+          "requires": {
+            "key": "segment",
+            "not": "Three"
+          }
+        },
+        {
+          "key": "note",
+          "kind": "text",
+          "title": "Line",
+          "icon": "compose",
+          "default": "",
+          "placeholder": "Say something"
+        },
+        {
+          "key": "body",
+          "kind": "text",
+          "control": "area",
+          "title": "Area",
+          "default": ""
+        },
+        {
+          "key": "keys",
+          "kind": "shortcut",
+          "title": "Shortcut",
+          "default": "Alt+Cmd+P"
+        },
+        {
+          "key": "accent",
+          "kind": "color",
+          "title": "Color",
+          "icon": "appearance",
+          "default": "#3A83F7"
+        },
+        {
+          "key": "at",
+          "kind": "time",
+          "title": "Time",
+          "default": "09:00"
+        },
+        {
+          "key": "quiet",
+          "kind": "toggle",
+          "title": "Quiet hours",
+          "default": false
+        },
+        {
+          "key": "hours",
+          "kind": "timerange",
+          "title": "Quiet between",
+          "description": "Hidden until Quiet hours is on",
+          "default": {
+            "from": "22:00",
+            "to": "07:00"
+          },
+          "requires": "quiet"
+        },
+        {
+          "key": "record",
+          "kind": "record",
+          "title": "Record",
+          "default": {
+            "a": 1
+          }
+        },
+        {
+          "key": "rows",
+          "kind": "list",
+          "title": "Structured list",
+          "default": [],
+          "schema": {
+            "type": "object"
+          }
+        }
+      ]
+    },
+    {
+      "group": "Projects",
+      "items": [
+        {
+          "key": "notes",
+          "kind": "text",
+          "title": "Project notes",
+          "description": "Notes kept for a project",
+          "default": "",
+          "scope": "project"
+        }
+      ]
+    }
+  ],
+  "optionalPermissions": [
+    "appServer.request:thread/list",
+    "graph.read:Project"
+  ],
+  "permissionNotes": {
+    "appServer.request:thread/list": {
+      "label": "List your chats",
+      "detail": "Counts your chats when you ask it to"
+    }
+  }
+}

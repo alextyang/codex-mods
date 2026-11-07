@@ -1,0 +1,14 @@
+{
+  "id": "qa.rules-b",
+  "version": "1.1.0",
+  "name": "QA rules B",
+  "description": "QA only (docs/design/systems.md E2): competes with QA rules A on one slot (a badge, after A's in the order) and claims a thread row: it hides the row of the QA copy's thread 'Reply with worktree' and replaces the row of 'Create qa-d7-pr.txt' with its own rendering around the app's. It reorders each row's badges with its own first (E7.0: the app's entries and qa.rules-a's after it).",
+  "framework": ">=1 <2",
+  "entry": {
+    "renderer": "renderer.mjs"
+  },
+  "permissions": [
+    "graph.present:SidebarItem",
+    "graph.present:Theme"
+  ]
+}

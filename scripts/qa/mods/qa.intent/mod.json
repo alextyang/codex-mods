@@ -1,0 +1,9 @@
+{
+  "id": "qa.intent",
+  "version": "1.0.0",
+  "name": "QA intent",
+  "description": "QA only (graph-integrity G7): a region listing the pending approvals, each answerable two ways: through the framework's approval card (the user's click is attested: the answer is the user's through this mod, no second prompt) and through a plain button this mod draws itself (no attestation: the answer is this mod's own, asked of the user).",
+  "framework": ">=1 <2",
+  "entry": { "renderer": "renderer.mjs" },
+  "permissions": ["ui", "graph", "graph.read", "graph.present:Window", "graph.act:Approval.answer"]
+}

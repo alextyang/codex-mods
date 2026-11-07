@@ -1,0 +1,69 @@
+{
+  "id": "qa.hooks",
+  "version": "1.34.0",
+  "name": "QA hooks",
+  "description": "QA only: the public hooks of docs/design/public-hooks.md, used as a mod author would, part by part. Each file trigger in <dataDir>/files (JSON) runs one call and writes <trigger>.out.json with {ok, value} or {ok: false, error}: attach {ref, value, shared?}, attached {ref}, list {type, where?}, decorate {id, subject?, spec}, redact {spec} (ui.content.redact), filter {spec}, filter-on {id, window?}, filter-off {id}, starter {spec} (ui.newThread.starter), attach-source {spec, attachments} (ui.composer.attachSource), update {id, patch}, dispose {id}, rule {kind, presentation?, spec} (any declaration), parts {presentation, slot?}, status {spec, run?} (run: true records its clicks), runs {}, settings-section {spec}, theme {spec} (ui.theme.add), override {spec} (ctx.graph.override), override-restore {id}, invoke-all {calls, reason?} (ctx.graph.invokeAll), link-route {spec, run?} (ui.links.route; run: true records the links it opens to runs), sidebar-order {spec}, sidebar-section {spec, action?}, choices {of, spec, add?}, send {ref, text, options?, automatic?} (automatic: the call names that automatic action), ask-on {} (Request.ask: approves read-only commands as approve-reads, denies qa-h6-deny), ask-off {}, policy {spec}, policy-off {id}, policies {}, assess {ref, operation, args?} (public-hooks.md \u00a73.7), after-on {type, operation, where?}, after-off {} (\u00a73.4), intercept-pass {type, operation, delayMs?} (an interceptor that lets the call go after delayMs), intercept-off {}, defaults {spec}, defaults-off {id} (\u00a73.8), query {q}, search {text, opts?}, watch {query} (a view; each message to runs as {id: 'watch', type, on, ref}), unwatch {} (\u00a73.2), dock-badge {spec}, dock-off {id}, dock-attention {kind?} (\u00a73.14). Its renderer module shows a status 'R-OK' in the title bar (the renderer realm's ui.status), command {spec}, slash {spec}, control {spec} (their runs to runs), notify {key, spec}, notify-off {key} (\u00a73.14), ask {spec, withdrawAfterMs?} (its result to runs), open-in {spec} (its run to runs) (\u00a73.14).",
+  "framework": ">=1 <2",
+  "entry": {
+    "host": "host.mjs",
+    "renderer": "renderer.mjs"
+  },
+  "permissions": [
+    "graph",
+    "graph.read",
+    "graph.attach:Thread,Project",
+    "graph.present",
+    "graph.act:Thread.send,Approval.approve,Approval.deny,App.notify,DockBadge,Project.newThread,Agent.newThread,Draft.attach,Setting.set,Automation.edit,ToolServer.enable,ToolServer.disable,ToolServer.inherit,Plugin.disable,Plugin.inherit",
+    "graph.intercept:Request.ask,Thread.archive,Thread.rename,Thread.send,Approval.approve,Approval.deny,Draft.send,Setting.set,App.notify,Thread.pin,Thread.unpin,Thread.markRead,Thread.automate,Project.newAutomation,Agent.newAutomation,Automation.edit,Automation.enable,Automation.disable,Automation.runNow,Automation.delete,Account.signOut,Skill.enable,Skill.disable,Plugin.enable,Plugin.disable,ToolServer.enable,ToolServer.disable,Thread.fork,Turn.rewind,Project.rename,Skill.install,Instructions.edit,Project.remove,Skill.delete,Repository.push,Repository.createBranch,Repository.switchBranch,Repository.commit,PullRequest.merge,Command.run,Draft.attach"
+  ],
+  "automatic": [
+    {
+      "id": "qa-send",
+      "operation": "Thread.send",
+      "why": "QA: sends a test message to the Run shell command chat without asking.",
+      "perHour": 3,
+      "where": {
+        "title": "Run shell command"
+      }
+    },
+    {
+      "id": "approve-reads",
+      "operation": "Approval.approve",
+      "why": "QA: approves commands that only read (list, read, search) without asking.",
+      "perHour": 10,
+      "where": {
+        "parsed.readOnly": true
+      }
+    },
+    {
+      "id": "qa-scope-off",
+      "operation": "ToolServer.disable",
+      "why": "QA: ToolServer.disable in one project (scoped enable) without asking.",
+      "perHour": 10
+    },
+    {
+      "id": "qa-scope-on",
+      "operation": "ToolServer.enable",
+      "why": "QA: ToolServer.enable in one project (scoped enable) without asking.",
+      "perHour": 10
+    },
+    {
+      "id": "qa-scope-inherit",
+      "operation": "ToolServer.inherit",
+      "why": "QA: ToolServer.inherit in one project (scoped enable) without asking.",
+      "perHour": 10
+    },
+    {
+      "id": "qa-plugin-off",
+      "operation": "Plugin.disable",
+      "why": "QA: Plugin.disable in one project (scoped enable) without asking.",
+      "perHour": 10
+    },
+    {
+      "id": "qa-plugin-inherit",
+      "operation": "Plugin.inherit",
+      "why": "QA: Plugin.inherit in one project (scoped enable) without asking.",
+      "perHour": 10
+    }
+  ]
+}

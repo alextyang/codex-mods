@@ -1,0 +1,9 @@
+{
+  "id": "qa.rules-a",
+  "version": "1.0.0",
+  "name": "QA rules A",
+  "description": "QA only (docs/design/systems.md E2): presentation rules of every kind the existing bindings take, from the renderer realm (badges, a label, a header badge, a menu entry, a message action, a region above the transcript) and one data rule from the host realm. A badge function throws for the QA copy's threads 'Read Calculator display'.",
+  "framework": ">=1 <2",
+  "entry": { "host": "host.mjs", "renderer": "renderer.mjs" },
+  "permissions": ["graph.present"]
+}

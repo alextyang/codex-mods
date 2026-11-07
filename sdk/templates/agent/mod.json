@@ -1,0 +1,10 @@
+{
+  "id": "example.agent",
+  "version": "0.1.0",
+  "name": "Echo agent",
+  "description": "A starter: an agent of your own, listed with the app's chats. Each message in its chats gets a reply that echoes it word by word, and its chats open to its own view, drawn with the parts the framework lends.",
+  "glyph": "plugin",
+  "framework": ">=1 <2",
+  "entry": { "host": "host.mjs", "renderer": "renderer.mjs" },
+  "permissions": ["graph", "ui", "graph.present:ThreadView"]
+}

@@ -1,0 +1,3177 @@
+{
+  "abi": 1,
+  "comment": "The bindings' component addresses (docs/design/presentations.md V4): a binding matches a component type by the prop keys its props carry (`exact`: those and no others; `optional`, with `exact`: keys a build's call may also carry, so one address holds across builds whose call gained or lost a prop). `needs` are the build-time seams and exposures it uses: framework-main arms it only on a pack whose seams.hooks delivers them all. `canary` is the props it expects at its first match, by type ('string', 'boolean', 'number', 'object', 'array', 'function', 'any'; a trailing '?' allows null or absent): a component type whose props fail it is never wrapped and the binding is off for the page (boundary review 4a). framework-main sends the armed ones to the page kernel at document start; the runtime's binding of the same id renders them. `presentation` names the presentation type (docs/graph/03) a binding or rule realizes (coverage, docs/design/breadth.md §3); `rules` are runtime rules, not component bindings. Never minified names.",
+  "bindings": [
+    {
+      "id": "sidebar.item",
+      "presentation": "SidebarItem",
+      "keys": [
+        "conversationId",
+        "canPin",
+        "showPinActionOnHover",
+        "preferClickActions"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react"
+        ]
+      },
+      "canary": {
+        "conversationId": "string",
+        "canPin": "boolean?",
+        "showPinActionOnHover": "boolean?",
+        "preferClickActions": "boolean?"
+      },
+      "note": "the sidebar's thread row that decides its actions (21477: it takes canPin and showPinActionOnHover, builds the row's menu and passes titleSuffix and the indicator nodes on to the row it renders)",
+      "slots": [
+        "badges",
+        "label"
+      ],
+      "parts": {
+        "hover": [
+          "pin"
+        ]
+      }
+    },
+    {
+      "id": "thread.header",
+      "presentation": "ThreadHeader",
+      "keys": [
+        "title",
+        "titleActivator",
+        "variant"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "useScope",
+          "RouteScope"
+        ]
+      },
+      "canary": {
+        "title": "any",
+        "variant": "string?"
+      },
+      "note": "the title in the chat titlebar (21477: the titlebar reads its thread from the route, so the binding's chip reads it through useScope(RouteScope)); summary: a mod's summary of its thread (public-hooks.md §3.13), its title here",
+      "slots": [
+        "badges",
+        "summary"
+      ],
+      "scope": "RouteScope"
+    },
+    {
+      "id": "request.card",
+      "presentation": "RequestCard",
+      "keys": [
+        "conversationId",
+        "onSubmitLocalFollowup",
+        "pendingRequest"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "pendingRequest": "object",
+        "conversationId": "string"
+      },
+      "note": "the pending request panel above the composer (21477: pendingRequest is {type, item}; the item names the request by approvalRequestId, the id the app was asked with)"
+    },
+    {
+      "id": "turn.view",
+      "presentation": "TurnView",
+      "keys": [
+        "turnId",
+        "turn",
+        "isMostRecentTurn",
+        "messageActions"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "turnId": "string?",
+        "turn": "object",
+        "conversationId": "string"
+      },
+      "note": "the transcript's turn component (21477: 49 props; the turn object has no id, turnId carries it; a new thread's first turn has none until the server answers)"
+    },
+    {
+      "id": "message.user",
+      "presentation": "MessageBlock",
+      "keys": [
+        "item",
+        "alwaysShowUserMessageActions",
+        "emptyUserMessageOverride",
+        "onEditMessage"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "item": "object",
+        "conversationId": "string",
+        "turnId": "string?"
+      },
+      "note": "the user's message in the transcript (21477: its item has no id; item.searchItemId is the message's protocol id)",
+      "slots": [
+        "actions",
+        "decorations"
+      ],
+      "site": "user-message",
+      "parts": {
+        "actions": [
+          "edit"
+        ]
+      }
+    },
+    {
+      "id": "message.agent",
+      "presentation": "MessageBlock",
+      "keys": [
+        "item",
+        "assistantCopyText",
+        "showActionRow",
+        "trailingActions"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "item": "object",
+        "conversationId": "string",
+        "turnId": "string?"
+      },
+      "note": "the agent's message in the transcript (21477: item.searchItemId is the message's protocol id); its final answer (the call with turnId) also holds its turn's slots, as a twin TurnView (E7.2); badges (public-hooks.md §3.13): the message's and its turn's, in its action row after the actions",
+      "slots": [
+        "actions",
+        "badges"
+      ],
+      "twins": [
+        {
+          "presentation": "TurnView",
+          "slots": [
+            "actions",
+            "afterAnswer",
+            "badges"
+          ]
+        }
+      ],
+      "site": "agent-message",
+      "parts": {
+        "actions": [
+          "copy",
+          "fork"
+        ]
+      }
+    },
+    {
+      "id": "thread.view",
+      "presentation": "ThreadView",
+      "rematch": true,
+      "keys": [
+        "conversationId",
+        "renderComposer",
+        "isTranscriptVisible",
+        "usesUnifiedTimeline"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "conversationId": "string?"
+      },
+      "note": "the thread page component (21477: 30 props); filter: the mods' transcript filters (public-hooks.md §3.12), their notice in the transcript's header",
+      "slots": [
+        "header",
+        "filter"
+      ],
+      "twins": [
+        {
+          "presentation": "ThreadHeader",
+          "slots": [
+            "actions",
+            "status"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sidebar.section",
+      "presentation": "SidebarSection",
+      "keys": [
+        "chatGptSource",
+        "locationIdPrefix",
+        "mode",
+        "project",
+        "projectSortMode"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "project": "object",
+        "mode": "string",
+        "projectSortMode": "string?",
+        "chatGptSource": "object?",
+        "locationIdPrefix": "string?"
+      },
+      "note": "a project's section in the sidebar (21477: project.group names the app's project by projectId, projectKind, label, rootPaths and threadKeys); summary and label (public-hooks.md §3.13): its group's name",
+      "slots": [
+        "items",
+        "summary",
+        "label"
+      ]
+    },
+    {
+      "id": "settings.page",
+      "presentation": "SettingsPage",
+      "keys": [
+        "slug"
+      ],
+      "exact": true,
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "slug": "string"
+      },
+      "note": "a settings page's title (21477: the title component with only the page's slug; the page's frame carries none, and the settings navigation's items render the same component with more props)"
+    },
+    {
+      "id": "composer",
+      "presentation": "Composer",
+      "keys": [
+        "viewProps",
+        "inputStatus",
+        "addContextButton",
+        "showPermissionsModeDropdown",
+        "emptySubmitTooltipNonce"
+      ],
+      "scope": "ComposerScope",
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "useScope",
+          "ComposerScope"
+        ]
+      },
+      "canary": {
+        "viewProps": "object?"
+      },
+      "note": "the chat composer's footer controls (21477: one call site; these keys are its own); ComposerScope says which composer (a chat's main one: kind local, placement main, conversationId). Its pickers slot is hotkeyWindowHomeFooterControls (systems.md E3)",
+      "slots": [
+        "toolbar",
+        "status",
+        "pickers",
+        "aboveInput",
+        "belowInput"
+      ],
+      "context": "ComposerControllerContext",
+      "parts": {
+        "toolbar": [
+          "attach",
+          "dictate"
+        ]
+      }
+    },
+    {
+      "id": "chip.file",
+      "presentation": "Chip",
+      "keys": [
+        "filename",
+        "resourcePath",
+        "folderPath",
+        "folderHostId",
+        "lineInfo",
+        "onClick",
+        "onRemove",
+        "showOpenAffordance",
+        "layout",
+        "previewHostId",
+        "previewPath"
+      ],
+      "exact": true,
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "resourcePath": "string",
+        "filename": "string?"
+      },
+      "note": "a file attached to a draft (21477: the file chip, by the file's path)"
+    },
+    {
+      "id": "status.item",
+      "presentation": "StatusItem",
+      "keys": [
+        "sessionId",
+        "threadIds",
+        "contextUsage",
+        "rateLimitRows",
+        "alertData",
+        "onClose"
+      ],
+      "exact": true,
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "sessionId": "string?",
+        "contextUsage": "object?"
+      },
+      "note": "the /status panel, the composer meter's details (21477: sessionId is the chat's id)"
+    },
+    {
+      "id": "palette.command",
+      "presentation": "PaletteResult",
+      "keys": [
+        "close",
+        "command",
+        "description",
+        "icon",
+        "onOpenChatSearch",
+        "onRunCommand",
+        "originElement",
+        "originPanel",
+        "searchKeywords",
+        "title"
+      ],
+      "exact": true,
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "command": "object",
+        "onRunCommand": "function?"
+      },
+      "note": "a command's result in the command palette (21477: its props carry the command's descriptor, whose id names the Command; onRunCommand only for the commands the palette runs itself)"
+    },
+    {
+      "id": "palette.chat",
+      "keys": [
+        "close",
+        "forceMount",
+        "index",
+        "navigateToLocalConversation",
+        "onResultOpen",
+        "onSelectResult",
+        "result",
+        "showShortcutAccessory",
+        "showChatGptSourceLabel",
+        "title",
+        "trimmedSearch",
+        "workspaceKind"
+      ],
+      "exact": true,
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "result": "object"
+      },
+      "note": "a chat's row in the command palette (21477: exactly these props; result the chat as the palette lists it, title what it shows): the title and icon its summary gives (public-hooks.md §3.13), as its sidebar row reads"
+    },
+    {
+      "id": "files.view",
+      "presentation": "FilesView",
+      "keys": [
+        "cwd",
+        "hostId",
+        "paths",
+        "selectedPath",
+        "onExpandedPathsChange",
+        "revealSelectedPath"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "cwd": "string?",
+        "hostId": "string?"
+      },
+      "note": "the file tree's base component (21477: 27 props; cwd is the folder it shows); filter: the mods' files filters (public-hooks.md §3.12), its paths, under the Files tab's pane only (its nearest site)",
+      "slots": [
+        "filter"
+      ],
+      "readsSite": true
+    },
+    {
+      "id": "new.thread",
+      "presentation": "NewThreadView",
+      "keys": [
+        "activeProjectId",
+        "isEverydayWorkMode",
+        "isProjectSelectionPending",
+        "workProjectName",
+        "resolvedProjects",
+        "projectContext"
+      ],
+      "exact": true,
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "activeProjectId": "string?",
+        "resolvedProjects": "array"
+      },
+      "note": "the home page's heading, which names the project a new chat starts in (21477: activeProjectId is the app's project id, resolvedProjects its projects; none without a project. The composer route's routeProjectId is a ChatGPT project's)"
+    },
+    {
+      "id": "menu.thread",
+      "presentation": "Menu",
+      "keys": [
+        "conversationId",
+        "cwd",
+        "title",
+        "triggerButtonSize"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "conversationId": "string?"
+      },
+      "note": "a chat's overflow menu (21477: the titlebar's, the header's and a remote chat's pass these four with a few of the menu's 22 props; conversationId names the chat. A projects-page row passes no triggerButtonSize: its menu is bound once a chat's was)"
+    },
+    {
+      "id": "thread.layout",
+      "presentation": "ThreadView",
+      "keys": [
+        "scrollToBottomButton",
+        "children"
+      ],
+      "scope": "RouteScope",
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "useScope",
+          "RouteScope"
+        ]
+      },
+      "canary": {
+        "scrollToBottomButton": "any"
+      },
+      "note": "the transcript's shared scroll layout (21477: every page that shows a transcript calls it with scrollToBottomButton and children; RouteScope names the local chat), a twin of the chat's ThreadView (E7.2)",
+      "slots": [
+        "transcript",
+        "aboveComposer"
+      ]
+    },
+    {
+      "id": "queue.item",
+      "presentation": "QueueItem",
+      "keys": [
+        "messageId",
+        "onSendNowMessage",
+        "onDeleteMessage",
+        "isReorderable"
+      ],
+      "scope": "ComposerScope",
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "useScope",
+          "ComposerScope"
+        ]
+      },
+      "canary": {
+        "messageId": "string",
+        "onSendNowMessage": "function"
+      },
+      "note": "a queued follow-up's row in the composer (21477: 18 props; ComposerScope names the chat, messageId the server queue's submission) (E7.2); a site: the row it draws (queue.row) reads its follow-up",
+      "site": "queued-message"
+    },
+    {
+      "id": "picker.model",
+      "presentation": "ComposerPicker",
+      "keys": [
+        "onSelectModel",
+        "onOpenChange",
+        "modelPickerTriggerConfig",
+        "models"
+      ],
+      "scope": "ComposerScope",
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "useScope",
+          "ComposerScope"
+        ]
+      },
+      "canary": {
+        "onOpenChange": "function",
+        "onSelectModel": "function",
+        "modelOptions": "array?",
+        "powerSelections": "array?"
+      },
+      "note": "the composer's model menu (21477: 35 props at its call; ComposerScope names the chat), the chat's model Setting (E7.2); a site: its rows' labels (model.row) read the host it lists (hostId, the pack's identity props: H7z)",
+      "partsOf": "Composer",
+      "parts": {
+        "pickers": [
+          "model"
+        ]
+      },
+      "site": "model-menu"
+    },
+    {
+      "id": "sidebar",
+      "presentation": "Sidebar",
+      "keys": [
+        "sidebarSectionNodes",
+        "handleSidebarScroll",
+        "topContent"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "sidebarSectionNodes": "any"
+      },
+      "note": "the sidebar's sections list (21477: 20 props; sidebarSectionNodes the section elements; the outer content component is called as a function, never an element) (E7.3); filter: the mods' declared filters (graph-layers.md §3.4); hidden: the chats and projects the mods hide (public-hooks.md §3.12), with each mod's notice",
+      "slots": [
+        "sections",
+        "filter",
+        "order",
+        "section",
+        "hidden"
+      ]
+    },
+    {
+      "id": "sidebar.area",
+      "keys": [
+        "accountKey",
+        "area",
+        "children",
+        "isPreview",
+        "sidebarTriggerState"
+      ],
+      "exact": true,
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react"
+        ]
+      },
+      "canary": {
+        "children": "any"
+      },
+      "note": "the sidebar's body by area where the rail shows (22943 _ar, 21477 YCl; its props exactly these): its children are the conversations; a mod's page with a sidebar view draws that view there, the footer staying the app's (layouts.md D7, WL5c)"
+    },
+    {
+      "id": "sidebar.groups.hide",
+      "exposure": "SidebarSortable",
+      "partsOf": "Sidebar",
+      "partsOnly": true,
+      "parts": {
+        "groups": [
+          "pinned",
+          "projects",
+          "chats",
+          "agents"
+        ]
+      },
+      "partKinds": [
+        "hide"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "SidebarSortable"
+        ]
+      },
+      "canary": {
+        "items": "array"
+      },
+      "note": "the sortable container the conversations sidebar's groups are drawn in (dnd-kit's SortableContext, by identity; other sortable lists pass): a group a mod hides is left out with its drag id, unless it holds a chat that needs the user (layouts.md §4.1, D9; scout wl2-groups-footer.md §1.4)"
+    },
+    {
+      "id": "sidebar.footer",
+      "keys": [
+        "showProfileDivider"
+      ],
+      "exact": true,
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "showProfileDivider": "boolean?"
+      },
+      "note": "the sidebar's profile footer (21477: its one prop), the Sidebar's footer as a twin (E7.3)",
+      "twins": [
+        {
+          "presentation": "Sidebar",
+          "slots": [
+            "footer",
+            "items",
+            "status"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sidebar.footer.usageAlert",
+      "exposure": "sidebarFooter.usageAlert",
+      "partsOf": "Sidebar",
+      "partsOnly": true,
+      "parts": {
+        "footerParts": [
+          "usage"
+        ]
+      },
+      "partKinds": [
+        "hide"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "sidebarFooter"
+        ]
+      },
+      "note": "the sidebar footer's usage (its component by identity): not drawn where a mod hides it (layouts.md §4.1, scout wl2-groups-footer.md §2)"
+    },
+    {
+      "id": "sidebar.footer.checklist",
+      "exposure": "sidebarFooter.checklist",
+      "partsOf": "Sidebar",
+      "partsOnly": true,
+      "parts": {
+        "footerParts": [
+          "gettingStarted"
+        ]
+      },
+      "partKinds": [
+        "hide"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "sidebarFooter"
+        ]
+      },
+      "note": "the sidebar footer's gettingStarted (its component by identity): not drawn where a mod hides it (layouts.md §4.1, scout wl2-groups-footer.md §2)"
+    },
+    {
+      "id": "sidebar.footer.financeChecklist",
+      "exposure": "sidebarFooter.financeChecklist",
+      "partsOf": "Sidebar",
+      "partsOnly": true,
+      "parts": {
+        "footerParts": [
+          "gettingStarted"
+        ]
+      },
+      "partKinds": [
+        "hide"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "sidebarFooter"
+        ]
+      },
+      "note": "the sidebar footer's gettingStarted (its component by identity): not drawn where a mod hides it (layouts.md §4.1, scout wl2-groups-footer.md §2)"
+    },
+    {
+      "id": "sidebar.footer.announcement",
+      "exposure": "sidebarFooter.announcement",
+      "partsOf": "Sidebar",
+      "partsOnly": true,
+      "parts": {
+        "footerParts": [
+          "announcement"
+        ]
+      },
+      "partKinds": [
+        "hide"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "sidebarFooter"
+        ]
+      },
+      "note": "the sidebar footer's announcement (its component by identity): not drawn where a mod hides it (layouts.md §4.1, scout wl2-groups-footer.md §2)"
+    },
+    {
+      "id": "sidebar.footer.updateBanner",
+      "exposure": "sidebarFooter.updateBanner",
+      "partsOf": "Sidebar",
+      "partsOnly": true,
+      "parts": {
+        "footerParts": [
+          "updateBanner"
+        ]
+      },
+      "partKinds": [
+        "hide"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "sidebarFooter"
+        ]
+      },
+      "note": "the sidebar footer's updateBanner (its component by identity): not drawn where a mod hides it (layouts.md §4.1, scout wl2-groups-footer.md §2)"
+    },
+    {
+      "id": "sidebar.footer.invite",
+      "exposure": "sidebarFooter.invite",
+      "partsOf": "Sidebar",
+      "partsOnly": true,
+      "parts": {
+        "footerParts": [
+          "invite"
+        ]
+      },
+      "partKinds": [
+        "hide"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "sidebarFooter"
+        ]
+      },
+      "note": "the sidebar footer's invite (its component by identity): not drawn where a mod hides it (layouts.md §4.1, scout wl2-groups-footer.md §2)"
+    },
+    {
+      "id": "sidebar.row",
+      "keys": [
+        "renderActions",
+        "additionalHoverActionCount",
+        "conversationId",
+        "extraIconBadges"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "renderActions": "function?",
+        "conversationId": "string?"
+      },
+      "note": "a sidebar row (21477: 25 props at its call; renderActions draws its hover actions), its SidebarItem's trailingActions as a twin (E7.3); a site: the row it draws (sidebar.row.title) reads its chat",
+      "twins": [
+        {
+          "presentation": "SidebarItem",
+          "slots": [
+            "trailingActions"
+          ]
+        }
+      ],
+      "partsOf": "SidebarItem",
+      "parts": {
+        "indicators": [
+          "status",
+          "unread",
+          "time",
+          "activeDot",
+          "automation"
+        ]
+      },
+      "site": "sidebar-row"
+    },
+    {
+      "id": "sidebar.row.title",
+      "keys": [
+        "title",
+        "secondaryContent",
+        "statusState",
+        "renderActions"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "renderActions": "function?"
+      },
+      "note": "the row a sidebar row draws its list row with (21477: 56 props at its call, title what it shows): under a sidebar row (its nearest site), the title its chat's summary gives (public-hooks.md §3.13); its SidebarItem's summary",
+      "readsSite": true,
+      "twins": [
+        {
+          "presentation": "SidebarItem",
+          "slots": [
+            "summary"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sidebar.row.card",
+      "keys": [
+        "threadTitle",
+        "threadTitleIcon",
+        "threadTitleValue",
+        "onRenameThreadTitle"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "onRenameThreadTitle": "function?"
+      },
+      "note": "the card a sidebar row shows on hover (21477: the row builds it as it draws, threadTitle its title): under a sidebar row (its nearest site), the title its chat's summary gives (public-hooks.md §3.13); its SidebarItem's summary",
+      "readsSite": true,
+      "twins": [
+        {
+          "presentation": "SidebarItem",
+          "slots": [
+            "summary"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sidebar.section.actions",
+      "keys": [
+        "group",
+        "onStartNewThread",
+        "onShowProjectHome",
+        "actionsRef"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "group": "object"
+      },
+      "note": "a project group's header actions (21477: 16 props; its group names the project), its SidebarSection's headerActions as a twin (E7.3)",
+      "twins": [
+        {
+          "presentation": "SidebarSection",
+          "slots": [
+            "headerActions",
+            "badges"
+          ]
+        }
+      ],
+      "site": "sidebar-project"
+    },
+    {
+      "id": "sidebar.section.list",
+      "keys": [
+        "threadKeys",
+        "allowThreadDnd",
+        "threadOrderIsPrecomputed",
+        "group",
+        "startNewConversation",
+        "showPinActionOnHover",
+        "floatStatusIconsEnd",
+        "hideThreadTimestamps",
+        "itemWrapper",
+        "locationIdPrefix",
+        "paginationDropTargetRef"
+      ],
+      "exact": true,
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react"
+        ]
+      },
+      "canary": {
+        "group": "object",
+        "threadKeys": "array"
+      },
+      "note": "a project group's thread list (21477 and 20770: its 11 props exactly, one call), its SidebarSection's footer as a twin (regions after the list, inside the group's collapse) (E8.9)",
+      "twins": [
+        {
+          "presentation": "SidebarSection",
+          "slots": [
+            "footer"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "menu.project",
+      "presentation": "Menu",
+      "keys": [
+        "ref",
+        "getContextMenuItems",
+        "renderItem",
+        "open",
+        "onOpenChange",
+        "onCloseAutoFocus",
+        "triggerAriaLabel"
+      ],
+      "exact": true,
+      "readsSite": true,
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "getContextMenuItems": "function"
+      },
+      "note": "a project row's menu (21477: the local and the remote project rows draw it with these 7 props exactly; its \"...\" and the row's right-click ask the same items): its project is the nearest site's, the project group's section actions (E8.7b)"
+    },
+    {
+      "id": "palette",
+      "presentation": "Palette",
+      "slots": [
+        "resultSources",
+        "groups",
+        "hidden",
+        "commands"
+      ],
+      "scope": "AppScope",
+      "keys": [
+        "close",
+        "inputRef",
+        "search",
+        "searchEventLogger",
+        "setSearch"
+      ],
+      "exact": true,
+      "optional": [
+        "rootChatSearchIntent",
+        "standaloneWindow"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "close": "function"
+      },
+      "note": "the command palette's dialog while it is open (21477: the lazy CommandMenuDialog's call, 6 props) (E7.3); hidden: the commands the mods hide (public-hooks.md §3.12), left out by palette.command, with the palette's own \"Hidden\" section"
+    },
+    {
+      "id": "palette.list",
+      "exposure": "commandMenu.List",
+      "partsOf": "Palette",
+      "partsOnly": true,
+      "parts": {
+        "groups": [
+          "thread",
+          "navigation",
+          "panels",
+          "workspace",
+          "skills",
+          "configure",
+          "app"
+        ]
+      },
+      "partKinds": [
+        "reorder"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "commandMenu"
+        ]
+      },
+      "note": "the palette's own list (cmdk's List, by identity; the app's other cmdk lists pass through): its app groups, keyed group-<name>, drawn in the mods' order among their own places (public-hooks.md §3.10)"
+    },
+    {
+      "id": "palette.group",
+      "exposure": "commandMenu.Group",
+      "partsOf": "Palette",
+      "partsOnly": true,
+      "parts": {
+        "commands": []
+      },
+      "partKinds": [
+        "reorder"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "commandMenu"
+        ]
+      },
+      "note": "a palette group (cmdk's Group, by identity): its command rows (each names its command) in the mods' order, the named first (public-hooks.md §3.10)"
+    },
+    {
+      "id": "side.panel",
+      "presentation": "SidePanel",
+      "slots": [
+        "tabs",
+        "stripBefore",
+        "empty"
+      ],
+      "keys": [
+        "controller",
+        "headerHeight",
+        "afterList",
+        "afterListSticky"
+      ],
+      "scope": "RouteScope",
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "useScope",
+          "RouteScope"
+        ]
+      },
+      "canary": {
+        "controller": "object"
+      },
+      "note": "the panels' tabs host (21477: three calls, the right and bottom panels; controller.panelId says which; RouteScope names the thread) (E7.4); its beforeList, afterList and emptyState carry the SidePanel's and the BottomPanel's strip and empty-state regions (layouts.md §4.1, WL2)",
+      "twins": [
+        {
+          "presentation": "BottomPanel",
+          "slots": [
+            "toolbar",
+            "stripBefore",
+            "empty"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "side.panel.frame",
+      "presentation": "SidePanel",
+      "keys": [
+        "contentPaneDefaultWidth",
+        "contentPaneWidth",
+        "contentPaneWidthRatio",
+        "isContentPaneOpen",
+        "widthMode",
+        "workspaceWidth"
+      ],
+      "scope": "RouteScope",
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "useScope",
+          "RouteScope",
+          "panelWidth"
+        ]
+      },
+      "canary": {
+        "isContentPaneOpen": "boolean",
+        "contentPaneWidthRatio": "object"
+      },
+      "note": "the right panel's frame (21477 and 20770: one call; its width's motion values and mode), a part of the route's SidePanel: resize as the app's own drag (E8.9)"
+    },
+    {
+      "id": "bottom.panel.frame",
+      "presentation": "SidePanel",
+      "keys": [
+        "bottomPanelHeight",
+        "children",
+        "clampedBottomPanelHeight",
+        "mainContentHeight",
+        "isVisible"
+      ],
+      "exact": true,
+      "scope": "RouteScope",
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "useScope",
+          "RouteScope",
+          "bottomHeight"
+        ]
+      },
+      "canary": {
+        "bottomPanelHeight": "object",
+        "clampedBottomPanelHeight": "object",
+        "mainContentHeight": "object",
+        "isVisible": "boolean?"
+      },
+      "note": "the bottom panel's frame (22943 ENt, 21477 Mko: one call each, in the workspace column; its height's writable motion value, the clamped target and the main view's height), a part of the chat's SidePanel (as the bottom panel's open and close are: the graph's BottomPanel is the window's region): its height as Window.setRegion's bottom size (layouts.md WL4b, scout wl4-workspace.md §2.4)"
+    },
+    {
+      "id": "side.panel.strip",
+      "keys": [
+        "tabs",
+        "activeTabId",
+        "presentedTabId",
+        "renderTab",
+        "afterSticky"
+      ],
+      "scope": "RouteScope",
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "useScope",
+          "RouteScope"
+        ]
+      },
+      "canary": {
+        "tabs": "any"
+      },
+      "note": "the panels' tab strip (21477: in the panel or the title bar; focusArea right-panel is the right panel's), the SidePanel's toolbar as a twin (E7.4)",
+      "twins": [
+        {
+          "presentation": "SidePanel",
+          "slots": [
+            "toolbar"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "panel.tab",
+      "presentation": "PanelTab",
+      "keys": [
+        "controller",
+        "tab",
+        "dragActivator"
+      ],
+      "scope": "RouteScope",
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "useScope",
+          "RouteScope"
+        ]
+      },
+      "canary": {
+        "tab": "object",
+        "controller": "object"
+      },
+      "note": "a panel tab's label (21477: two calls; its tab record names a terminal, the browser's tab, a file; the controller selects, closes and reorders with the route's scope) (E7.4)"
+    },
+    {
+      "id": "files.pane",
+      "presentation": "FilesView",
+      "keys": [
+        "search",
+        "children"
+      ],
+      "exact": true,
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "search": "object?"
+      },
+      "note": "the file tree's pane, all files (21477: exactly its search and the tree), a twin of the tree's FilesView with its search box (E7.4); a site: the tree under it is the Files tab's (the Changes tab's tree is the same component)",
+      "slots": [
+        "toolbar",
+        "rowActions"
+      ],
+      "site": "files-pane"
+    },
+    {
+      "id": "file.preview",
+      "presentation": "FilePreview",
+      "keys": [
+        "cwd",
+        "hostId",
+        "onSelectFile",
+        "path",
+        "trailingContent",
+        "workspaceRoot"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "path": "string?"
+      },
+      "note": "a file's header (21477: one component under four aliases; path is absolute) (E7.4)",
+      "slots": [
+        "toolbar"
+      ]
+    },
+    {
+      "id": "terminal.view",
+      "presentation": "TerminalView",
+      "keys": [
+        "sessionId",
+        "onKeyEvent",
+        "onNewTerminalTab",
+        "workspaceRoot"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "sessionId": "string?"
+      },
+      "note": "a local terminal's panel (21477: 9 props; sessionId is the Terminal's id) (E7.5)",
+      "slots": [
+        "toolbar"
+      ]
+    },
+    {
+      "id": "browser.view",
+      "presentation": "BrowserView",
+      "keys": [
+        "browserTabId",
+        "webContentsRef",
+        "sendBrowserCommand",
+        "browserState"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "browserTabId": "string?"
+      },
+      "note": "the in-app browser's view (21477: 31 props; its thread and tab name the BrowserTab) (E7.5)",
+      "slots": [
+        "toolbar"
+      ]
+    },
+    {
+      "id": "settings.frame",
+      "exposure": "SettingsPageFrame",
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "SettingsPageFrame",
+          "SettingsCard"
+        ]
+      },
+      "note": "an app's settings page's frame, by identity (its props are too generic); its title element names the page (E7.6); theme: the mods' themes on the Appearance page, in the framework's own section (ui.theme.add, H7y)",
+      "twins": [
+        {
+          "presentation": "SettingsPage",
+          "slots": [
+            "section",
+            "sections",
+            "rows",
+            "pageActions",
+            "theme"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "automation.view",
+      "presentation": "AutomationView",
+      "keys": [
+        "automation",
+        "scheduleSummary",
+        "actions",
+        "onClose",
+        "onEdit"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "automation": "object"
+      },
+      "note": "an automation's detail panel (21477: its automation, schedule summary, actions menu and runs) (E7.6); the app's former layout (21477 draws it only on /scheduled?view=manage): a task is its page (automation.summary) and its Edit dialog (automation.edit)",
+      "slots": [
+        "actions",
+        "details"
+      ]
+    },
+    {
+      "id": "automation.summary",
+      "presentation": "AutomationView",
+      "keys": [
+        "automationId",
+        "source",
+        "initiallyOpenEditor",
+        "navigationSource"
+      ],
+      "exact": true,
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react"
+        ]
+      },
+      "canary": {
+        "automationId": "string",
+        "source": "string"
+      },
+      "note": "a scheduled task's summary card on its page (21477 and 20770: one call, exactly these props; a cloud task's receipt passes fewer), the task's AutomationView: details and a row of actions after the card (E8.9)",
+      "slots": [
+        "actions",
+        "details"
+      ]
+    },
+    {
+      "id": "automation.edit",
+      "presentation": "AutomationView",
+      "keys": [
+        "executionLocation",
+        "draft",
+        "onChange",
+        "onSubmit",
+        "onClose",
+        "canSave",
+        "isSaving",
+        "isChangingStatus",
+        "statusAction",
+        "submitTooltip",
+        "schedule",
+        "advanced"
+      ],
+      "exact": true,
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "draft": "object",
+        "onSubmit": "function"
+      },
+      "note": "the local Edit task dialog's frame (21477 and 20770: one call, exactly these props; its draft is the task), a part of its AutomationView: actions beside its Pause/Resume, details at the end of its form (E8.9)",
+      "slots": [
+        "actions",
+        "details"
+      ]
+    },
+    {
+      "id": "automation.menu",
+      "keys": [
+        "statusFirst",
+        "menuProps",
+        "pauseResumeInMenu",
+        "isPaused",
+        "isStatusPending",
+        "onMenuOpenChange",
+        "pauseAction",
+        "resumeAction",
+        "runNowAction",
+        "runNowIcon",
+        "deleteAction",
+        "additionalMenuItems"
+      ],
+      "exact": true,
+      "optional": [
+        "menuTriggerSize"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "MenuParts"
+        ]
+      },
+      "canary": {
+        "additionalMenuItems": "object",
+        "deleteAction": "object"
+      },
+      "note": "a scheduled task's \"...\" menu in the Scheduled sidebar section (21477 and 20770: the shared automation menu as the row calls it, exactly these props; the task's id in its Edit and Share items' element): the mods' Menu entries for an Automation after the app's items (E8.9)"
+    },
+    {
+      "id": "automation.form",
+      "keys": [
+        "draft",
+        "setDraft",
+        "initialDraft",
+        "scheduleSelection"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "draft": "object",
+        "setDraft": "function",
+        "initialDraft": "object"
+      },
+      "note": "the app's own new-automation form (21477: create only, the Scheduled page's and its create dialog's, both layouts; edit forms take other keys): the mods' automation defaults set into its draft once while it is untouched (public-hooks.md §3.8, H6j)"
+    },
+    {
+      "id": "skill.card",
+      "presentation": "ListItem",
+      "keys": [
+        "skill",
+        "displayName",
+        "hostId",
+        "scopeBadges"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "skill": "object",
+        "scopeBadges": "array?"
+      },
+      "note": "a skill's card on the Skills page (21477: its skill, the name it shows, its host, scopeBadges the badges the app draws on it): a ListItem of the Skill its path names; the mods' badges after the app's (public-hooks.md §3.13, H7s)",
+      "slots": [
+        "badges"
+      ]
+    },
+    {
+      "id": "status.context",
+      "presentation": "StatusItem",
+      "keys": [
+        "contextUsage"
+      ],
+      "exact": true,
+      "scope": "ComposerScope",
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "useScope",
+          "ComposerScope"
+        ]
+      },
+      "canary": {
+        "contextUsage": "any"
+      },
+      "note": "the composer's context meter (21477: its one prop; ComposerScope names the chat) (E7.6)"
+    },
+    {
+      "id": "settings.nav",
+      "presentation": "SettingsPage",
+      "keys": [
+        "settingsSections",
+        "groupSettingsSections",
+        "activeSection",
+        "onSelect",
+        "searchableSections"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "routes",
+          "SettingsPageFrame",
+          "SettingsSection",
+          "SettingsCard",
+          "SettingsRow",
+          "NavGroup",
+          "NavItem"
+        ]
+      },
+      "canary": {
+        "settingsSections": "array",
+        "onSelect": "function"
+      },
+      "note": "the settings navigation list (21477: its one call site in the settings page passes 14 props; onSelect navigates through the app's guard for unsaved changes)",
+      "target": false
+    },
+    {
+      "id": "settings.navgroup",
+      "presentation": "SettingsPage",
+      "exposure": "NavGroup",
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "routes",
+          "SettingsPageFrame",
+          "SettingsSection",
+          "SettingsCard",
+          "SettingsRow",
+          "NavGroup",
+          "NavItem"
+        ]
+      },
+      "note": "a group of a navigation list, by identity (its props, title and children, are too generic); the settings navigation's last group has the Coding heading (21477: settings.nav.heading.coding)",
+      "target": false
+    },
+    {
+      "id": "changes.view",
+      "presentation": "ChangesView",
+      "keys": [
+        "expandedActionsPortalTarget",
+        "interactionOwner",
+        "renderSlots",
+        "setTabState",
+        "tabState"
+      ],
+      "scope": "RouteScope",
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "useScope",
+          "RouteScope"
+        ]
+      },
+      "canary": {
+        "renderSlots": "function",
+        "setTabState": "function",
+        "tabState": "object"
+      },
+      "note": "the Changes tab's body (21477: one call; its header rows through its pane layout function) (E7.5b); filter: the mods' changes filters (public-hooks.md §3.12), their notice a header row",
+      "slots": [
+        "header",
+        "filter"
+      ]
+    },
+    {
+      "id": "changes.toolbar",
+      "presentation": "ChangesView",
+      "keys": [
+        "sourceControls",
+        "sourceDetails",
+        "actions",
+        "selectedCommitSubject"
+      ],
+      "scope": "RouteScope",
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "useScope",
+          "RouteScope"
+        ]
+      },
+      "note": "the Changes tab's controls row, a part of its ChangesView (21477: one call with these four; its actions node) (E7.5b)",
+      "slots": [
+        "toolbarActions"
+      ]
+    },
+    {
+      "id": "changes.scope",
+      "presentation": "ChangesView",
+      "keys": [
+        "availableDiffFilters",
+        "snapshotMetrics",
+        "diffFilter",
+        "onSelectDiffFilter",
+        "onSelectRepositorySource",
+        "repositories",
+        "reviewSource"
+      ],
+      "scope": "RouteScope",
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "useScope",
+          "RouteScope"
+        ]
+      },
+      "canary": {
+        "reviewSource": "string"
+      },
+      "note": "the Changes tab's scope and repository picker, a part of its ChangesView (setScope) (E7.5b)"
+    },
+    {
+      "id": "changes.files",
+      "presentation": "ChangesView",
+      "keys": [
+        "activePath",
+        "allowSelectingActivePath",
+        "commentCountByPath",
+        "cwd",
+        "hostId",
+        "onSelectPath",
+        "entries",
+        "reserveBottomPadding"
+      ],
+      "scope": "RouteScope",
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "useScope",
+          "RouteScope"
+        ]
+      },
+      "canary": {
+        "entries": "array",
+        "onSelectPath": "function"
+      },
+      "note": "the Changes tab's changed files, a part of its ChangesView (selectFile) (E7.5b)",
+      "slots": [
+        "fileRowActions"
+      ]
+    },
+    {
+      "id": "diff.view",
+      "presentation": "DiffView",
+      "keys": [
+        "reviewPath",
+        "headerOpenAction",
+        "hunkActionsVariant",
+        "onHunkAction",
+        "headerEndContent",
+        "fullContentSnapshotGeneration"
+      ],
+      "scope": "RouteScope",
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "useScope",
+          "RouteScope"
+        ]
+      },
+      "canary": {
+        "reviewPath": "string",
+        "headerOpenAction": "object"
+      },
+      "note": "one file's section in the Changes tab (21477: the local call; its header's end content, its diff mode) (E7.5b)",
+      "slots": [
+        "fileActions"
+      ]
+    },
+    {
+      "id": "diff.body",
+      "presentation": "DiffView",
+      "keys": [
+        "diffViewProps",
+        "filePath",
+        "previewPath",
+        "imagePreview",
+        "hasNoChanges",
+        "isRenameWithoutChanges",
+        "isBinary",
+        "isDeletion",
+        "richPreviewEnabled"
+      ],
+      "scope": "RouteScope",
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "useScope",
+          "RouteScope"
+        ]
+      },
+      "canary": {
+        "diffViewProps": "object"
+      },
+      "note": "a file's diff, a part of its DiffView (commentOn: the app's gutter click) (E7.5b)"
+    },
+    {
+      "id": "request.shell",
+      "keys": [
+        "actions",
+        "headerContent",
+        "title"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react"
+        ]
+      },
+      "canary": {
+        "actions": "object"
+      },
+      "note": "the approval cards' shell (21477: one component, eleven calls); its body takes the card's RequestCard rules, the card's Request handed down by request.card (E7.7)"
+    },
+    {
+      "id": "request.surface",
+      "keys": [
+        "className",
+        "data-codex-approval-surface",
+        "children"
+      ],
+      "exact": true,
+      "optional": [
+        "embedded"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react"
+        ]
+      },
+      "canary": {
+        "children": "array"
+      },
+      "note": "the approval card's surface (21477 and 20770: one call, in the shell; its children are the header, the body and the button row, a form): the mods' actions join the form's buttons, by the card's Request (E8.9)"
+    },
+    {
+      "id": "composer.suggest",
+      "presentation": "Palette",
+      "keys": [
+        "contextualSuggestionUi",
+        "contextualSuggestions",
+        "skillSuggestions",
+        "hideSideSlashCommand",
+        "overlayAnchorRef"
+      ],
+      "scope": "ComposerScope",
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "useScope",
+          "ComposerScope",
+          "slashHooks"
+        ]
+      },
+      "canary": {
+        "overlayAnchorRef": "object?"
+      },
+      "note": "a composer's suggestion overlay (21477: one call in the composer, every Codex composer): the slash menu's Palette of the composer's Draft; mods' slash commands registered beside it (E8.6)"
+    },
+    {
+      "id": "mention.list",
+      "presentation": "Palette",
+      "keys": [
+        "className",
+        "chromeVariant",
+        "fixedSectionHeaders",
+        "isHomeMenu",
+        "keyboardEventTarget",
+        "onAddContext",
+        "onRequestClose",
+        "onUpdateSelectedMention",
+        "placement",
+        "query",
+        "sections"
+      ],
+      "exact": true,
+      "scope": "ComposerScope",
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "useScope",
+          "ComposerScope"
+        ]
+      },
+      "canary": {
+        "sections": "array",
+        "query": "string?",
+        "onAddContext": "function"
+      },
+      "note": "a composer's \"@\" list (21477: the one call that draws it with its sections, every Codex composer): the mention menu's Palette of the composer's Draft; mods' mention sections spliced into its own (E8.6b)"
+    },
+    {
+      "id": "composer.runLocation",
+      "presentation": "Composer",
+      "keys": [
+        "composerMode",
+        "setComposerMode",
+        "worktreePromptContext",
+        "buildLocalContextForPrompt"
+      ],
+      "scope": "ComposerScope",
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "useScope",
+          "ComposerScope"
+        ]
+      },
+      "canary": {
+        "setComposerMode": "function",
+        "composerMode": "string?"
+      },
+      "note": "the bar below a composer with its run location (21477: given composerMode and the app's setComposerMode): a part of the Composer of its Draft, whose setMode sets where a new chat runs (E8.3b)",
+      "parts": {
+        "pickers": [
+          "runLocation"
+        ]
+      }
+    },
+    {
+      "id": "composer.mode",
+      "presentation": "Composer",
+      "keys": [
+        "activeCollaborationMode",
+        "collaborationModes",
+        "setSelectedCollaborationMode"
+      ],
+      "scope": "ComposerScope",
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "useScope",
+          "ComposerScope"
+        ]
+      },
+      "canary": {
+        "collaborationModes": "array",
+        "setSelectedCollaborationMode": "function"
+      },
+      "note": "the inner composer (21477 and 20770: one call; it holds the plan mode's setter both ways), a part of the Composer of its Draft: setCollaborationMode (E8.3e)"
+    },
+    {
+      "id": "access.dropdown",
+      "presentation": "Composer",
+      "keys": [
+        "open",
+        "onOpenChange",
+        "triggerRef",
+        "conversationId",
+        "hostId",
+        "cwdOverride",
+        "hideLabel"
+      ],
+      "exact": true,
+      "scope": "ComposerScope",
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "useScope",
+          "ComposerScope"
+        ]
+      },
+      "canary": {
+        "onOpenChange": "function"
+      },
+      "note": "a composer's permissions menu (21477 and 20770: two calls in the footer, exactly these props); the new chat's (no conversation) is a part of its Composer: setAccess opens it and takes the app's own row (E8.3f)",
+      "parts": {
+        "pickers": [
+          "access"
+        ]
+      }
+    },
+    {
+      "id": "access.row",
+      "keys": [
+        "cwd",
+        "hostId",
+        "selection",
+        "selectedPermissionSelection",
+        "selectPermission"
+      ],
+      "exact": true,
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "selectPermission": "function",
+        "selection": "object"
+      },
+      "note": "a row of the permissions menu (21477 and 20770: one call, exactly these props; mounted only while the menu is open), its selection and the app's own selectPermission (E8.3f)"
+    },
+    {
+      "id": "access.legacyRow",
+      "element": true,
+      "keys": [
+        "subTextAllowWrap",
+        "SubText",
+        "LeftIcon",
+        "onClick",
+        "disabled",
+        "allowWrap"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "onClick": "function"
+      },
+      "note": "a row of the permissions menu's older form (21477 and 20770: the menu's generic items, named by their messages' ids; mounted only while it is open; matched per element, as the app draws that item for every menu) (E8.3f)"
+    },
+    {
+      "id": "branch.startingState",
+      "keys": [
+        "presentation",
+        "taskOptions",
+        "startingState",
+        "setStartingState",
+        "hostConfig",
+        "gitRootOverride",
+        "branchSource"
+      ],
+      "exact": true,
+      "scope": "ComposerScope",
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "useScope",
+          "ComposerScope"
+        ]
+      },
+      "canary": {
+        "setStartingState": "function",
+        "branchSource": "string"
+      },
+      "note": "the starting branch of a new chat in a new worktree or the cloud (21477 and 20770: one call, in the bar below the new chat's composer, exactly these props; mounted only for those run locations): read by the run location's setBranch (E8.3g)"
+    },
+    {
+      "id": "branch.options",
+      "keys": [
+        "composerMode",
+        "presentation",
+        "worktreePromptContext",
+        "setComposerMode",
+        "isWorktreeAvailable",
+        "disabled",
+        "options"
+      ],
+      "exact": true,
+      "scope": "ComposerScope",
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "useScope",
+          "ComposerScope"
+        ]
+      },
+      "canary": {
+        "options": "function",
+        "setComposerMode": "function"
+      },
+      "note": "the compact bar's options menu below the new chat's composer (21477: one call, exactly these props; its worktree switch and its options, which render the branch picker while the menu is open): read by the run location's setBranch, which takes the app's setter from that render (E8.3g)"
+    },
+    {
+      "id": "page.banner",
+      "exposure": "appShell.PageBanner",
+      "scope": "RouteScope",
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react"
+        ]
+      },
+      "note": "the app's own page banner writer (21477 and 20770: AppShell.PageBanner, matched by identity; the composer pages always write one): it stands down while the title bar writes the page's banner with the mods' regions, its content drawn there first (E8.9i)"
+    },
+    {
+      "id": "title.action",
+      "presentation": "TitleBar",
+      "exposure": "appShell.HeaderAction",
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react"
+        ]
+      },
+      "note": "every title-bar action the app registers (the app shell's HeaderAction, matched by identity): one whose actionId is a hidden part of the TitleBar's actions is not drawn (public-hooks.md §3.10)",
+      "parts": {
+        "actions": [
+          "sidebarToggle",
+          "history",
+          "threadActions",
+          "workspaceControls"
+        ]
+      },
+      "partsOnly": true
+    },
+    {
+      "id": "title.sidebarToggle",
+      "keys": [
+        "isSidebarTrigger",
+        "viewTransitionName",
+        "ariaLabel",
+        "tooltipContent",
+        "onClick"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "note": "the app's header icon button where it draws the sidebar's toggle (22943 AAt, 21477 Pqa; its one call with isSidebarTrigger and viewTransitionName 'sidebar-trigger'): the TitleBar's sidebarToggle, relabelled through its ariaLabel and tooltipContent (layouts.md D3, wl2-seams §3)",
+      "partsOf": "TitleBar",
+      "partsOnly": true,
+      "parts": {
+        "actions": [
+          "sidebarToggle"
+        ]
+      },
+      "partKinds": [
+        "decorate"
+      ]
+    },
+    {
+      "id": "sidebar.list",
+      "keys": [
+        "keys",
+        "conversationByKey",
+        "codexProjectKindByThreadKey",
+        "chatGptSource"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "keys": "array"
+      },
+      "note": "the sidebar's lists by key (21477: one component, its calls for pinned chats, chats, a custom section and the projects): while the window's sidebar is filtered, the keys it lists (E8.9j)"
+    },
+    {
+      "id": "settings.row",
+      "presentation": "SettingsRow",
+      "exposure": "SettingsRow",
+      "scope": "RouteScope",
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react"
+        ]
+      },
+      "slots": [
+        "trailingActions",
+        "badges"
+      ],
+      "note": "a row of the app's settings pages (21477 and 20770: the app's own row component, matched by identity): it presents the Setting its title names on the page the route shows, on the MCP servers page the ToolServer its identity props name (serverKey and a local hostId, seam props:mcp-row); the mods' actions follow its control (E8.9k), their badges its label (H7s)"
+    },
+    {
+      "id": "window.titlebar",
+      "presentation": "Window",
+      "keys": [
+        "contentPaneWidth",
+        "sidebarMotion",
+        "hasPageSurface",
+        "isHeaderEdgeScroll",
+        "isApplicationMenuBarEnabled",
+        "isSidebarExpanded"
+      ],
+      "exact": true,
+      "scope": "RouteScope",
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "appShell"
+        ]
+      },
+      "canary": {
+        "hasPageSurface": "boolean?"
+      },
+      "note": "the window's title bar (one component, these 6 props exactly): the mods' entries are the app's own HeaderActions beside it, in the TitleBar's six positions (left, center, right, main, thread, threadSummary: layouts.md D1, WL1); the Window's banner is the app's page banner, written beside it with the app's own content first while the mods have banners (E8.9i)",
+      "slots": [
+        "status",
+        "banner"
+      ],
+      "twins": [
+        {
+          "presentation": "TitleBar",
+          "slots": [
+            "left",
+            "center",
+            "right",
+            "main",
+            "thread",
+            "threadSummary",
+            "menu"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "frame",
+      "presentation": "Window",
+      "keys": [
+        "leftPanelSlot",
+        "children",
+        "footer"
+      ],
+      "exact": true,
+      "optional": [
+        "titleBar",
+        "hasCustomTitleBar"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "navigationShell"
+        ]
+      },
+      "canary": {
+        "children": "any"
+      },
+      "slots": [
+        "regions"
+      ],
+      "note": "the window's frame (22943 hjt, 21477 FJa; its props exactly children, footer and leftPanelSlot, and the declarative shell's titleBar and hasCustomTitleBar): the mods' regions beside the app's column, the shell's context narrowed for it (layouts.md WL4a, scout wl4-frame.md)"
+    },
+    {
+      "id": "frame.divider",
+      "element": true,
+      "keys": [
+        "defaultSize",
+        "extendIntoToolbar",
+        "getCurrentSize",
+        "hitArea",
+        "indicator",
+        "onResizeEnd",
+        "onResizingChange",
+        "setSize"
+      ],
+      "exact": true,
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react"
+        ]
+      },
+      "canary": {
+        "getCurrentSize": "function",
+        "setSize": "function"
+      },
+      "note": "the docked sidebar's divider (the app's divider with exactly these props: 22943 and 21477, one call each), on the sidebar's left edge while it is at the right (layouts.md WL4c; scout wl4-frame.md §4 row 2, S3)"
+    },
+    {
+      "id": "rail",
+      "keys": [
+        "activity",
+        "availableDestinations",
+        "home",
+        "footer",
+        "showCustomizeSidebarAction"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react"
+        ]
+      },
+      "note": "the app's rail where the app shows it (21477 and 22943: its component, drawn with 11 props, 6 at a second call; it also takes a `header` the app leaves empty): the Rail's ends, the mods' regions as its header and after its own footer (layouts.md §4.1, WL2)",
+      "twins": [
+        {
+          "presentation": "Rail",
+          "slots": [
+            "header",
+            "footer"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "new.thread.composer",
+      "presentation": "NewThreadView",
+      "keys": [
+        "aboveComposerContent",
+        "homeComposerBanners",
+        "onPendingThreadCreated",
+        "homeRunLocationRemoteProject"
+      ],
+      "scope": "RouteScope",
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "useScope",
+          "RouteScope"
+        ]
+      },
+      "canary": {
+        "onPendingThreadCreated": "function?"
+      },
+      "note": "the home page's composer (its wrapper and the composer itself take the same props): aboveComposerContent is what the page shows right above the composer card (21477: the app's announcements); RouteScope says whether the page shows the new chat (home) or a chat that is starting, a part of the new chat's NewThreadView (E8.9); starters: the mods' starting points (public-hooks.md §3.14), a row of buttons after the regions",
+      "slots": [
+        "aboveComposer",
+        "starters"
+      ]
+    },
+    {
+      "id": "step.command",
+      "presentation": "StepBlock",
+      "keys": [
+        "conversationId",
+        "isReadOnly",
+        "item",
+        "isTurnInProgress",
+        "threadDetailLevel",
+        "hostId",
+        "summaryTone",
+        "showSummaryIcon",
+        "summaryIcon",
+        "hideRawCommand",
+        "toolActivityTurnKey"
+      ],
+      "exact": true,
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "item": "object",
+        "conversationId": "string?",
+        "hideRawCommand": "boolean?"
+      },
+      "site": "step",
+      "note": "the app's command row switch (21477: its 11 props exactly, one call): the CommandRun its item names (public-hooks.md §3.15); a site for its activity row",
+      "parts": {
+        "row": [
+          "icon",
+          "details",
+          "duration"
+        ]
+      }
+    },
+    {
+      "id": "step.reasoning",
+      "presentation": "StepBlock",
+      "keys": [
+        "item",
+        "conversationId",
+        "cwd",
+        "hideCodeBlocks",
+        "hostId"
+      ],
+      "exact": true,
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "item": "object",
+        "conversationId": "string?"
+      },
+      "site": "reasoning",
+      "note": "the app's reasoning block (21477: its 5 props exactly): the Reasoning step its item names; its summary is the reasoning markdown site",
+      "parts": {
+        "row": [
+          "code"
+        ]
+      }
+    },
+    {
+      "id": "step.tool",
+      "presentation": "StepBlock",
+      "keys": [
+        "item",
+        "conversationId",
+        "onOpenPermissions",
+        "shouldAutoExpandMcpApp",
+        "renderMcpApps",
+        "loadRemoteLogos",
+        "toolActivityTurnKey"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "item": "object",
+        "conversationId": "string?"
+      },
+      "site": "step",
+      "note": "the app's MCP tool call row (21477): the ToolCall (or ComputerAction) its item names in its own thread",
+      "parts": {
+        "row": [
+          "app"
+        ]
+      }
+    },
+    {
+      "id": "step.delegation",
+      "presentation": "StepBlock",
+      "keys": [
+        "conversationId",
+        "icon",
+        "items"
+      ],
+      "exact": true,
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "items": "array",
+        "conversationId": "string?"
+      },
+      "site": "step",
+      "note": "the app's delegation row (21477: its 3 props exactly, one item): the Delegation its item names"
+    },
+    {
+      "id": "step.edits",
+      "keys": [
+        "item",
+        "isTurnCancelled",
+        "cwd",
+        "hostId",
+        "showDiffDetails",
+        "summaryIcon"
+      ],
+      "exact": true,
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "item": "object"
+      },
+      "site": "step",
+      "note": "the app's file edit container (21477: its 6 props exactly): names no Step; a site that tells its rows their call"
+    },
+    {
+      "id": "step.fileEdit",
+      "presentation": "StepBlock",
+      "keys": [
+        "path",
+        "change",
+        "status",
+        "cwd",
+        "hostId",
+        "grantRoot",
+        "automaticApprovalReviews",
+        "showDiffDetails",
+        "summaryIcon"
+      ],
+      "exact": true,
+      "scope": "RouteScope",
+      "readsSite": true,
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "useScope",
+          "RouteScope"
+        ]
+      },
+      "canary": {
+        "path": "string",
+        "change": "object",
+        "status": "string?"
+      },
+      "site": "step",
+      "note": "the app's row of one file of an edit (21477: its 9 props exactly): the FileEdit of its path in its container's call, in the chat the route shows",
+      "parts": {
+        "row": [
+          "details"
+        ]
+      }
+    },
+    {
+      "id": "step.row",
+      "presentation": "StepBlock",
+      "exposure": "activityRow",
+      "part": true,
+      "readsSite": true,
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "activityRow"
+        ]
+      },
+      "slots": [
+        "body",
+        "actions",
+        "badges"
+      ],
+      "note": "the app's shared activity row (by identity): a part of the StepBlock of the step kind above it (its site): the mods' badges and actions in its accessory, their regions in its body",
+      "parts": {
+        "row": [
+          "icon",
+          "details"
+        ]
+      }
+    },
+    {
+      "id": "slash.menu",
+      "keys": [
+        "autocomplete",
+        "isHomeMenu",
+        "keyboardVariant",
+        "placement"
+      ],
+      "exact": true,
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "autocomplete": "object"
+      },
+      "note": "the slash menu's drawer (21477: its 4 props exactly, one call): the commands it shows (the app's matched list) and the open command's submenu, with the mods' choices of slash commands, models and efforts (public-hooks.md §3.11)"
+    },
+    {
+      "id": "environment.list",
+      "keys": [
+        "selectedEnvironment",
+        "envQuery",
+        "setEnvQuery",
+        "envListState",
+        "listToShow",
+        "setComposerMode",
+        "setSelectedEnvironment",
+        "setOpen",
+        "onClosePanel"
+      ],
+      "exact": true,
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "listToShow": "array?"
+      },
+      "note": "the new chat's cloud environment panel (21477: its 9 props exactly): the environments it lists, with the mods' choices of Environment (public-hooks.md §3.11)"
+    },
+    {
+      "id": "queue.row",
+      "keys": [
+        "className",
+        "icon",
+        "title",
+        "actions"
+      ],
+      "exact": true,
+      "scope": "ComposerScope",
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "useScope",
+          "ComposerScope"
+        ]
+      },
+      "canary": {
+        "actions": "object?"
+      },
+      "note": "the row a queued follow-up draws (21477: the composer tray's row, exactly these props, which an image markup's row shares): under a follow-up's row (its nearest site), the mods' actions after the app's and their badges in its secondary text (public-hooks.md §3.13, H7x); rematched (review 1: a shared row whose other uses come first is still tried)",
+      "readsSite": true,
+      "twins": [
+        {
+          "presentation": "QueueItem",
+          "slots": [
+            "actions",
+            "badges"
+          ]
+        }
+      ],
+      "rematch": true
+    },
+    {
+      "id": "panel.tab.body",
+      "presentation": "PlanView",
+      "keys": [
+        "controller",
+        "tab",
+        "isVisible",
+        "isActive"
+      ],
+      "exact": true,
+      "optional": [
+        "renderSlots"
+      ],
+      "scope": "RouteScope",
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "useScope",
+          "RouteScope"
+        ]
+      },
+      "canary": {
+        "tab": "object",
+        "renderSlots": "function?"
+      },
+      "note": "a panel tab's body as the panel's host mounts it (21477: one call, every tab's; each body lays its pane out with renderSlots): a plan's tab is the PlanView of its turn, a terminal's takes its TerminalView's actions, both as a header row (public-hooks.md §3.13, H7x)",
+      "slots": [
+        "actions"
+      ],
+      "twins": [
+        {
+          "presentation": "TerminalView",
+          "slots": [
+            "actions"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "branch.list",
+      "keys": [
+        "branches",
+        "repositoryName",
+        "selectedBranch",
+        "onSelectBranch"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "branches": "array?"
+      },
+      "note": "the composer's branch switcher's list (21477: the one call of the picker list given repositoryName; the pack's identity props add the repository it lists and its host, gitRoot and hostConfig): a site its rows (branch.row) read (H7x review 1); rematched (review 2: the comparison pickers share its component and come first)",
+      "site": "branch-list",
+      "rematch": true
+    },
+    {
+      "id": "branch.row",
+      "presentation": "ListItem",
+      "keys": [
+        "branch",
+        "disabled",
+        "onSelect",
+        "selected",
+        "subText"
+      ],
+      "exact": true,
+      "scope": "RouteScope",
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "useScope",
+          "RouteScope"
+        ]
+      },
+      "canary": {
+        "branch": "string",
+        "onSelect": "function"
+      },
+      "note": "a branch's row in a branch picker (21477: one component for the composer's switcher, the Changes tab's base and a file comparison's; branch its name): under the switcher's list (its nearest site, which the pack's identity props give its repository and host), a ListItem of that repository's Branch, the mods' badges after its own line (public-hooks.md §3.13, H7x review 1)",
+      "slots": [
+        "badges"
+      ],
+      "readsSite": true
+    },
+    {
+      "id": "model.row",
+      "presentation": "ListItem",
+      "keys": [
+        "model",
+        "displayName",
+        "stripGptPrefix"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": []
+      },
+      "canary": {
+        "model": "string"
+      },
+      "note": "a model's label in the composer's model menu (21477: every label of the menu, its rows', trigger's and slider's; a row's marked pickerRow by the pack's identity props): under the menu (its nearest site, which names its host), a ListItem of this Mac's Model; the mods' badges after its name (public-hooks.md §3.13, H7z)",
+      "readsSite": true,
+      "slots": [
+        "badges"
+      ]
+    },
+    {
+      "id": "terminal.background",
+      "presentation": "TerminalView",
+      "keys": [
+        "itemKey",
+        "terminalId",
+        "renderSlots",
+        "setTabState"
+      ],
+      "scope": "RouteScope",
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "react",
+          "useScope",
+          "RouteScope"
+        ]
+      },
+      "canary": {
+        "terminalId": "string",
+        "renderSlots": "function"
+      },
+      "note": "an agent's command kept as a background terminal tab (21477: its body, given its tab's props spread, lays its pane out with renderSlots): the TerminalView of that command's Terminal (agent:<chat>:<item>), the mods' actions as a header row (public-hooks.md §3.13, H7x review 1)",
+      "slots": [
+        "actions"
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "id": "thread.menus",
+      "presentation": "Menu",
+      "needs": {
+        "seams": [
+          "menuItems"
+        ]
+      },
+      "note": "a thread's context and header menus: the mods' part rules, choices and entries on the app's items (present/menus.mjs)",
+      "slots": [
+        "groups",
+        "items"
+      ],
+      "parts": {
+        "items": [
+          "rename",
+          "pin",
+          "markUnread",
+          "moveToProject",
+          "moveToSection",
+          "newSideChat",
+          "fork",
+          "automate",
+          "share",
+          "copy",
+          "copyLink",
+          "copyMarkdown",
+          "copyPath",
+          "openIn",
+          "openInNewWindow",
+          "archive",
+          "delete",
+          "edit",
+          "revealFolder",
+          "newChatInWorktree",
+          "editConnection",
+          "markRead",
+          "archiveChats",
+          "remove"
+        ]
+      },
+      "partKinds": [
+        "hide",
+        "decorate",
+        "reorder"
+      ]
+    },
+    {
+      "id": "sidebar.menus",
+      "presentation": "SidebarItem",
+      "slots": [
+        "contextMenu"
+      ],
+      "note": "a sidebar row's own menu (its context menu and its \"...\" button): the menus seam with surface sidebar takes the SidebarItem's rules aimed at contextMenu (E7.3)",
+      "needs": {
+        "seams": [
+          "menuItems"
+        ]
+      }
+    },
+    {
+      "id": "framework.detail",
+      "presentation": "DetailView",
+      "slots": [
+        "sections",
+        "actions"
+      ],
+      "note": "the framework's DetailView of an instance it does not own takes mods' rules (a replacement, sections, actions) (E7.6, decision 6)"
+    },
+    {
+      "id": "framework.ask",
+      "presentation": "Dialog",
+      "slots": [
+        "body",
+        "actions"
+      ],
+      "note": "a mod's question (ui.ask) takes other mods' rules in its body and actions, by its subject's type (E7.6c, decision 7)"
+    },
+    {
+      "id": "request.body",
+      "presentation": "RequestCard",
+      "slots": [
+        "body",
+        "actions",
+        "answers"
+      ],
+      "note": "an approval card's body (the shell's) takes mods' regions, by the card's Request (E7.7); its button row takes the mods' actions after the app's leading action (the card's surface, E8.9)",
+      "parts": {
+        "answers": [
+          "allowThread",
+          "allowAlways"
+        ]
+      }
+    },
+    {
+      "id": "content.parts",
+      "presentation": "ContentView",
+      "slots": [
+        "partRenderers",
+        "redact"
+      ],
+      "needs": {
+        "seams": [
+          "markdown"
+        ]
+      },
+      "prefers": {
+        "slots": {
+          "redact": [
+            "copy"
+          ]
+        }
+      },
+      "note": "a markdown part's renderer, at every markdown site (the markdown seam passes the app's link and code components and default directives through the kernel): the message bindings name their site (`site`) and subject (E8.8); redact: the mods' masked text (public-hooks.md §3.14, H7u), drawn by the markdown text seam's renderer and the code part"
+    },
+    {
+      "id": "settings.pages",
+      "presentation": "SettingsPage",
+      "slots": [
+        "pages"
+      ],
+      "needs": {
+        "seams": [
+          "jsx"
+        ],
+        "exposures": [
+          "routes",
+          "SettingsPageFrame",
+          "NavGroup",
+          "NavItem"
+        ]
+      },
+      "note": "a mod's own pages in the app's Settings: a route each under /settings, drawn in the app's frame, its entry in the Mods group or one of the app's own groups (E8.9a)"
+    },
+    {
+      "id": "choices",
+      "presentation": "Choices",
+      "needs": {
+        "seams": [
+          "jsx"
+        ]
+      },
+      "note": "what the pickers offer, keyed by the subject offered (public-hooks.md §3.11): read by the places that offer it (the model menu, the slash menu, the access menu)",
+      "slots": [
+        "Model",
+        "effort",
+        "access",
+        "SlashCommand",
+        "ExternalApp",
+        "Environment"
+      ]
+    },
+    {
+      "id": "window.layouts",
+      "presentation": "Window",
+      "needs": {
+        "exposures": [
+          "responsive",
+          "workspaceLayout",
+          "workspaceState",
+          "windowRegions"
+        ]
+      },
+      "slots": [
+        "layouts",
+        "layoutModes"
+      ],
+      "note": "a mod's named layouts and a mode's parameters (ui.layouts.add, ui.layouts.mode, layouts.md D5, D6, D11): kept per window by present/layouts.mjs; no binding"
+    },
+    {
+      "id": "window.destinations",
+      "presentation": "Window",
+      "needs": {
+        "seams": [
+          "destinations"
+        ],
+        "exposures": [
+          "react"
+        ]
+      },
+      "slots": [
+        "destinations"
+      ],
+      "note": "a mod's destinations in the rail and the sidebar's navigation (ui.destinations.add, layouts.md D7): in the app's list before its provider's split (seam destinations); no binding"
+    },
+    {
+      "id": "sidebar.views",
+      "presentation": "Sidebar",
+      "needs": {
+        "seams": [
+          "destinations",
+          "railMode",
+          "pageRoute"
+        ],
+        "exposures": [
+          "react"
+        ]
+      },
+      "slots": [
+        "views"
+      ],
+      "note": "a mod's sidebar view (ui.sidebar.view, layouts.md D7): drawn while the page its destination opens is shown, by the bindings sidebar.area (where the rail shows) and sidebar (otherwise)"
+    },
+    {
+      "id": "main.pages",
+      "presentation": "MainRegion",
+      "needs": {
+        "seams": [
+          "pageRoute"
+        ],
+        "exposures": [
+          "react",
+          "useScope",
+          "RouteScope"
+        ]
+      },
+      "slots": [
+        "pages"
+      ],
+      "note": "a mod's own page in the main region (ui.pages.add, layouts.md D7): the framework's route, in the app's route tree from module load (seam page-route), draws the page host; no binding"
+    },
+    {
+      "id": "links",
+      "presentation": "Window",
+      "needs": {
+        "fromView": [
+          "open-in-browser"
+        ]
+      },
+      "note": "where a link the user opens from the app's pages goes (ui.links.route, public-hooks.md §3.14): framework-main holds the app's open-in-browser message while a route exists and the Host decides",
+      "slots": [
+        "links"
+      ]
+    },
+    {
+      "id": "sidebar.groups",
+      "presentation": "Sidebar",
+      "needs": {
+        "seams": [
+          "sidebarGroups"
+        ],
+        "exposures": [
+          "sidebarGroupState"
+        ]
+      },
+      "slots": [
+        "groups"
+      ],
+      "parts": {
+        "groups": [
+          "pinned",
+          "projects",
+          "chats",
+          "agents"
+        ]
+      },
+      "partKinds": [
+        "reorder"
+      ],
+      "note": "the conversations sidebar's group order (the seam sidebar-groups: its group keys before the app reads them), the mods' order while the user has placed none of the app's groups (layouts.md §4.1, D9)"
+    },
+    {
+      "id": "panel.kinds",
+      "presentation": "SidePanel",
+      "needs": {
+        "seams": [
+          "tabVisible"
+        ],
+        "exposures": [
+          "tabRegistry",
+          "atoms",
+          "AppScope"
+        ]
+      },
+      "slots": [
+        "kinds"
+      ],
+      "parts": {
+        "kinds": [
+          "files",
+          "changes",
+          "terminal",
+          "browser",
+          "sideChat",
+          "desktop",
+          "newPage",
+          "apps",
+          "plan",
+          "subagents",
+          "goal"
+        ]
+      },
+      "partKinds": [
+        "hide"
+      ],
+      "note": "the side panel's tab kinds hidden: each kind object's isVisible decorated in place (the panels pass the tab: seam tab-visible), and the launcher's list without a hidden kind (layouts.md §4.1; tab-kinds.mjs)"
+    },
+    {
+      "id": "panel.kinds.order",
+      "presentation": "SidePanel",
+      "needs": {
+        "seams": [
+          "launcher"
+        ],
+        "exposures": [
+          "launcherOrder"
+        ]
+      },
+      "slots": [
+        "kinds"
+      ],
+      "parts": {
+        "kinds": [
+          "files",
+          "changes",
+          "terminal",
+          "browser",
+          "sideChat",
+          "desktop",
+          "newPage",
+          "apps",
+          "plan",
+          "subagents",
+          "goal"
+        ]
+      },
+      "partKinds": [
+        "reorder"
+      ],
+      "note": "the side panel's tab kinds in its new-tab launcher, in the declared order (the launcher seam; in a git project the app's order table, exposure launcherOrder, written to agree): apart from hiding, so a build without them says unsupported (layouts.md §4.1; tab-kinds.mjs)"
+    },
+    {
+      "id": "panel.bottom.kinds",
+      "presentation": "BottomPanel",
+      "needs": {
+        "seams": [
+          "tabVisible"
+        ],
+        "exposures": [
+          "tabRegistry",
+          "atoms",
+          "AppScope"
+        ]
+      },
+      "slots": [
+        "kinds"
+      ],
+      "parts": {
+        "kinds": [
+          "terminal"
+        ]
+      },
+      "partKinds": [
+        "hide"
+      ],
+      "note": "the bottom panel's tab kinds (its terminal), as the side panel's (layouts.md §4.1; tab-kinds.mjs)"
+    },
+    {
+      "id": "panel.bottom.kinds.order",
+      "presentation": "BottomPanel",
+      "needs": {
+        "seams": [
+          "launcher"
+        ],
+        "exposures": [
+          "launcherOrder"
+        ]
+      },
+      "slots": [
+        "kinds"
+      ],
+      "parts": {
+        "kinds": [
+          "terminal"
+        ]
+      },
+      "partKinds": [
+        "reorder"
+      ],
+      "note": "the bottom panel's tab kinds in its new-tab launcher, in the declared order (the launcher seam; in a git project the app's order table, exposure launcherOrder, written to agree): apart from hiding, so a build without them says unsupported (layouts.md §4.1; tab-kinds.mjs)"
+    }
+  ]
+}

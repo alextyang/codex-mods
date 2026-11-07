@@ -1,0 +1,73 @@
+{
+  "_comment": "Hand-authored parts of adapter.json for build 26.1007.21159 (20052): everything that is not mechanically derived. Evidence for each selector is in NOTES.md. adapters/tools/generate-adapter.mjs merges this with the derived parts.",
+  "adapterVersion": "1.0.0",
+  "backend": {
+    "codexPath": "Resources/codex-cli/CodexCLI.app/Contents/MacOS/codex",
+    "nodePath": "Resources/cua_node/bin/node",
+    "method": "override",
+    "configKey": "CODEX_CLI_PATH",
+    "configOverrides": {
+      "notify": [
+        "${computerUseDir}/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient",
+        "turn-ended"
+      ],
+      "mcp_servers.node_repl": {
+        "command": "${resources}/cua_node/bin/node_repl",
+        "args": [],
+        "startup_timeout_sec": 120,
+        "env": {
+          "NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS": "1000",
+          "NODE_REPL_NODE_MODULE_DIRS": "${resources}/cua_node/lib/node_modules",
+          "NODE_REPL_NODE_PATH": "${resources}/cua_node/bin/node",
+          "NODE_REPL_TRUSTED_CODE_PATHS": "${codexHome}:${resources}/cua_node/lib/node_modules",
+          "CODEX_HOME": "${codexHome}",
+          "CODEX_CLI_PATH": "${relayPath}",
+          "BROWSER_USE_CODEX_APP_BUILD_FLAVOR": "prod",
+          "BROWSER_USE_CODEX_APP_VERSION": "26.1007.30912"
+        }
+      }
+    }
+  },
+  "owl": {
+    "iniPath": "Resources/owl-app.ini",
+    "userDataDirectoryName": "ChatGPT Mods"
+  },
+  "asarPackageJson": "package.json",
+  "anchors": {
+    "settings.section": {
+      "selectors": [
+        "body:has([data-settings-panel-slug=\"general-settings\"][aria-current=\"page\"]) [class~=\"group/settings\"][data-density] > div:last-child",
+        "body:has([data-settings-panel-slug=\"general-settings\"][aria-current=\"page\"]) [class~=\"group/settings\"][data-density]",
+        "body:has([data-settings-panel-slug=\"general-settings\"][aria-current=\"page\"]) div[class~=\"overflow-y-auto\"]:has(> [class~=\"group/settings\"])"
+      ],
+      "placement": "inside"
+    },
+    "sidebar": {
+      "selectors": [
+        "nav[role=\"navigation\"][class*=\"_Navigation_\"]",
+        "[data-app-shell-page-sidebar]",
+        "[data-app-navigation-rail]"
+      ],
+      "placement": "inside"
+    },
+    "workspace": {
+      "selectors": [
+        "[data-app-shell-workspace-layout]",
+        "[data-app-shell-main-content-layout]",
+        "main[data-app-shell-main-surface]"
+      ],
+      "placement": "inside"
+    }
+  },
+  "theme": {
+    "background": "--color-token-main-surface-primary",
+    "surface": "--color-surface",
+    "text": "--color-text",
+    "textSecondary": "--color-text-secondary",
+    "border": "--color-border",
+    "accent": "--color-ring",
+    "danger": "--color-text-danger",
+    "fontFamily": "--font-sans",
+    "radius": "--radius-md"
+  }
+}

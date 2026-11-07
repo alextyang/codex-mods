@@ -1,0 +1,125 @@
+{
+  "at": "2026-10-23T23:24:06.121Z",
+  "observedThreads": 8,
+  "types": {
+    "CodexAgent": {
+      "count": 1,
+      "state": {
+        "name": 1,
+        "icon": 1,
+        "available": 1
+      },
+      "links": {}
+    },
+    "Model": {
+      "count": 9,
+      "state": {
+        "name": 9,
+        "description": 9,
+        "efforts": 9,
+        "default": 9,
+        "available": 9
+      },
+      "links": {
+        "agent": 9
+      }
+    },
+    "CodexThread": {
+      "count": 51,
+      "state": {
+        "title": 51,
+        "status": 51,
+        "unread": 51,
+        "archived": 51,
+        "origin": 51,
+        "createdAt": 51,
+        "updatedAt": 51,
+        "preview": 49,
+        "client": 51
+      },
+      "links": {
+        "agent": 51,
+        "draft": 51,
+        "model": 51
+      }
+    },
+    "Turn": {
+      "count": 48,
+      "state": {
+        "status": 48,
+        "startedAt": 48,
+        "endedAt": 48,
+        "error": 1
+      },
+      "links": {
+        "thread": 48,
+        "answer": 42
+      }
+    },
+    "UserMessage": {
+      "count": 49,
+      "state": {
+        "content": 49,
+        "createdAt": 49,
+        "steering": 49
+      },
+      "links": {
+        "turn": 49
+      }
+    },
+    "AgentMessage": {
+      "count": 45,
+      "state": {
+        "content": 45,
+        "createdAt": 45,
+        "phase": 45,
+        "streaming": 45
+      },
+      "links": {
+        "turn": 45
+      }
+    },
+    "Reasoning": {
+      "count": 30,
+      "state": {
+        "status": 30,
+        "title": 30,
+        "startedAt": 30,
+        "expanded": 30,
+        "thinking": 30
+      },
+      "links": {
+        "turn": 30
+      }
+    },
+    "CommandRun": {
+      "count": 8,
+      "state": {
+        "status": 8,
+        "title": 8,
+        "startedAt": 8,
+        "expanded": 8,
+        "command": 8,
+        "directory": 8,
+        "output": 8,
+        "exitCode": 8,
+        "duration": 8
+      },
+      "links": {
+        "turn": 8
+      }
+    },
+    "Step": {
+      "count": 7,
+      "state": {
+        "status": 7,
+        "title": 7,
+        "startedAt": 7,
+        "expanded": 7
+      },
+      "links": {
+        "turn": 7
+      }
+    }
+  }
+}

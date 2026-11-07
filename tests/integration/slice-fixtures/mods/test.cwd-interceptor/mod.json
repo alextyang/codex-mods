@@ -1,0 +1,24 @@
+{
+  "id": "test.cwd-interceptor",
+  "version": "1.0.0",
+  "name": "Test fixture: cwd interceptor",
+  "description": "Test fixture only. A thread/start interceptor that sets cwd to a home-relative destination when the request has none.",
+  "framework": ">=1 <2",
+  "entry": { "host": "host.mjs" },
+  "permissions": ["appServer.intercept:thread/start"],
+  "settings": [
+    {
+      "key": "destination",
+      "kind": "choice",
+      "default": "developer-codex",
+      "options": [
+        "developer-codex",
+        "developer-chatgpt",
+        "documents-codex",
+        "home-codex"
+      ],
+      "title": "Destination",
+      "description": "Test fixture setting: ~/Developer/Codex, ~/Developer/ChatGPT, ~/Documents/Codex or ~/Codex."
+    }
+  ]
+}

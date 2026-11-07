@@ -1,0 +1,79 @@
+{
+  "id": "qa.graph-census",
+  "version": "1.0.49",
+  "name": "QA graph census",
+  "description": "QA only (coverage evidence, docs/design/breadth.md §3): observes the most recent Codex threads so their history loads, then writes <dataDir>/files/census.json: for every type the native provider put, how many instances there are and how many have each state field and link. Written at activation and whenever <dataDir>/files/run exists (the file is removed). When <dataDir>/files/approve or deny exists (removed), it approves once or denies the newest pending native approval and logs the outcome to files/act.log. When files/project-rename, project-remove or project-reveal exists (removed), it runs that operation on the LocalProject the file names ({\"id\", \"name\"?}) and logs the outcome to files/act.log; the projects' named events go to files/events.log. Files file-open, file-reveal and folder-reveal ({\"path\"}) run that operation on the File or Folder; observe-folder ({\"path\"}) observes a folder's files from then on and writes what it lists to files/folder.json; File events go to files/events.log too. approve-always approves the newest pending native approval 'always' (the user is asked first). app-open ({\"id\", \"path\", \"kind\"?}), app-set-computer-use ({\"id\", \"level\"}) and list-apps (writes files/apps.json) act on ExternalApp; its events go to files/events.log. git ({\"projectId\", \"op\": createBranch | switchBranch | branch, \"name\"}) acts on the project's GitRepository and logs its state; Repository and Environment events go to files/events.log. instructions-edit ({\"path\", \"text\"}) and instructions-open ({\"path\"}) act on the Instructions at that path, list-instructions writes files/instructions.json; Instructions events go to files/events.log. action-run ({\"id\", \"thread\"?}) runs a ProjectAction; list-actions writes files/actions.json; Command events go to files/events.log. invoke ({\"type\", \"id\", \"op\", \"args\"?}) runs any granted operation on a native instance and logs it to files/act.log. list ({\"type\", \"where\"?}) writes files/list.json with that type's native instances a where keeps (state, links and the attached values it may see). The D6-D9 operations (commands, automations, notifications, changes, history, review, comments, pull requests, terminals, the browser and computer use) are granted for invoke. related ({\"ref\", \"relation\"}) writes files/related.json with the instance's relation (a thread's presentations, a Window's children). presentations-on and presentations-off start and stop logging the Presentation instances' named events to files/events.log (systems.md S10). ui-read ({\"type\"?, \"window\"?, \"subject\"?}) writes files/ui-read.json through ctx.ui.read; ui-act ({\"ref\", \"op\", \"args\"?}) runs a presentation's operation through ctx.ui.act and logs it to files/act.log (E7). rule ({\"op\": hide | decorate | default | order | reorder | update | remove, \"id\", \"presentation\"?, ...}) puts, changes or takes away one of its UI rules, defaults (ctx.graph.defaults) or sidebar orders (ctx.ui.sidebar.order) while the app is idle and logs the outcome to files/act.log (layouts D3). It gives the agent (graph-integrity G3.5, the SDK's helpers on the agent's inputs) a tool qa_echo, the skill qa-census-skill (skills/) and instructions: a chat's (the QA codeword) and each turn's (the QA fruit).",
+  "framework": ">=1 <2",
+  "entry": {
+    "host": "host.mjs"
+  },
+  "permissions": [
+    "graph",
+    "graph.read",
+    "graph.present",
+    "graph.act:Approval.answer,Project.rename,Project.remove,LocalProject.reveal,File.open,File.reveal,Folder.reveal,ExternalApp.open,ExternalApp.setComputerUse,Repository.switchBranch,Repository.createBranch,Instructions.edit,Instructions.open,Command.run,Project.open,Project.openIn,Folder.openIn,File.openIn,WorktreeEnvironment.remove,CloudEnvironment.manage,Repository.push,Branch.switch,Setting.set,Setting.reset,Theme.set,App.openHelp,App.quit,App.sendFeedback,App.addProject,Account.signIn,Account.signOut,Account.manage,Thread.send,Thread.stop,Thread.steer,Thread.archive,Thread.restore,Thread.open,Thread.fork,Thread.delete,Thread.compact,Thread.setModel,Thread.pin,Thread.unpin,Thread.export,Thread.enqueue,QueuedMessage.edit,QueuedMessage.sendNow,QueuedMessage.remove,QueuedMessage.move,Draft.setContent,Draft.insert,Draft.attach,Draft.clear,Draft.send,Draft.setTarget,File.attachTo,Project.newThread,Agent.newThread,Skill.use,Model._select,Model.makeDefault,ToolServer.edit,ToolServer.enable,ToolServer.disable,ToolServer.restart,ToolServer.remove,ToolServer.signIn,Tool.enable,Tool.disable,Plugin.install,Plugin.uninstall,Plugin.enable,Plugin.disable,Plugin.connect,Plugin.disconnect,Skill.enable,Skill.disable,Skill.delete,Skill.install,Skill.edit,Shortcut.rebind,Shortcut.reset,Automation.runNow,Automation.enable,Automation.disable,Automation.edit,Automation.delete,Notification.open,Notification.dismiss,ChangeSet.revert,ChangeSet.apply,FileChange.viewDiff,FileChange.openFile,FileChange.openIn,FileChange.revert,FileChange.apply,Hunk.revert,Hunk.apply,FileEdit.openDiff,FileEdit.openFile,Turn.copy,Turn.retry,Turn.rewind,Message.copy,Step.copy,CommandRun.copyCommand,CommandRun.copyOutput,CommandRun.stop,Repository.commit,GitRepository.stage,GitRepository.unstage,ChangeSet.commit,ChangeSet.openPullRequest,Review.stop,Finding.open,Finding.dismiss,Finding.comment,Hunk.comment,Comment.edit,Comment.send,Comment.resolve,Comment.delete,PullRequest.open,PullRequest.refresh,PullRequest.markReady,PullRequest.merge,Terminal.run,Terminal.write,Terminal.clear,Terminal.stop,Terminal.close,Terminal.focus,BrowserTab.navigate,BrowserTab.reload,BrowserTab.back,BrowserTab.forward,BrowserTab.close,BrowserTab.openExternally,ComputerUseSession.stop,Window.open,Window.back,Window.forward,Window.focus,Window.toggleSidebar,Window.togglePanel,Window.close,SidebarItem._select,Composer._focus,TurnView._collapse,TurnView._expand,Chip._open,Chip._remove,PaletteResult._choose,SidebarItem._rename,ThreadHeader._rename,SidebarSection._collapse,SidebarSection._expand,SidebarSection._showMore,StatusItem._open,Composer._insert,FilesView._select,QueueItem._edit,QueueItem._sendNow,QueueItem._remove,QueueItem._move,ComposerPicker._open,ComposerPicker._choose,Sidebar._newThread,Sidebar._filter,MenuEntry._choose,Palette._open,Palette._close,SidePanel._open,SidePanel._close,SidePanel._resize,PanelTab._select,PanelTab._close,PanelTab._move,FilesView._filter,BrowserView._focus,TerminalView._focus,TerminalView._copySelection,ThreadView._scrollTo,ThreadView._jumpToLatest,ThreadView._find,Dialog._confirm,Dialog._cancel,ChangesView._selectFile,ChangesView._setScope,DiffView._commentOn,DiffView._openFile,DiffView._setLayout,DockBadge._set,NotificationBanner._open,NotificationBanner._dismiss,StepBlock._expand,StepBlock._collapse,Agent.newAutomation,Project.newAutomation,Thread.automate,Automation.open,AutomationView,Thread.rename,Thread.markRead,CodexThread.setGoal,CodexThread.clearGoal,Window.find,Window.openPalette,App.frontWindow,Question.answer,Question.skip,Folder.open,Folder.mentionIn,File.mentionIn,CommandRun.openInTerminal,WorktreeEnvironment.open,WorktreeEnvironment.mergeBack,Attachment.open,Attachment.remove,Draft.startDictation,Draft.stopDictation,Thread.markUnread,Thread.moveTo,Window.setSidebar,Window.setPanel,Window.setLayout,Window.setRegion,Window.focusPane,App.openWindow,CodexAgent.addToolServer,Terminal.tail,Project.newTerminal,Window.openBrowser,FileChange.diff,ChangeSet.patch,Repository.workingChanges,Project.findFiles,LocalProject.addInstructions,CodexAgent.addSkill,CodexAgent._startThread,CodexAgent._setSkillRoots,CodexThread._resume",
+    "graph.intercept:CodexAgent._startThread,CodexAgent._setSkillRoots,CodexThread._resume,CodexThread.fork,CodexThread.send"
+  ],
+  "automatic": [
+    {
+      "id": "qa-tools",
+      "operation": "CodexAgent.addToolServer",
+      "why": "QA: adds its test tool server without asking.",
+      "perHour": 3
+    },
+    {
+      "id": "qa-tools-remove",
+      "operation": "ToolServer.remove",
+      "why": "QA: removes its test tool server without asking.",
+      "perHour": 3,
+      "where": {
+        "name": "qa-added"
+      }
+    },
+    {
+      "id": "qa-term",
+      "operation": "Terminal.run",
+      "why": "QA: runs an echo in a terminal it opened without asking.",
+      "perHour": 5
+    },
+    {
+      "id": "qa-auto-run",
+      "operation": "Automation.runNow",
+      "why": "QA: runs its test automation now without asking.",
+      "perHour": 3,
+      "where": {
+        "name": "QA view task"
+      }
+    },
+    {
+      "id": "qa-browser",
+      "operation": "Window.openBrowser",
+      "why": "QA: opens a test page in the in-app browser without asking.",
+      "perHour": 5
+    },
+    {
+      "id": "qa-skill",
+      "operation": "CodexAgent.addSkill",
+      "why": "QA: adds its test skill without asking.",
+      "perHour": 3
+    },
+    {
+      "id": "qa-provided-send",
+      "operation": "Draft.send",
+      "why": "QA: sends a test chat's draft without asking.",
+      "perHour": 5,
+      "where": {
+        "$or": [{ "thread.title": { "$prefix": "QA H5x" } }, { "thread.title": { "$prefix": "Write numbers" } }]
+      }
+    },
+    {
+      "id": "qa-enqueue",
+      "operation": "Thread.enqueue",
+      "why": "QA: queues a follow-up in its test chat without asking.",
+      "perHour": 5,
+      "where": {
+        "title": { "$prefix": "Write numbers" }
+      }
+    }
+  ]
+}

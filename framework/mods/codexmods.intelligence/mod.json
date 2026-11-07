@@ -1,0 +1,19 @@
+{
+  "id": "codexmods.intelligence",
+  "version": "1.0.0",
+  "name": "Mod intelligence",
+  "description": "Models for mods, under your control: each mod's model use is off until you turn it on, with the model and allowance you give it.",
+  "author": "Codex Mods",
+  "glyph": "sparkle",
+  "framework": ">=1 <2",
+  "entry": { "host": "host.mjs", "renderer": "renderer.mjs" },
+  "permissions": [
+    "ui",
+    "graph",
+    "graph.read:Mod,CodexUsage,Model",
+    "graph.present:SettingsPage",
+    "appServer.request:thread/start,turn/start,turn/interrupt,thread/unsubscribe,config/read",
+    "appServer.observe:item/,turn/,thread/,error",
+    "appServer.intercept:item/tool/call"
+  ]
+}

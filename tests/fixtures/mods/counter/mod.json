@@ -1,0 +1,26 @@
+{
+  "id": "test.counter",
+  "version": "0.1.0",
+  "name": "Counter",
+  "description": "A test fixture (the lifecycle integration test's mod): counts new threads on the protocol plane (an app-server observer) and shows the count on a settings page.",
+  "glyph": "plugin",
+  "framework": ">=1 <2",
+  "entry": {
+    "host": "host.mjs",
+    "renderer": "renderer.mjs"
+  },
+  "permissions": [
+    "appServer.observe:thread/started",
+    "ui",
+    "graph.present:SettingsPage"
+  ],
+  "settings": [
+    {
+      "key": "greeting",
+      "kind": "text",
+      "default": "Hello from the counter",
+      "title": "Greeting",
+      "description": "Shown at the top of the settings view."
+    }
+  ]
+}

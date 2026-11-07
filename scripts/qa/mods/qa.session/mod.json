@@ -1,0 +1,21 @@
+{
+  "id": "qa.session",
+  "version": "1.0.0",
+  "name": "QA session",
+  "description": "QA only (graph-integrity G8.2, D4): a session process running node, a program on the Mac found on the user's PATH; whatever its Say setting is set to is written to the session's input, and each line it answers is logged with its pid, so a check sees the same process fed across idle time.",
+  "framework": ">=1 <2",
+  "entry": { "host": "host.mjs" },
+  "settings": [
+    { "key": "say", "kind": "text", "title": "Say", "description": "Written to the session's input when it changes", "default": "" }
+  ],
+  "permissions": ["processes", "processes.exec:node"],
+  "processes": {
+    "echo": {
+      "kind": "session",
+      "executable": "node",
+      "args": ["-e", "process.stdin.setEncoding('utf8');let b='';process.stdin.on('data',(d)=>{b+=d;let i;while((i=b.indexOf('\\n'))>=0){const l=b.slice(0,i);b=b.slice(i+1);console.log('pid '+process.pid+' heard '+JSON.stringify(l)+' at '+new Date().toISOString());}});console.log('pid '+process.pid+' ready in '+process.cwd());"],
+      "start": "with-mod",
+      "restart": "on-failure"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "id": "qa.conformance",
+  "version": "0.2.0",
+  "name": "QA conformance",
+  "description": "QA only: a provider of its own kind of each concept the app's shared surfaces show (Thread, Agent, each Request kind, Automation), with its own data, its chats' view drawn with every part the framework lends, its mark on its chats and a region of its chats as rows, so the round-trip ledger is checked through a mod's path (docs/design/graph-integrity.md G9).",
+  "author": "QA",
+  "framework": ">=1 <2",
+  "entry": {
+    "host": "host.mjs",
+    "renderer": "renderer.mjs"
+  },
+  "permissions": [
+    "graph",
+    "ui",
+    "graph.present:ThreadView,SidebarItem,ThreadHeader,Window"
+  ]
+}

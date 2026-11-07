@@ -1,0 +1,9 @@
+{
+  "id": "qa.lent",
+  "version": "1.0.0",
+  "name": "QA lent parts",
+  "description": "QA only (graph-integrity G2.3): a page that draws each part the framework lends (the transcript, turns, messages, steps, a diff, a file chip, an approval and a question card, a header, the composer and its pickers) with fixture data, so a native check sees them in both themes. Answers and sends go to the console.",
+  "framework": ">=1 <2",
+  "entry": { "renderer": "renderer.mjs" },
+  "permissions": ["ui", "graph.present:MainRegion"]
+}

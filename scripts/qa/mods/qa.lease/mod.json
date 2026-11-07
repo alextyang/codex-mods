@@ -1,0 +1,9 @@
+{
+  "id": "qa.lease",
+  "version": "1.0.0",
+  "name": "QA lease",
+  "description": "QA only: issues one app-server connection lease and writes its descriptor to <dataDir>/files/lease.json (mode 0600) for scripts/qa/lease.mjs.",
+  "framework": ">=1 <2",
+  "entry": { "host": "host.mjs" },
+  "permissions": ["appServer.clients"]
+}

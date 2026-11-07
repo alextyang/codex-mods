@@ -1,0 +1,37 @@
+{
+  "id": "codexmods.ui-tweaks",
+  "version": "1.0.0",
+  "name": "UI tweaks",
+  "description": "A wider chat, bigger or smaller text, compact rows, the agent's steps open, and the parts of the app you never use hidden.",
+  "author": "Codex Mods",
+  "glyph": "customize",
+  "framework": ">=1 <2",
+  "entry": { "host": "host.mjs", "renderer": "renderer.mjs" },
+  "about": [
+    "Each tweak uses the app's own sizes, so it follows the app's look in light and dark. Turn the mod off and the app is as it was.",
+    "Hidden parts lists what each place of the app draws; check what you never use."
+  ],
+  "settings": [
+    { "group": "Size", "items": [
+      { "key": "width", "kind": "choice", "control": "segmented", "default": "default", "title": "Chat width", "description": "How wide a chat's conversation runs.",
+        "options": [{ "value": "default", "label": "Default" }, { "value": "wide", "label": "Wide" }, { "value": "wider", "label": "Wider" }, { "value": "widest", "label": "Widest" }] },
+      { "key": "chatText", "kind": "choice", "default": "default", "title": "Chat text", "description": "The size of what you and the agent write.",
+        "options": [{ "value": "smaller", "label": "Smaller" }, { "value": "default", "label": "The app's size" }, { "value": "larger", "label": "Larger" }, { "value": "largest", "label": "Largest" }] },
+      { "key": "codeText", "kind": "choice", "default": "default", "title": "Code text", "description": "The size of code in a chat.",
+        "options": [{ "value": "smaller", "label": "Smaller" }, { "value": "default", "label": "The app's size" }, { "value": "larger", "label": "Larger" }] },
+      { "key": "rows", "kind": "choice", "control": "segmented", "default": "default", "title": "Row height", "description": "The height of rows in lists, the sidebar's chats among them.",
+        "options": [{ "value": "compact", "label": "Compact" }, { "value": "default", "label": "Default" }, { "value": "roomy", "label": "Roomy" }] }
+    ] },
+    { "group": "The agent's work", "items": [
+      { "key": "expandSteps", "kind": "toggle", "default": false, "title": "Show steps expanded", "description": "Each command, edit and tool call opens with its detail, until you close it." },
+      { "key": "expandTurns", "kind": "toggle", "default": false, "title": "Unfold each turn", "description": "A finished turn shows its steps, not just its answer." }
+    ] },
+    { "key": "hidden", "kind": "list", "default": [], "title": "Hidden parts", "description": "Chosen on the Hidden parts tab." }
+  ],
+  "permissions": [
+    "ui",
+    "graph",
+    "graph.present",
+    "graph.act:StepBlock._expand,StepBlock._collapse,TurnView._expand,TurnView._collapse"
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "id": "codexmods.smart-composer",
+  "version": "1.0.3",
+  "name": "Smart composer",
+  "description": "Luna in the composer: it finishes what you're typing, asks what's unclear before a message goes, and gives each message the reasoning effort its task needs.",
+  "author": "Codex Mods",
+  "glyph": "sparkle",
+  "framework": ">=1 <2",
+  "entry": {
+    "host": "host.mjs",
+    "renderer": "renderer.mjs"
+  },
+  "about": [
+    "Turn on its model use on this page first: it uses Luna through your Codex account, within the allowance you give it.",
+    "Pause at the end of a line and it suggests the rest; press Tab to take it. In a chat, it can ask a few questions about what's unclear before a message goes. And while you let it send your messages with an effort (What it may do without asking), each gets the reasoning effort its task needs, keeping the chat's model and its cache."
+  ],
+  "intelligence": {
+    "why": "It suggests the rest of what you're typing, asks about unclear requests before they're sent, and picks each message's reasoning effort"
+  },
+  "settings": [
+    {
+      "key": "autocomplete",
+      "kind": "toggle",
+      "default": true,
+      "title": "Suggest as you type",
+      "description": "At a pause at the end of a line, Luna suggests the rest; Tab takes it."
+    },
+    {
+      "key": "clarify",
+      "kind": "toggle",
+      "default": false,
+      "title": "Ask before sending",
+      "description": "Before a message goes, Luna asks up to three questions about what's unclear."
+    },
+    {
+      "key": "pickModel",
+      "kind": "toggle",
+      "default": false,
+      "title": "Pick the model for a new chat",
+      "description": "On a chat's first message, before it has a cache to keep, use the fast model for small tasks and the strong one for large (with its effort, when you let it send with one)."
+    },
+    {
+      "key": "smallModel",
+      "kind": "text",
+      "default": "gpt-6-luna",
+      "title": "Fast model",
+      "description": "The model for small tasks."
+    },
+    {
+      "key": "largeModel",
+      "kind": "text",
+      "default": "gpt-6.1-sol",
+      "title": "Strong model",
+      "description": "The model for large tasks."
+    }
+  ],
+  "automatic": [
+    {
+      "id": "effort",
+      "operation": "Thread.send",
+      "why": "Sends each message you write with the reasoning effort its task needs, among those the chat's model offers; the chat keeps its model, so its prompt cache keeps working.",
+      "perHour": 600
+    }
+  ],
+  "permissions": [
+    "ui",
+    "graph",
+    "graph.read:Draft,CodexThread,Model",
+    "graph.intercept:Draft.send,CodexThread.send",
+    "graph.act:Draft.setContent,Draft.send,CodexThread.send",
+    "graph.present:Palette,Composer"
+  ]
+}

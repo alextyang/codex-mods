@@ -1,0 +1,125 @@
+{
+  "at": "2026-10-23T22:43:59.357Z",
+  "observedThreads": 8,
+  "types": {
+    "CodexAgent": {
+      "count": 1,
+      "state": {
+        "name": 1,
+        "icon": 1,
+        "available": 1
+      },
+      "links": {}
+    },
+    "Model": {
+      "count": 10,
+      "state": {
+        "name": 10,
+        "description": 10,
+        "efforts": 10,
+        "default": 10,
+        "available": 10
+      },
+      "links": {
+        "agent": 10
+      }
+    },
+    "CodexThread": {
+      "count": 51,
+      "state": {
+        "title": 51,
+        "status": 51,
+        "unread": 51,
+        "archived": 51,
+        "origin": 51,
+        "createdAt": 51,
+        "updatedAt": 51,
+        "preview": 49,
+        "client": 51
+      },
+      "links": {
+        "agent": 51,
+        "draft": 51,
+        "model": 51
+      }
+    },
+    "Turn": {
+      "count": 47,
+      "state": {
+        "status": 47,
+        "startedAt": 47,
+        "endedAt": 47,
+        "error": 1
+      },
+      "links": {
+        "thread": 47,
+        "answer": 41
+      }
+    },
+    "UserMessage": {
+      "count": 48,
+      "state": {
+        "content": 48,
+        "createdAt": 48,
+        "steering": 48
+      },
+      "links": {
+        "turn": 48
+      }
+    },
+    "AgentMessage": {
+      "count": 44,
+      "state": {
+        "content": 44,
+        "createdAt": 44,
+        "phase": 44,
+        "streaming": 44
+      },
+      "links": {
+        "turn": 44
+      }
+    },
+    "Reasoning": {
+      "count": 29,
+      "state": {
+        "status": 29,
+        "title": 29,
+        "startedAt": 29,
+        "expanded": 29,
+        "thinking": 29
+      },
+      "links": {
+        "turn": 29
+      }
+    },
+    "Step": {
+      "count": 7,
+      "state": {
+        "status": 7,
+        "title": 7,
+        "startedAt": 7,
+        "expanded": 7
+      },
+      "links": {
+        "turn": 7
+      }
+    },
+    "CommandRun": {
+      "count": 7,
+      "state": {
+        "status": 7,
+        "title": 7,
+        "startedAt": 7,
+        "expanded": 7,
+        "command": 7,
+        "directory": 7,
+        "output": 7,
+        "exitCode": 7,
+        "duration": 7
+      },
+      "links": {
+        "turn": 7
+      }
+    }
+  }
+}

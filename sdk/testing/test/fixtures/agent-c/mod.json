@@ -1,0 +1,9 @@
+{
+  "id": "example.agent-c",
+  "version": "1.0.0",
+  "name": "Agent C",
+  "description": "A fixture for the SDK's agent helpers: a turn's context in the chats a where keeps.",
+  "framework": ">=1 <2",
+  "entry": { "host": "host.mjs" },
+  "permissions": ["graph", "graph.read", "graph.intercept:CodexThread.send", "graph.act:CodexThread.send"]
+}

@@ -1,0 +1,10 @@
+{
+  "id": "qa.migrate",
+  "version": "1.1.0",
+  "name": "QA migrate",
+  "description": "QA only (docs/design/systems.md E5): a signed mod at data schema 2, migrated from 1 inside the copy update (docs/design/systems.md E5).",
+  "framework": ">=1 <2",
+  "entry": { "host": "host.mjs" },
+  "permissions": [],
+  "data": { "schemaVersion": 2, "migrate": "migrate.mjs" }
+}

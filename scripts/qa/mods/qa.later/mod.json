@@ -1,0 +1,42 @@
+{
+  "id": "qa.later",
+  "version": "1.1.0",
+  "name": "QA send later",
+  "description": "QA only (graph-integrity G6): while its setting is on, the user's send in a chat is stopped quietly (the composer cleared once the message is kept), kept in this mod's storage, shown above that chat's composer, and sent by a scheduled job a minute later as this mod, with its key (looked up first after an uncertain delivery), across a relaunch. While `answerLater` is on, a pending approval is answered by this mod eleven minutes on (past any old ceiling), unless the user answered it first; while `stopAgent` is on, a turn the agent starts by itself is stopped as it starts.",
+  "framework": ">=1 <2",
+  "entry": {
+    "host": "host.mjs",
+    "renderer": "renderer.mjs"
+  },
+  "settings": [
+    {
+      "key": "holding",
+      "kind": "toggle",
+      "title": "Keep sends for later",
+      "description": "Your sends wait a minute, then this mod sends them",
+      "default": false
+    },
+    {
+      "key": "answerLater",
+      "kind": "toggle",
+      "title": "Answer approvals later",
+      "description": "A pending approval is approved by this mod eleven minutes on",
+      "default": false
+    },
+    {
+      "key": "stopAgent",
+      "kind": "toggle",
+      "title": "Stop the agent's own turns",
+      "description": "A turn the agent starts by itself is stopped as it starts",
+      "default": false
+    }
+  ],
+  "permissions": [
+    "ui",
+    "graph",
+    "graph.read",
+    "graph.present:Composer",
+    "graph.intercept:Draft.send",
+    "graph.act:Draft.clear,Thread.send,Thread.stop,Approval.answer"
+  ]
+}

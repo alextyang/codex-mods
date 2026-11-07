@@ -1,0 +1,53 @@
+{
+  "adapterVersion": "0.0.0-test",
+  "build": {
+    "version": "26.1007.21159",
+    "bundleVersion": "20052",
+    "asarSha256": "0000",
+    "electronVersion": "0.0.0"
+  },
+  "backend": {
+    "codexPath": "Resources/codex",
+    "nodePath": "Resources/cua_node/bin/node",
+    "method": "override",
+    "configKey": "CODEX_CLI_PATH"
+  },
+  "asarPackageJson": "package.json",
+  "protocol": {
+    "handshake": {
+      "request": "initialize",
+      "notification": "initialized"
+    },
+    "affinityKeyPaths": [
+      "params.threadId"
+    ],
+    "affinityCreators": [
+      {
+        "method": "thread/start",
+        "resultPath": "thread.id"
+      }
+    ],
+    "methods": {
+      "clientRequests": [
+        "initialize",
+        "thread/start",
+        "turn/start"
+      ],
+      "clientNotifications": [
+        "initialized"
+      ],
+      "serverRequests": [],
+      "serverNotifications": [
+        "thread/started",
+        "turn/started",
+        "turn/completed"
+      ]
+    }
+  },
+  "transforms": [],
+  "anchors": {},
+  "components": {},
+  "react": null,
+  "theme": {},
+  "actions": {}
+}
