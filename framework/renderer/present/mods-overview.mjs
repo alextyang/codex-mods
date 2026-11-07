@@ -79,6 +79,15 @@ export function createModsOverview(o) {
     // F16: a switch turned says so here, with Undo (Settings has no toast viewport), refused while an operation on that mod runs (read when pressed)
     const undoer = useSwitchUndo(R, kit, { invoke: o.invoke, running: (x) => (readState(ctx, o.frameworkRef)?.ops ?? []).some((op) => op.state?.outcome === 'running' && op.links?.mod?.id === x) });
     const data = ctx.use(() => readState(ctx, o.frameworkRef));
+    // F10: a mod added from Recommended has its review opened once it is in this window's list, so its page (and route) is there to open
+    // (found natively: opened at once, the page was not there yet and said the mod was not installed)
+    const toReview = R.useRef(null);
+    R.useEffect(() => {
+      const id = toReview.current;
+      if (!id || !data?.mods?.some((m) => m.ref.id === id)) return;
+      toReview.current = null;
+      setTimeout(() => { if (o.review) o.review(id); else o.navigate(o.pathOf(id)); }, 0);
+    });
     const { button, toggle } = pageParts(R, ex);
     const install = () => { acting.clear('install'); acting.clear('github'); setDialog({ kind: 'install' }); };
     const action = e(kit.Action, { label: 'Install mod…', glyph: 'plus', primary: true, onClick: install });
@@ -178,7 +187,7 @@ export function createModsOverview(o) {
     const recommended = (fw.state?.recommended ?? []).filter((r) => !installed.has(r.id) && (!query.trim() || matches(r, r.name, query)));
     const add = async (r) => {
       const out = await acting.run(`add:${r.id}`, o.frameworkRef, 'installFromGitHub', [r.repo, r.id]);
-      if (out.ok) { if (o.review) o.review(r.id); else o.navigate(o.pathOf(r.id)); }
+      if (out.ok) toReview.current = r.id;
     };
     const recommendedRow = (r) => {
       const failed = acting.error(`add:${r.id}`);

@@ -348,7 +348,14 @@ test('F10: Recommended lists the catalog\'s mods not installed; Add installs one
   await t.buttonIn(rec('acme.focus'), 'Add').props.onClick();
   await flush();
   assert.deepEqual(t.calls.at(-1), ['CodexMods', 'codexmods', 'installFromGitHub', ['acme/mods', 'acme.focus']]);
-  assert.deepEqual(reviewed, ['acme.focus'], 'its review opens: nothing runs before consent');
+  assert.deepEqual(reviewed, [], 'not before the mod is in the list: its page would not be there yet');
+  t.put(FW, { state: { version: '1.0.0', safeMode: false, updatePolicy: 'offer', recommended }, links: { mods: [modRef('b.one'), modRef('acme.focus')], operations: [] } });
+  t.setMod('acme.focus', { name: 'Focus', status: 'pendingConsent' });
+  t.show();
+  await flush(); await new Promise((r) => setTimeout(r, 5));
+  assert.deepEqual(reviewed, ['acme.focus'], 'then its review opens: nothing runs before consent');
+  t.show(); await new Promise((r) => setTimeout(r, 5));
+  assert.deepEqual(reviewed, ['acme.focus'], 'once');
   const refused = setup({ fw: { recommended }, invoke: () => ({ status: 'refused', message: 'The latest release of acme/mods has no package for acme.timer.' }) });
   assert.doesNotMatch(refused.text(), /No mods installed/, 'Recommended stands in for the empty list');
   const row = refused.all((n) => n.props?.['data-codexmods-recommended'] === 'acme.timer')[0];
