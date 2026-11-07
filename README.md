@@ -22,11 +22,13 @@ Pre-release (`1.0.0-dev`). The framework, the SDK and the maintained mods work o
 
 Requires macOS, Node 24+, the stock ChatGPT app and, for a daily copy, an Apple Development certificate.
 
+The simplest way is **Codex Mods Setup**, from the [latest release](https://github.com/alextyang/codex-mods/releases/latest) (or `node setup-app/build.mjs`): it checks your Mac, backs up your Codex data, builds the copy, puts it in your Dock, and later rebuilds or uninstalls it ([setup-app/README.md](setup-app/README.md)). From a terminal:
+
 ```bash
 node cli/codexmods.mjs setup --daily --identity "Apple Development: Your Name (ABCDE12345)"
 ```
 
-This installs the framework, builds the copy from your installed ChatGPT and creates `~/Applications/ChatGPT Mods.app`. Then open it, sign in, and install mods from Settings. Setup, updates, recovery and rollback are in [docs/OPERATIONS.md](docs/OPERATIONS.md). To write a mod, start from a starter with `node cli/codexmods.mjs new <id> --kind panel|rule|contribution|agent` and read [docs/AUTHORING.md](docs/AUTHORING.md); the maintained mods in `mods/` are worked examples.
+This installs the framework, builds the copy from your installed ChatGPT and creates `~/Applications/ChatGPT Mods.app` (`--try` instead of `--daily` makes a copy with its own data, to try it). Then open it, sign in, and add mods from Settings › Mods, where the maintained mods are recommended. Setup, updates, recovery and rollback are in [docs/OPERATIONS.md](docs/OPERATIONS.md). To write a mod, start from a starter with `node cli/codexmods.mjs new <id> --kind panel|rule|contribution|agent` and read [docs/AUTHORING.md](docs/AUTHORING.md); the maintained mods in `mods/` are worked examples.
 
 Run the tests with `npm test` and the linter with `npm run lint`; see [CONTRIBUTING.md](CONTRIBUTING.md) before sending a change. Tests that read the stock app skip when it is not installed. Native checks (optional) use an isolated QA copy under a separate macOS user; see [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md).
 

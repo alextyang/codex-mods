@@ -8,6 +8,7 @@ import { createFakeReact, findAll } from './fake-react.mjs';
 import { attestNow, setAttestor, withIntent, modContextOf, trustedNow, noteInput } from '../present/attest.mjs';
 import { createLentParts } from '../present/lent/index.mjs';
 import { createKit } from '../present/kit/index.mjs';
+import { createUiFactory } from '../ui.mjs';
 
 const minted = [];
 const withAttestor = () => { minted.length = 0; let n = 0; setAttestor((mod) => { const token = `att-${String(++n).padStart(32, '0')}`; minted.push([token, mod]); return token; }); };
@@ -86,5 +87,31 @@ test('G7.1: a lent card drawn in a mod\'s content answers with that mod\'s attes
   });
   button(inMod).props.onClick();   // a script's call, after the input
   assert.deepEqual([answers[0][0], minted[0][1], answers[1][1], answers[2][1]], ['accept', 'mod.a', null, null], 'its mod\'s; none outside; none from a script');
+  setAttestor(null);
+});
+
+test('G7.1: the app\'s Button, Switch and menu items a mod draws give their callbacks {asUser} last, for that mod; its other components are the app\'s', () => {
+  withAttestor();
+  const { React } = createFakeReact();
+  const Button = () => null;
+  const Switch = { $$typeof: Symbol.for('react.forward_ref'), render: () => null };   // an object component, as forwardRef makes
+  const Item = () => null;
+  const Menu = Object.assign(() => null, { Item });
+  const TextField = () => null;
+  const theme = { tokens: () => ({}), onChange: () => ({ dispose() {} }) };
+  const C = createUiFactory({ getReact: () => React, components: { Button, Switch, Menu, TextField }, theme }).forMod('mod.a').ui.components;
+  assert.equal(C.TextField, TextField, 'a component with no act of the user\'s is the app\'s own');
+  assert.equal(C.Button, C.Button, 'one wrapper for each of the app\'s');
+  assert.equal(C.Switch.render, undefined, 'React\'s own members of an object component are not copied');
+  const got = [];
+  const click = C.Button({ onClick: (...a) => got.push(['click', ...a]), children: 'Add' });
+  const flip = C.Switch({ checked: false, onChange: (...a) => got.push(['flip', ...a]) });
+  const pick = C.Menu.Item({ onSelect: (...a) => got.push(['pick', ...a]) });
+  assert.deepEqual([click.type, flip.type, pick.type, click.props.children], [Button, Switch, Item, 'Add'], 'drawn with the app\'s own, its props as given');
+  duringTrusted((ev) => { click.props.onClick(ev); flip.props.onChange(true); pick.props.onSelect(); });
+  click.props.onClick({ isTrusted: true });   // a script's call, after the input
+  assert.deepEqual(got.map((x) => [x[0], typeof x.at(-1).asUser]), [['click', 'string'], ['flip', 'string'], ['pick', 'string'], ['click', 'undefined']]);
+  assert.equal(got[1][1], true, 'the value the app gave comes first');
+  assert.deepEqual(minted.map((m) => m[1]), ['mod.a', 'mod.a', 'mod.a'], 'for the mod that drew them');
   setAttestor(null);
 });

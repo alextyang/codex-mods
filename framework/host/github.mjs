@@ -1,4 +1,5 @@
-// A mod from GitHub (docs/design/framework-ui.md F10): the latest release of a repository, and its one signed `.codexmod` asset, downloaded. The signature is the identity and the
+// A mod from GitHub (docs/design/framework-ui.md F10): the latest release of a repository, and its one signed `.codexmod` asset (or, for a release that carries several
+// mods, the one named for the mod asked for: `<modId>.codexmod` or `<modId>-<version>.codexmod`), downloaded. The signature is the identity and the
 // repository is where to look: the package goes through the same checks as a file (its ZIP, its signature, the immutable store, the publisher's key), so this only finds and fetches
 // it. A repository with no release, or a release with no such asset, says so. A lookup that fails (no network, the rate limit) says that and never falls through. Every request is
 // HTTPS, bounded in size and time, and a redirect is followed only to GitHub's own hosts. Nothing is read from what it fetched before the package checks read it. Node built-ins only.
@@ -105,10 +106,12 @@ export function createGitHub(o = {}) {
 
   return {
     /**
-     * The latest release of `owner/repository` and its one `.codexmod` asset.
+     * The latest release of `owner/repository` and its one `.codexmod` asset; with `mod`, the asset named for that mod in a release that may carry several.
+     * @param {string} repoText
+     * @param {{ mod?: string }} [opts]
      * @returns {Promise<{ repo: string, repoId: number, tag: string, notes: string, asset: { name: string, size: number, url: string } }>}
      */
-    async latest(repoText) {
+    async latest(repoText, { mod } = {}) {
       const repo = repoOf(repoText);
       if (!repo) throw invalid('Enter a GitHub repository as owner/repository.');
       const info = await json(`${API}/repos/${repo}`, repo);
@@ -120,8 +123,11 @@ export function createGitHub(o = {}) {
       }
       const assets = (Array.isArray(rel?.assets) ? rel.assets : []).filter((a) => typeof a?.name === 'string' && a.name.endsWith('.codexmod') && typeof a.browser_download_url === 'string');
       if (!assets.length) throw invalid(`The latest release of ${info.full_name} (${String(rel?.tag_name ?? '')}) has no .codexmod package.`);
-      if (assets.length > 1) throw invalid(`The latest release of ${info.full_name} has ${assets.length} .codexmod packages; it should have one.`);
-      const a = assets[0];
+      const named = mod ? assets.filter((x) => x.name === `${mod}.codexmod` || (x.name.startsWith(`${mod}-`) && /^\d/.test(x.name.slice(mod.length + 1)))) : assets;
+      if (mod && !named.length) throw invalid(`The latest release of ${info.full_name} (${String(rel?.tag_name ?? '')}) has no package for ${mod}.`);
+      if (named.length > 1) throw invalid(mod ? `The latest release of ${info.full_name} has ${named.length} packages for ${mod}; it should have one.`
+        : `The latest release of ${info.full_name} has ${named.length} .codexmod packages; install one of its mods from the Recommended list or from a file.`);
+      const a = named[0];
       if (Number(a.size) > maxBytes) throw invalid(`${a.name} is larger than ${Math.round(maxBytes / 1024 / 1024)} MiB`);
       return { repo: info.full_name, repoId: info.id, tag: String(rel.tag_name ?? ''), notes: typeof rel.body === 'string' ? rel.body.slice(0, 4000) : '', asset: { name: a.name, size: Number(a.size) || 0, url: a.browser_download_url } };
     },

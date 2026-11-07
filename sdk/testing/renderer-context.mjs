@@ -80,6 +80,7 @@ export function createFakeRendererContext({ manifest, grants, settings, host, to
       Content: ({ children }) => React.createElement('div', {}, children),
       Footer: ({ children }) => React.createElement('footer', {}, children),
     }),
+    SettingsCard: ({ children }) => React.createElement('div', { 'data-component': 'SettingsCard' }, children),
     SettingsRow: ({ label, description, control, id }) => React.createElement('div', { id, 'data-component': 'SettingsRow' }, React.createElement('label', {}, label), description ? React.createElement('p', {}, description) : null, control ?? null),
     Tooltip: el('span', { 'data-component': 'Tooltip' }), Icon: el('span', { 'data-component': 'Icon' }),
   };

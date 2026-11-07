@@ -5,7 +5,7 @@
 // Node built-ins only (none needed).
 
 /** The components the app has: drawn with the app's own where the copy exposes it, else with the runtime's primitive, which needs React. */
-export const COMPONENTS = Object.freeze(['Button', 'Switch', 'TextField', 'Menu', 'Dialog', 'SettingsSection', 'SettingsRow', 'Tooltip', 'Icon']);
+export const COMPONENTS = Object.freeze(['Button', 'Switch', 'TextField', 'Menu', 'Dialog', 'SettingsSection', 'SettingsCard', 'SettingsRow', 'Tooltip', 'Icon']);
 /** The framework's own (present/kit): they need only React, and draw through the app's Button and Menu where it has them. */
 export const KIT_COMPONENTS = Object.freeze(['Badge', 'Banner', 'Checkbox', 'EmptyState', 'Glyph', 'IconTile', 'MenuButton', 'SearchField', 'SegmentedControl', 'Select', 'Tabs']);
 

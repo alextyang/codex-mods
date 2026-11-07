@@ -1,4 +1,5 @@
-// The Mods list (docs/design/framework-ui.md F2, F4; design-spec §2.1): the page of the Mods group in the app's Settings. Your mods in sections, Updates, On, Issues and Off, each row
+// The Mods list (docs/design/framework-ui.md F2, F4; design-spec §2.1): the page of the Mods group in the app's Settings. Your mods in sections, Updates, On, Issues and Off, then
+// the Recommended mods not installed yet (F10), each added from its release and reviewed before it runs; each row
 // opening its page, with its switch and a menu of what can be done to it, including moving it in your order; a search over them; Install mod…; and the Layouts section under the
 // list. It reads and acts through the graph only (the framework scope's `invoke`), in the app's settings frame and cards, with the kit. Everything it uses arrives as arguments (the
 // page bundle allows no import cycle with settings-pages.mjs). NO NODE API.
@@ -171,7 +172,32 @@ export function createModsOverview(o) {
         e(Section.Header, { size: 'compact', spacing: 'compact', title: e('span', { className: 'cmk-head', ...(key === 'issues' ? { 'data-tone': 'danger' } : {}) }, label, e('span', { className: 'cmk-count' }, String(rows.length))) }),
         e(Section.Content, null, e('div', { role: 'list', 'aria-label': `${label} mods` }, e(Card, null, ...rows.map(({ m, i }) => rowOf(m, i))))));
     });
-    const list = !mods.length ? e(kit.EmptyState, { key: 'none', glyph: 'plugin', title: 'No mods installed', description: 'Mods add sidebar sections, status items and panes to Codex.', actions: [{ label: 'Install mod…', primary: true, onClick: install }] })
+    // ---- F10: the mods the framework recommends that are not installed. Add installs one from its repository's latest release, by its id,
+    // and opens its review: nothing runs before the user approves what it may do there.
+    const installed = new Set(mods.map((m) => m.ref.id));
+    const recommended = (fw.state?.recommended ?? []).filter((r) => !installed.has(r.id) && (!query.trim() || matches(r, r.name, query)));
+    const add = async (r) => {
+      const out = await acting.run(`add:${r.id}`, o.frameworkRef, 'installFromGitHub', [r.repo, r.id]);
+      if (out.ok) { if (o.review) o.review(r.id); else o.navigate(o.pathOf(r.id)); }
+    };
+    const recommendedRow = (r) => {
+      const failed = acting.error(`add:${r.id}`);
+      const busy = acting.busy(`add:${r.id}`) || running(r.id);
+      const sub = failed ?? r.description;
+      return e('div', { key: r.id, className: 'cmk-row', role: 'listitem', 'data-codexmods-recommended': r.id },
+        e('span', { className: 'cmk-row-main', style: { cursor: 'default' } },
+          e(kit.IconTile, { glyph: r.glyph, size: 'sm' }),
+          e('span', { className: 'cmk-row-text' },
+            e('span', { className: 'cmk-row-name' }, e('span', { className: 'cmk-row-title' }, r.name)),
+            e('span', { className: 'cmk-row-sub', title: sub, ...(failed ? { 'data-tone': 'danger', role: 'alert' } : {}) }, sub))),
+        e('span', { className: 'cmk-row-controls' }, button(busy ? 'Adding…' : 'Add', () => add(r), busy, 'secondary', `Add ${r.name}`)));
+    };
+    const recommendedSection = recommended.length ? e(Section, { key: 'recommended' },
+      e(Section.Header, { size: 'compact', spacing: 'compact', title: e('span', { className: 'cmk-head' }, 'Recommended', e('span', { className: 'cmk-count' }, String(recommended.length))),
+        subtitle: mods.length ? undefined : 'Made by Codex Mods. Each one shows what it can do before it runs.' }),
+      e(Section.Content, null, e('div', { role: 'list', 'aria-label': 'Recommended mods' }, e(Card, null, ...recommended.map(recommendedRow))))) : null;
+
+    const list = !mods.length && recommendedSection ? null : !mods.length ? e(kit.EmptyState, { key: 'none', glyph: 'plugin', title: 'No mods installed', description: 'Mods add sidebar sections, status items and panes to Codex.', actions: [{ label: 'Install mod…', primary: true, onClick: install }] })
       : !shown.length ? e(kit.EmptyState, { key: 'none', glyph: 'search', title: `No mods match “${query}”`, description: 'Try another name or author.', actions: [{ label: 'Clear search', onClick: () => setQuery('') }] })
         : e(R.Fragment, { key: 'sections' }, ...sections);
 
@@ -190,7 +216,8 @@ export function createModsOverview(o) {
         e('div', { key: 'list', className: 'cmk-list' },
           e('div', { key: 'search', className: 'cmk-list-search' }, e(kit.SearchField, { value: query, onChange: setQuery, placeholder: 'Search mods', ariaLabel: 'Search mods', style: { width: 'calc(var(--spacing) * 64)', maxWidth: '100%' } })),
           list,
-          mods.length ? e('div', { key: 'count', className: 'cmk-meta' }, countLine(mods.map((m) => m.s), safeMode)) : null),
+          mods.length ? e('div', { key: 'count', className: 'cmk-meta' }, countLine(mods.map((m) => m.s), safeMode)) : null,
+          recommendedSection),
         ...(o.LayoutsSection ? [e(o.LayoutsSection, { key: 'layouts' })] : [])),
       dialogEl);
   }

@@ -332,3 +332,29 @@ test('F16: a switch turned says so on the page with Undo (Settings has no toast 
   assert.deepEqual(t.calls[1], ['Mod', 'a.one', 'enable', []], 'turned back');
   assert.equal(notice(), undefined);
 });
+
+test('F10: Recommended lists the catalog\'s mods not installed; Add installs one from its release by its id and opens its review; a refusal stays on its row; with no mods it stands in for the empty list', async () => {
+  const recommended = [
+    { id: 'acme.focus', name: 'Focus', description: 'One chat at a time', glyph: 'sparkle', repo: 'acme/mods' },
+    { id: 'b.one', name: 'One', description: 'Already here', repo: 'acme/mods' },
+    { id: 'acme.timer', name: 'Timer', description: 'Counts down', repo: 'acme/mods' },
+  ];
+  const reviewed = [];
+  const t = setup({ mods: { 'b.one': { name: 'One' } }, fw: { recommended }, review: (id) => reviewed.push(id) });
+  const rec = (id) => t.all((n) => n.props?.['data-codexmods-recommended'] === id)[0];
+  assert.deepEqual(t.sections(), ['On1', 'Recommended2'], 'after your mods; one installed is not offered');
+  assert.equal(rec('b.one'), undefined);
+  assert.match(textOf(rec('acme.focus')), /^FocusOne chat at a timeAdd$/);
+  await t.buttonIn(rec('acme.focus'), 'Add').props.onClick();
+  await flush();
+  assert.deepEqual(t.calls.at(-1), ['CodexMods', 'codexmods', 'installFromGitHub', ['acme/mods', 'acme.focus']]);
+  assert.deepEqual(reviewed, ['acme.focus'], 'its review opens: nothing runs before consent');
+  const refused = setup({ fw: { recommended }, invoke: () => ({ status: 'refused', message: 'The latest release of acme/mods has no package for acme.timer.' }) });
+  assert.doesNotMatch(refused.text(), /No mods installed/, 'Recommended stands in for the empty list');
+  const row = refused.all((n) => n.props?.['data-codexmods-recommended'] === 'acme.timer')[0];
+  await refused.buttonIn(row, 'Add').props.onClick();
+  await flush();
+  assert.match(textOf(refused.all((n) => n.props?.['data-codexmods-recommended'] === 'acme.timer')[0]), /has no package for acme\.timer/);
+  const none = setup({});
+  assert.match(none.text(), /No mods installed/, 'no catalog: the empty list as before');
+});

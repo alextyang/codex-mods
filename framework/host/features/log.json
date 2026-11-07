@@ -6355,6 +6355,16 @@
     "exposure:Menu"
    ]
   },
+  "sdk:component.SettingsCard": {
+   "title": "The SettingsCard component",
+   "version": 1,
+   "needs": [
+    "exposure:react"
+   ],
+   "prefers": [
+    "exposure:SettingsCard"
+   ]
+  },
   "sdk:component.SettingsRow": {
    "title": "The SettingsRow component",
    "version": 1,
@@ -7941,6 +7951,9 @@
   },
   "exposure:RouteScope": {
    "title": "the app's RouteScope (as the copy exposes it)"
+  },
+  "exposure:SettingsCard": {
+   "title": "the app's SettingsCard (as the copy exposes it)"
   },
   "exposure:SettingsPageFrame": {
    "title": "the app's SettingsPageFrame (as the copy exposes it)"

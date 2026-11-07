@@ -217,9 +217,15 @@ export interface Processes {
 }
 
 // ---------------------------------------------------------------- UI plane (§9)
+/**
+ * The app's own components (real where the adapter exposes them, themed fallbacks otherwise), plus the kit and the lent parts. A page of a
+ * mod's is the app's settings layout: `SettingsSection` (its `Header` {title, subtitle?, actions?} and `Content`) holding a `SettingsCard`
+ * of `SettingsRow`s ({label, description?, control?}: label left, control right), with the app's `Button` ({color: 'primary' | 'secondary'
+ * | 'danger', onClick}) and `Switch` ({checked, onChange}) as controls.
+ */
 export type ComponentName =
   | 'Button' | 'Switch' | 'TextField' | 'Menu' | 'Dialog'
-  | 'SettingsSection' | 'SettingsRow' | 'Tooltip' | 'Icon'
+  | 'SettingsSection' | 'SettingsCard' | 'SettingsRow' | 'Tooltip' | 'Icon'
   | keyof KitComponents;
 /** The framework's own components: stable props on every build, drawn from the theme's variables and through the app's own pieces where it has them. */
 export interface KitComponents {

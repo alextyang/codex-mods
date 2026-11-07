@@ -2,7 +2,7 @@
 //
 // The Questions view: every open question, its own tool's and Codex's, each drawn with the framework's question card (the app's look)
 // and answered there as the user (the card's callback carries the user's intent: G7). It opens by itself in the window in front, as a
-// popup window or a tab beside the chat (the host says when). Its iMessage page keeps the Sendblue key in the Keychain.
+// popup window or a tab beside the chat (the host says when). Its iMessage page, the app's own settings rows, keeps the Sendblue key in the Keychain.
 
 function renderer(ctx) {
   const R = ctx.ui.react;
@@ -71,15 +71,23 @@ function renderer(ctx) {
       try {
         if (key) await ctx.secrets.set('sendblue.key', key);
         if (secret) await ctx.secrets.set('sendblue.secret', secret);
-        setKey(''); setSecret(''); setSaved('Kept in your Keychain.');
-      } catch (err) { setSaved(`Not kept: ${err?.message ?? err}`); }
+        setKey(''); setSecret(''); setSaved({ ok: true, text: 'Kept in your Keychain.' });
+      } catch (err) { setSaved({ ok: false, text: `Not kept: ${err?.message ?? err}` }); }
     };
+    // the app's own settings layout: a section, a card of rows with the app's TextField, the app's Button
+    const S = C.SettingsSection;
+    const field = (label, value, set) => e(C.TextField, { type: 'password', value, onChange: (ev) => set(ev?.target?.value ?? (typeof ev === 'string' ? ev : '')), 'aria-label': label, autoComplete: 'off' });
     return e('div', { style: { display: 'flex', flexDirection: 'column', gap: 'calc(var(--spacing) * 3)' } },
-      e('div', { className: 'text-sm', style: { color: 'var(--color-text-secondary)' } }, 'Questions still open after a while are texted to your phone through your own Sendblue account; your first reply answers. Turn it on, set your phone and the delay in this mod\'s settings.'),
-      e('label', { className: 'text-sm' }, 'Sendblue API key id', e(C.TextField ?? 'input', { type: 'password', value: key, onChange: (ev) => setKey(ev?.target?.value ?? ev ?? ''), 'aria-label': 'Sendblue API key id' })),
-      e('label', { className: 'text-sm' }, 'Sendblue API secret', e(C.TextField ?? 'input', { type: 'password', value: secret, onChange: (ev) => setSecret(ev?.target?.value ?? ev ?? ''), 'aria-label': 'Sendblue API secret' })),
-      e(C.Button ?? 'button', { type: 'button', onClick: save }, 'Keep in the Keychain'),
-      saved ? e('div', { className: 'text-sm' }, saved) : null);
+      e(S, null,
+        e(S.Header, {
+          title: 'Sendblue',
+          subtitle: 'Questions still open after a while are texted to your phone through your own Sendblue account; your first reply answers. Turn it on, and set your phone and the delay, in this mod\'s settings.',
+          actions: e(C.Button, { color: 'secondary', disabled: !key && !secret, onClick: save }, 'Keep in the Keychain'),
+        }),
+        e(S.Content, null, e(C.SettingsCard, null,
+          e(C.SettingsRow, { label: 'API key id', description: 'From your Sendblue dashboard', control: field('Sendblue API key id', key, setKey) }),
+          e(C.SettingsRow, { label: 'API secret', control: field('Sendblue API secret', secret, setSecret) })))),
+      saved ? e(C.Banner, { tone: saved.ok ? 'success' : 'danger', message: saved.text }) : null);
   }
 
   const panel = ctx.ui.panel({ id: 'questions', title: 'Questions', icon: 'mention', render: () => e(Questions) });

@@ -56,10 +56,19 @@ export const placesOf = (rules) => [...new Map((rules ?? []).filter((r) => typeo
   return [`${x.presentation ?? ''}|${x.slot ?? ''}|${x.kind}`, x];
 })).entries()].sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0)).map(([, x]) => x);
 /** Where a mod came from, as Mod.source says it (F10): a GitHub release's repository, tag and digest, or a folder's path. */
-const sourceOf = (src) => (src?.kind === 'github' ? { kind: 'github', repo: String(src.repo), tag: String(src.tag), digest: String(src.digest) }
+const sourceOf = (src) => (src?.kind === 'github' ? { kind: 'github', repo: String(src.repo), tag: String(src.tag), digest: String(src.digest), ...(src.mod ? { mod: String(src.mod) } : {}) }
   : src?.kind === 'folder' ? { kind: 'folder', path: String(src.path) } : { kind: 'file' });
 
 /** One sentence per thing a mod lacks on this build (Mod.reasons): compatibility's own (docs/design/systems.md "E4 in detail"). */
+/** The catalog's mods as CodexMods.recommended (F10): each well-formed entry with the repository it comes from; anything else is left out. */
+export function recommendedOf(catalog) {
+  const repo = typeof catalog?.repo === 'string' && /^[A-Za-z0-9-]{1,39}\/[A-Za-z0-9._-]{1,100}$/.test(catalog.repo) ? catalog.repo : null;
+  if (!repo || !Array.isArray(catalog.mods)) return [];
+  const ok = (v, max) => typeof v === 'string' && v.length > 0 && v.length <= max;
+  return catalog.mods.filter((m) => m && /^[a-z0-9.-]{3,128}$/.test(m.id) && ok(m.name, 80) && ok(m.description, 400) && (m.glyph === undefined || ok(m.glyph, 40)))
+    .slice(0, 50).map((m) => ({ id: m.id, name: m.name, description: m.description, ...(m.glyph ? { glyph: m.glyph } : {}), repo }));
+}
+
 export function reasonsOf(compat) {
   if (!compat || typeof compat !== 'object') return [];
   const out = [];
@@ -276,7 +285,7 @@ export function keptOps(ops) {
 
 /**
  * @param {{ graph: object, management: { handle(req: object): Promise<object>, subscribe(fn: Function): { dispose(): void } },
- *   frameworkVersion: string, log?: object }} o
+ *   frameworkVersion: string, log?: object, catalog?: object }} o  `catalog`: framework/catalog.json, the mods the Mods page recommends
  */
 export function createFrameworkSource(o) {
   const { graph, management } = o;
@@ -324,7 +333,7 @@ export function createFrameworkSource(o) {
           return mutate('mods.install', { source: args[0], ...(dir ? { dev: true } : {}) });
         } },
         // F10: the latest release of a GitHub repository, its signed package
-        installFromGitHub: { effect: 'local', handler: ({ args }) => mutate('mods.installFromGitHub', { repo: args[0] }) },
+        installFromGitHub: { effect: 'local', handler: ({ args }) => mutate('mods.installFromGitHub', { repo: args[0], ...(args[1] ? { mod: args[1] } : {}) }) },
         setDeveloperMode: { effect: 'local', handler: async ({ args }) => { await call('framework.developerMode', { on: args[0] === true }); await refresh(false); return null; } },
         enterSafeMode: { effect: 'local', handler: () => mutate('recovery.safeMode', { enter: true }) },
         leaveSafeMode: { effect: 'local', handler: () => mutate('recovery.safeMode', { enter: false }) },
@@ -408,6 +417,7 @@ export function createFrameworkSource(o) {
   });
 
   const safe = (what, fn) => { try { return fn(); } catch (e) { log.warn(`framework: ${what} not put`, { message: String(e?.message ?? e) }); return null; } };
+  const recommended = recommendedOf(o.catalog);
   function put(d) { return safe(d.ref.type, () => handle.put(d.ref, { state: d.state, links: d.links })); }
 
   // ---------------------------------------------------------------- reads
@@ -427,6 +437,7 @@ export function createFrameworkSource(o) {
         ...(ms(updates?.lastCheck?.at) !== undefined ? { lastChecked: ms(updates.lastCheck.at) } : {}),
         ...(updates?.unknown?.length ? { checkProblem: updates.unknown.map(String).join(' ') } : {}),
         ...(lkg ? { lastKnownGood: { app: String(lkg.appBuild), framework: String(lkg.frameworkVersion), at: ms(lkg.healthyAt ?? lkg.createdAt) ?? 0 } } : {}),
+        ...(recommended.length ? { recommended } : {}),
       },
       links: { mods: modIds.map(refs.mod), operations: [...ops.keys()].map(refs.operation), features: [...features.keys()].map(refs.feature), app: refs.app(),
         update: updates?.offer ? refs.copyUpdate() : null },

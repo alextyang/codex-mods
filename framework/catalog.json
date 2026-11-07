@@ -1,0 +1,60 @@
+{
+  "$comment": "The mods the Mods page recommends (framework-ui.md F10): each is installed from the latest release of `repo`, which carries one signed package per mod (<id>-<version>.codexmod; scripts/release/mods.mjs). Names, descriptions and glyphs are their mod.json's (mods/manifests.test.mjs keeps them so).",
+  "repo": "alextyang/codex-mods",
+  "mods": [
+    {
+      "id": "codexmods.live-usage",
+      "name": "Live usage",
+      "description": "Your limits between whole percentage points, your pace and the time left, each chat's share, and a reserve that holds messages until your limit resets.",
+      "glyph": "usage"
+    },
+    {
+      "id": "codexmods.multi-panel",
+      "name": "Split view",
+      "description": "Two or more chats open at once: a split view beside the chat you are in, with up to three chats live, each with its own composer, and a chat beside yours in the side panel.",
+      "glyph": "sidebar"
+    },
+    {
+      "id": "codexmods.smart-composer",
+      "name": "Smart composer",
+      "description": "Luna in the composer: it finishes what you're typing, asks what's unclear before a message goes, and gives each message the reasoning effort its task needs.",
+      "glyph": "sparkle"
+    },
+    {
+      "id": "codexmods.account-switcher",
+      "name": "Account switcher",
+      "description": "Several ChatGPT accounts in one app: each kept signed in, and your chats moved between them between turns so every account's usage is used and fewer chats hit a limit.",
+      "glyph": "account"
+    },
+    {
+      "id": "codexmods.better-questions",
+      "name": "Better questions",
+      "description": "The agent asks you with a form, in a window of its own or by iMessage, and Codex's own questions open there too.",
+      "glyph": "mention"
+    },
+    {
+      "id": "codexmods.thread-settings",
+      "name": "Chat settings",
+      "description": "A chat's settings in one panel: Codex's, every mod's and each skill's, with a switch to use a skill in that chat and the parameters skills declare.",
+      "glyph": "gear"
+    },
+    {
+      "id": "codexmods.ui-tweaks",
+      "name": "UI tweaks",
+      "description": "A wider chat, bigger or smaller text, compact rows, the agent's steps open, and the parts of the app you never use hidden.",
+      "glyph": "customize"
+    },
+    {
+      "id": "codexmods.project-orchestrator",
+      "name": "Project orchestrator",
+      "description": "A project's orchestrator: a chat that learns the project, settles its open questions with you, hears what its other chats do, and coordinates the work with you.",
+      "glyph": "sparkle"
+    },
+    {
+      "id": "codexmods.claude-code",
+      "name": "Claude Code",
+      "description": "Claude Code as an agent in Codex: its chats beside Codex's, each a real Claude Code session in the project's folder, with its steps, approvals and answers in Codex's own look.",
+      "glyph": "terminal"
+    }
+  ]
+}

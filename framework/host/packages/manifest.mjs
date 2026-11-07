@@ -6,7 +6,7 @@ import { overlaps } from '../permissions.mjs';
 import { validateWhere } from '../../shared/where.mjs';
 import { INTERNAL_MOD_IDS } from '../../shared/internal-mods.mjs';
 
-const COMPONENTS = ['Button', 'Switch', 'TextField', 'Menu', 'Dialog', 'SettingsSection', 'SettingsRow', 'Tooltip', 'Icon', 'Badge', 'Banner', 'Checkbox', 'EmptyState', 'Glyph', 'IconTile', 'MenuButton', 'SearchField', 'SegmentedControl', 'Select', 'Tabs', 'SettingRow',
+const COMPONENTS = ['Button', 'Switch', 'TextField', 'Menu', 'Dialog', 'SettingsSection', 'SettingsCard', 'SettingsRow', 'Tooltip', 'Icon', 'Badge', 'Banner', 'Checkbox', 'EmptyState', 'Glyph', 'IconTile', 'MenuButton', 'SearchField', 'SegmentedControl', 'Select', 'Tabs', 'SettingRow',
   // the parts the framework lends (graph-integrity G2.3)
   'Transcript', 'Turn', 'Message', 'StepRow', 'DiffView', 'FileChip', 'ApprovalCard', 'QuestionCard', 'ThreadHeader', 'Composer', 'ModelPicker', 'EffortPicker'];
 const PLAIN_PERMISSIONS = ['appServer.backends', 'appServer.clients', 'ui', 'secrets', 'processes', 'network', 'framework.updates', 'graph'];

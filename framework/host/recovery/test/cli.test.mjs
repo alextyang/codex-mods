@@ -336,6 +336,23 @@ test('setup --daily refuses an ad-hoc identity (explicit or auto-detected) and w
   } finally { await t.cleanup(); }
 });
 
+test('setup --try makes a profile to try it whatever it was: its own Codex home and user data, an ad-hoc identity allowed; --daily with --try is refused', async () => {
+  const t = await tempRoot();
+  try {
+    const w = await setupWorld(t);
+    const l = L(t);
+    assert.equal(await setup([...rootFlags(t), '--daily', '--identity', 'Apple Development: Test (ABC)'], io(t, w.deps)), 0);
+    assert.equal(JSON.parse(await readFile(l.profileConfig, 'utf8')).codexHome.endsWith('.codex'), true);
+    assert.equal(await setup([...rootFlags(t), '--identity', '-'], io(t, w.deps)), 64, 'without --try the profile stays daily, which needs a certificate');
+    assert.equal(await setup([...rootFlags(t), '--try', '--identity', '-'], io(t, w.deps)), 0);
+    const p = JSON.parse(await readFile(l.profileConfig, 'utf8'));
+    assert.deepEqual([p.codexHome, p.guardStockApp, p.launchArgs], [l.codexHome, false, []], 'the copy\'s own user data, however it is opened');
+    const both = io(t, w.deps);
+    assert.equal(await setup([...rootFlags(t), '--daily', '--try'], both), 64);
+    assert.match(both.err.join(''), /pass one/);
+  } finally { await t.cleanup(); }
+});
+
 test('setup --daily passes --require-identity (only) to the builder; a QA setup does not', async () => {
   const t = await tempRoot();
   try {

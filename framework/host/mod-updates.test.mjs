@@ -15,8 +15,10 @@ function fakeGitHub() {
   const releases = new Map();
   const g = {
     releases, fail: null, lookups: 0,
-    async latest(repo) {
+    asked: [],
+    async latest(repo, opts = {}) {
       g.lookups++;
+      g.asked.push(opts.mod ?? null);
       if (g.fail) throw g.fail;
       const r = releases.get(repo.toLowerCase());
       if (!r) throw new CodexModsError('Invalid', `${repo} was not found on GitHub`);
@@ -66,6 +68,25 @@ test('install from GitHub: its latest release, installed as a file is, waiting f
     const after = H.ops.state().mods['test.alpha'];
     assert.deepEqual(after.decisions, { secrets: 'allow', 'graph.read': 'deny' });
     assert.deepEqual(after.grants, ['ui', 'secrets']);
+  } finally { await H.cleanup(); }
+});
+
+test('install from GitHub with a mod id: the package named for it, its record keeps the id and checks ask for it again; a package that is another mod is refused', async () => {
+  const { H, gh, mu, release, settle, settledLeft } = await setup();
+  try {
+    await release('acme/many', { version: '1.0.0', permissions: ['ui'] }, { repoId: 43 });
+    const wrong = await settle(await mu.install('acme/many', 'test.beta'));
+    assert.equal(wrong.outcome, 'failed', 'the release\'s package for test.beta is test.alpha');
+    assert.match(JSON.stringify(wrong.error ?? wrong), /package for test\.beta is test\.alpha/);
+    assert.deepEqual(H.ops.state().mods, {}, 'nothing recorded');
+    const op = await settle(await mu.install('acme/many', 'test.alpha'));
+    assert.equal(op.outcome, 'succeeded', JSON.stringify(op));
+    assert.equal(H.ops.state().mods['test.alpha'].source.mod, 'test.alpha');
+    assert.equal(await settledLeft(), 0);
+    assert.equal((await H.run({ type: 'consent', modId: 'test.alpha', approve: true })).outcome, 'succeeded');
+    gh.asked.length = 0;
+    await mu.check();
+    assert.deepEqual(gh.asked, ['test.alpha'], 'a check looks for the same mod in the release');
   } finally { await H.cleanup(); }
 });
 

@@ -52,6 +52,14 @@ export default [
     },
   },
   {
+    // The setup app's page: a classic script in its window (WebKit), talking only to its own server.
+    files: ['setup-app/ui/**/*.js'],
+    languageOptions: {
+      sourceType: 'script',
+      globals: { ...globals.browser },
+    },
+  },
+  {
     // The preload runs in Electron's preload realm: browser globals plus Node's `require`/`process`.
     files: ['framework/preload/**/*.cjs'],
     languageOptions: {

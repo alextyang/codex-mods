@@ -72,9 +72,13 @@ export function createFallbacks(React, themeMap = {}) {
     return h('div', { style: { display: 'flex', alignItems: 'center', gap: 8, justifyContent: 'space-between' } },
       h('div', null, h('div', { style: { fontWeight: 600 } }, title), subtitle ? h('div', { style: { color: S.muted, fontSize: 12 } }, subtitle) : null), actions ?? null);
   };
-  SettingsSection.Content = function SettingsSectionContent({ children }) { return h('div', { style: { border: `1px solid ${S.border}`, borderRadius: S.radius } }, children); };
+  SettingsSection.Content = function SettingsSectionContent({ children }) { return h('div', { style: { display: 'flex', flexDirection: 'column', gap: 6 } }, children); };
   SettingsSection.Footer = function SettingsSectionFooter({ children }) { return h('div', { style: { color: S.muted, fontSize: 12 } }, children); };
 
+  // the app's grouped rows: one rounded, bordered card, rows divided by hairlines
+  function SettingsCard({ children }) {
+    return h('div', { 'data-fallback': 'SettingsCard', style: { ...base, display: 'flex', flexDirection: 'column', border: `1px solid ${S.border}`, borderRadius: S.radius, overflow: 'hidden' } }, children);
+  }
   function SettingsRow({ label, description, control, icon, className, id }) {
     const ctl = typeof control === 'function' ? control({ labelId: undefined, descriptionId: undefined }) : control;
     return h('div', { id, className, 'data-fallback': 'SettingsRow', style: { ...base, display: 'flex', alignItems: 'center', gap: 12, padding: '8px 12px', justifyContent: 'space-between' } },
@@ -93,5 +97,5 @@ export function createFallbacks(React, themeMap = {}) {
     return h('span', { 'aria-hidden': true, className, 'data-fallback': 'Icon', style: { display: 'inline-block', width: '1em', height: '1em', lineHeight: '1em', textAlign: 'center', fontSize: size === 'inline' ? 20 : 16 } }, label ? label.slice(0, 1) : '•');
   }
 
-  return { Button, Switch, TextField, Menu, Dialog, SettingsSection, SettingsRow, Tooltip, Icon };
+  return { Button, Switch, TextField, Menu, Dialog, SettingsSection, SettingsCard, SettingsRow, Tooltip, Icon };
 }

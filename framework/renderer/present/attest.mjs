@@ -1,5 +1,6 @@
 // Attested user intent (graph-integrity G7.1): when a trusted input event reaches the callback of a surface the framework draws for a
-// mod (a rule's action, a kit or lent part's control, an answer to its question, a SettingRow), the page mints a one-use attestation
+// mod (a rule's action, a kit or lent part's control, the app's Button, Switch or menu item a mod draws through `ui.components`, an
+// answer to its question, a SettingRow), the page mints a one-use attestation
 // bound to that mod and this window, valid for a few seconds, and gives it to the callback (`asUser`). The mod passes it with a call of
 // its own (`invoke(ref, op, args, {asUser})`); the Host checks it with this window (unexpired, unused, the mod's own) and runs the call as
 // the user through that mod. The Host learns each attestation from the page as it is minted, ahead of any call that carries it (the same

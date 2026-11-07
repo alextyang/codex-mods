@@ -21,6 +21,8 @@ export const CodexMods = defineConcept('CodexMods', {
     lastChecked: s.time().optional(),   // E6.3: when updates were last looked for
     checkProblem: s.string().optional(),   // E6.3: why the last look could not complete (a source that cannot be reached)
     developerMode: s.boolean(),   // framework-ui.md F12: folder installs allowed and stacks shown
+    // F10: the mods the framework recommends (framework/catalog.json), each installed from the latest release of its repository by its id
+    recommended: s.list(s.object({ id: s.string(), name: s.string(), description: s.string(), glyph: s.string().optional(), repo: s.string() })).optional(),
   },
   relations: {
     mods: r.many('Mod'),
@@ -31,7 +33,7 @@ export const CodexMods = defineConcept('CodexMods', {
   },
   operations: {
     install: op({ args: [s.string()], returns: OPERATION }), // a Path: a package file, or a folder (a development package, in developer mode)
-    installFromGitHub: op({ args: [s.string()], returns: OPERATION }).optional(),   // F10: owner/repository: its latest release's signed package
+    installFromGitHub: op({ args: [s.string(), s.string().optional()], returns: OPERATION }).optional(),   // F10: owner/repository: its latest release's signed package; a mod id picks one of several
     setDeveloperMode: op({ args: [s.boolean()] }).optional(),   // F12
     setModOrder: op({ args: [s.list(s.ref('Mod'))] }).optional(),
     setUpdatePolicy: op({ args: [s.enum('offer', 'auto')] }).optional(),
@@ -73,7 +75,7 @@ export const Mod = defineConcept('Mod', {
     // GOAL.md goal 16: the model use its manifest declares (why, and the other kinds of tool it would like); the switch is mod intelligence's
     intelligence: s.object({ why: s.string(), tools: s.list(s.string()) }).optional(),
     // F10: where it came from; a newer GitHub release a check found, with what it adds and whether it runs here; why its last check could not complete
-    source: s.object({ kind: s.enum('github', 'folder', 'file'), repo: s.string().optional(), tag: s.string().optional(), digest: s.string().optional(), path: s.string().optional() }).optional(),
+    source: s.object({ kind: s.enum('github', 'folder', 'file'), repo: s.string().optional(), tag: s.string().optional(), digest: s.string().optional(), mod: s.string().optional(), path: s.string().optional() }).optional(),
     release: s.object({ version: s.string(), notes: s.string(), addedPermissions: s.list(s.string()), verdict: s.enum('compatible', 'degraded', 'atRisk', 'blocked'),
       publisherChange: s.boolean().optional(), repoChange: s.object({ from: s.string(), to: s.string() }).optional() }).optional(),
     checkProblem: s.string().optional(),

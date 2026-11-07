@@ -28,9 +28,9 @@ export function createModUpdates(o) {
   const changed = () => { for (const fn of [...listeners]) { try { fn(); } catch { /* the listener's own */ } } };
   const fileFor = (name) => join(o.dir, `${Date.now()}-${randomBytes(6).toString('hex')}-${name.replace(/[^A-Za-z0-9._-]/g, '_')}`);
 
-  /** Download the latest release's package of a repository: what it is, where it is, and how GitHub names it. */
-  async function fetchLatest(repo) {
-    const rel = await o.github.latest(repo);
+  /** Download the latest release's package of a repository (with `mod`, the one named for it): what it is, where it is, and how GitHub names it. */
+  async function fetchLatest(repo, mod) {
+    const rel = await o.github.latest(repo, mod ? { mod } : {});
     await mkdir(o.dir, { recursive: true, mode: 0o700 });
     const file = fileFor(rel.asset.name);
     const { digest } = await o.github.download(rel.asset.url, file);
@@ -41,7 +41,7 @@ export function createModUpdates(o) {
   async function checkOne(r) {
     const src = r.source;
     let fetched;
-    try { fetched = await fetchLatest(src.repo); } catch (e) { problems.set(r.id, String(e?.message ?? e)); return; }
+    try { fetched = await fetchLatest(src.repo, src.mod); } catch (e) { problems.set(r.id, String(e?.message ?? e)); return; }
     problems.delete(r.id);
     const { rel, file, digest } = fetched;
     const dropFetched = async () => { await rm(file, { force: true }); };
@@ -55,7 +55,7 @@ export function createModUpdates(o) {
       const before = offers.get(r.id);
       if (before?.file && before.file !== file) drop(before.file);
       offers.set(r.id, {
-        version: m.version, notes: rel.notes, file, github: { repo: rel.repo, repoId: rel.repoId, tag: rel.tag, digest },
+        version: m.version, notes: rel.notes, file, github: { repo: rel.repo, repoId: rel.repoId, tag: rel.tag, digest, ...(src.mod ? { mod: src.mod } : {}) },
         addedPermissions: (m.permissions ?? []).filter((p) => !permissionCovered(p, requiredOf(r))),
         verdict: o.compatibility(m).status, publisherChange: (pkg.publisher ?? null) !== (r.publisher ?? null),
         ...(rel.repoId !== src.repoId || rel.repo.toLowerCase() !== src.repo.toLowerCase() ? { repoChange: { from: src.repo, to: rel.repo } } : {}),
@@ -71,11 +71,12 @@ export function createModUpdates(o) {
   }
 
   return {
-    /** Install a mod from `owner/repository`: its operation's id. Nothing runs before consent; the package is checked as a file is. */
-    async install(repo) {
-      const { rel, file, digest } = await fetchLatest(repo);
+    /** Install a mod from `owner/repository` (with `mod`, that mod's package in a release that carries several): its operation's id. Nothing runs
+     *  before consent; the package is checked as a file is, and one that is not the mod asked for is refused. */
+    async install(repo, mod) {
+      const { rel, file, digest } = await fetchLatest(repo, mod);
       let opId;
-      try { opId = await o.operations.start({ type: 'install', source: file, github: { repo: rel.repo, repoId: rel.repoId, tag: rel.tag, digest } }); } catch (e) { await rm(file, { force: true }); throw e; }
+      try { opId = await o.operations.start({ type: 'install', source: file, github: { repo: rel.repo, repoId: rel.repoId, tag: rel.tag, digest, ...(mod ? { mod } : {}) } }); } catch (e) { await rm(file, { force: true }); throw e; }
       const sub = o.operations.subscribe((op) => { if (op.id === opId && op.outcome !== 'running') { sub.dispose(); void rm(file, { force: true }).catch(() => {}); } });
       return opId;
     },

@@ -202,11 +202,12 @@ export function createLifecycle(c) {
     }
   }
 
-  /** A GitHub source as an operation carries it (management's lookup), checked. */
+  /** A GitHub source as an operation carries it (management's lookup), checked; `mod`: the mod a release of several was asked for. */
   function githubOf(g, at) {
     if (!g || typeof g !== 'object' || typeof g.repo !== 'string' || !/^[A-Za-z0-9-]{1,39}\/[A-Za-z0-9._-]{1,100}$/.test(g.repo) || !Number.isSafeInteger(g.repoId)
-      || typeof g.tag !== 'string' || g.tag.length > 200 || typeof g.digest !== 'string' || !/^sha256:[0-9a-f]{64}$/.test(g.digest)) throw invalid(`${at}: {repo, repoId, tag, digest}`);
-    return { repo: g.repo, repoId: g.repoId, tag: g.tag, digest: g.digest };
+      || typeof g.tag !== 'string' || g.tag.length > 200 || typeof g.digest !== 'string' || !/^sha256:[0-9a-f]{64}$/.test(g.digest)
+      || (g.mod !== undefined && (typeof g.mod !== 'string' || !/^[a-z0-9.-]{3,128}$/.test(g.mod)))) throw invalid(`${at}: {repo, repoId, tag, digest, mod?}`);
+    return { repo: g.repo, repoId: g.repoId, tag: g.tag, digest: g.digest, ...(g.mod ? { mod: g.mod } : {}) };
   }
 
   // ------------------------------------------------------------------ install
@@ -220,6 +221,8 @@ export function createLifecycle(c) {
     const pkg = await c.step(op, 'verify', () => c.packages.verify(input.source, { dev: Boolean(input.dev), ...(input.github ? { digest: githubOf(input.github, 'github').digest } : {}) }));
     try {
       const m = pkg.manifest, id = m.id;
+      const asked = input.github ? githubOf(input.github, 'github').mod : undefined;
+      if (asked && asked !== id) throw new CodexModsError('Invalid', `the release's package for ${asked} is ${id}`);
       c.claim(op, id);
       let compat;
       await c.step(op, 'compatibility', async () => {
@@ -1212,7 +1215,7 @@ export function createLifecycle(c) {
           cur.grants = grantsFor(m.permissions ?? [], cur.decisions);
           // F11: a GitHub release's version, applied with the copy, is where it comes from now
           const gh = plan.enabled.find((x) => x.id === t.id)?.incoming?.github;
-          if (gh) cur.source = { kind: 'github', repo: gh.repo, repoId: gh.repoId, tag: gh.tag, digest: gh.digest };
+          if (gh) cur.source = { kind: 'github', repo: gh.repo, repoId: gh.repoId, tag: gh.tag, digest: gh.digest, ...(gh.mod ? { mod: gh.mod } : {}) };
           delete cur.pendingUpdate;
           keepAutomatic(cur, m);
           cur.updatedAt = now();

@@ -81,7 +81,7 @@ export const MUTATIONS = {
   'mods.clearQuarantine': { schema: { modId: 'modId' }, op: (p) => ({ type: 'clear-quarantine', modId: p.modId }) },
   'mods.reload': { schema: { modId: 'modId' }, op: (p) => ({ type: 'reload', modId: p.modId }) },
   'mods.setAutomatic': { schema: { modId: 'modId', action: 'automaticId', on: 'boolean' }, op: (p) => ({ type: 'set-automatic', modId: p.modId, action: p.action, on: p.on }) },
-  'mods.installFromGitHub': { schema: { repo: 'githubRepo' } },
+  'mods.installFromGitHub': { schema: { repo: 'githubRepo', mod: 'modId?' } },
   'mods.applyUpdate': { schema: { modId: 'modId' } },
   'mods.setPermission': { schema: { modId: 'modId', grant: 'grant', decision: 'decision' }, op: (p) => ({ type: 'set-permission', modId: p.modId, grant: p.grant, decision: p.decision }) },
   'mods.setPolicy': { schema: { modId: 'modId', policy: 'automaticId', on: 'boolean' }, op: (p) => ({ type: 'set-policy', modId: p.modId, policy: p.policy, on: p.on }) },

@@ -11,6 +11,7 @@ import { createHeldActions, outcomeOf as heldOutcome } from './graph/held-action
 import { decideUserHold, menuEntryHold } from './user-hold.mjs';
 import { join, isAbsolute } from 'node:path';
 import { existsSync, mkdirSync, readdirSync, unlinkSync } from 'node:fs';
+import { readFile } from 'node:fs/promises';
 import { execFile } from 'node:child_process';
 import { randomBytes } from 'node:crypto';
 import { SOCKETS, FLAGS } from '../../contracts/layout.mjs';
@@ -560,7 +561,9 @@ export async function startHost(opts) {
         // what each mod gave the agent, from the graph's records of the agent's inputs (graph-integrity G3.5)
         const given = createAgentGiven({ graph, modIds: () => graph.list('Mod').map((m) => m.ref.id), log: log.child('agent/given') });
         addCloser('agent/given', () => given.dispose());
-        const fw = await f.createFrameworkSource({ graph, management, frameworkVersion, log: log.child('graph/framework'),
+        // the mods the Mods page recommends (F10): the framework's catalog, as installed with it; none when it cannot be read
+        const catalog = await readFile(new URL('../catalog.json', import.meta.url), 'utf8').then(JSON.parse).catch(() => null);
+        const fw = await f.createFrameworkSource({ graph, management, frameworkVersion, catalog, log: log.child('graph/framework'),
           agent: { of: (id) => given.of(id), onChange: (fn) => given.onChange(fn) },
           rules: { of: (id) => runtime.rulesOf?.(id) ?? [], onChange: (fn) => runtime.onRulesChange?.(fn) } });
         addCloser('graph/framework', () => fw.dispose());

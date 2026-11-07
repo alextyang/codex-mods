@@ -1,8 +1,9 @@
 // codexmods.account-switcher, renderer entry (GOAL.md goal 26). Single-file ESM, no imports.
 //
-// Its Accounts page in Settings: each account with its usage (its most used limit and when its weekly limit resets), whether it is near
-// or out, how many chats run on it, and where new chats start; "Add account" (its sign-in opens in the browser), sign in again, sign out
-// and remove, each the user's own act. A chat's menu moves it to another account (the user's act; the native menu asks them to confirm).
+// Its Accounts page in Settings, drawn as the app's own settings: a SettingsSection whose header has "Add account", and a SettingsCard
+// with a SettingsRow per account (its usage, its weekly reset, its chats, where new chats start; its standing and its actions at the
+// right). Adding, signing in, signing out and removing are each the user's own act. A chat's menu moves it to another account (the
+// user's act; the native menu asks them to confirm).
 
 const pct = (v) => (Number.isFinite(v) ? `${Math.round(v)}%` : '—');
 const STANDING = { out: ['danger', 'Out'], near: ['warning', 'Near its limit'], ok: ['success', 'Has room'], unknown: ['neutral', 'Reading usage'] };
@@ -28,6 +29,7 @@ function renderer(ctx) {
     }, []);
     return { data, error };
   }
+  /** An account as one of the app's settings rows: its name, its usage and reset, its chats; its standing and actions at the right. */
   function Account({ a, start, onAct }) {
     const [tone, label] = STANDING[a.standing] ?? STANDING.unknown;
     const resets = Number.isFinite(a.limit?.resetsAt) ? `resets ${new Date(a.limit.resetsAt).toLocaleString()}` : null;
@@ -36,15 +38,15 @@ function renderer(ctx) {
       ...(a.added && a.signedIn ? [{ label: 'Sign out', onSelect: (...x) => onAct(a.ref, 'signOut', [], x.at(-1)) }] : []),
       ...(a.added ? [{ separator: true }, { label: 'Remove', danger: true, onSelect: (...x) => onAct(a.ref, 'remove', [], x.at(-1)) }] : []),
     ];
-    return e('div', { 'data-account': a.ref.id, style: { display: 'flex', alignItems: 'center', gap: 'calc(var(--spacing) * 3)' } },
-      e(C.IconTile, { glyph: 'account', size: 'sm' }),
-      e('div', { style: { display: 'flex', flexDirection: 'column', flex: 1, minWidth: 0 } },
-        e('span', { className: 'text-sm font-medium', style: { overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' } }, a.name, a.added ? '' : ' (the app\'s)'),
-        e('span', { className: 'text-xs', style: { color: 'var(--color-text-secondary)' } }, [
-          a.plan, a.limit ? `${pct(a.limit.used)} used` : null, resets, `${a.chats} chat${a.chats === 1 ? '' : 's'}`, a.ref.id === start ? 'new chats start here' : null,
-        ].filter(Boolean).join(' · '))),
-      e(C.Badge, { label, tone }),
-      items.length ? e(C.MenuButton, { items, ariaLabel: `${a.name}'s actions` }) : null);
+    const description = [a.plan, a.limit ? `${pct(a.limit.used)} used` : null, resets, `${a.chats} chat${a.chats === 1 ? '' : 's'}`, a.ref.id === start ? 'new chats start here' : null]
+      .filter(Boolean).join(' · ');
+    return e(C.SettingsRow, {
+      label: a.added ? a.name : `${a.name} (the app's)`,
+      description,
+      control: e('span', { 'data-account': a.ref.id, style: { display: 'inline-flex', alignItems: 'center', gap: 'calc(var(--spacing) * 2)' } },
+        e(C.Badge, { label, tone }),
+        items.length ? e(C.MenuButton, { items, ariaLabel: `${a.name}'s actions` }) : null),
+    });
   }
   function Page() {
     const { data, error } = useStatus();
@@ -55,15 +57,20 @@ function renderer(ctx) {
     };
     if (error) return e(C.Banner, { tone: 'danger', title: 'The account switcher is not answering', message: error });
     if (!data) return e(C.EmptyState, { glyph: 'account', title: 'Reading your accounts…' });
-    // a kit callback's last argument is the user's intent its input attests (after the event)
+    // a callback's last argument is the user's intent its input attests (the kit's and the app's own Button alike)
     const add = (...x) => onAct(AGENT, 'addAccount', [], x.at(-1));
-    return e('div', { 'data-account-switcher': String(data.accounts.length), style: { display: 'flex', flexDirection: 'column', gap: 'calc(var(--spacing) * 5)' } },
+    const S = C.SettingsSection;
+    return e('div', { 'data-account-switcher': String(data.accounts.length), style: { display: 'flex', flexDirection: 'column', gap: 'calc(var(--spacing) * 6)' } },
       problem ? e(C.Banner, { tone: 'warning', message: problem }) : null,
-      data.accounts.length < 2
-        ? e(C.EmptyState, { glyph: 'account', title: 'One account', description: 'Add another ChatGPT account. Your chats then move to whichever has room.', actions: [{ label: 'Add account', primary: true, onClick: add }] })
-        : e(C.Banner, { tone: 'neutral', title: `${data.accounts.length} accounts`, message: `Chats move off an account at ${data.near}% and to the one whose limit resets soonest after they compact.`, actions: [{ label: 'Add account', onClick: add }] }),
-      e('section', { style: { display: 'flex', flexDirection: 'column', gap: 'calc(var(--spacing) * 3)' } },
-        ...data.accounts.map((a) => e(Account, { key: a.ref.id, a, start: data.start, onAct }))));
+      e(S, null,
+        e(S.Header, {
+          title: 'Accounts',
+          subtitle: data.accounts.length < 2
+            ? 'Add another ChatGPT account. Your chats then move to whichever has room.'
+            : `Chats move off an account at ${data.near}%, and to the one whose limit resets soonest after they compact.`,
+          actions: e(C.Button, { color: 'secondary', onClick: add }, 'Add account'),
+        }),
+        e(S.Content, null, e(C.SettingsCard, null, ...data.accounts.map((a) => e(Account, { key: a.ref.id, a, start: data.start, onAct }))))));
   }
 
   const page = ctx.ui.settings.page({ id: 'accounts', title: 'Accounts', render: () => e(Page) });

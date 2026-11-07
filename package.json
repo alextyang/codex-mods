@@ -20,7 +20,7 @@
     "darwin"
   ],
   "scripts": {
-    "test": "node --test --test-timeout=600000 \"sdk/**/*.test.mjs\" \"contracts/**/*.test.mjs\" \"loader/**/*.test.mjs\" \"relay/**/*.test.mjs\" \"framework/**/*.test.mjs\" \"adapters/**/*.test.mjs\" \"builder/**/*.test.mjs\" \"cli/**/*.test.mjs\" \"mods/**/*.test.mjs\" \"tests/**/*.test.mjs\"",
+    "test": "node --test --test-timeout=600000 \"sdk/**/*.test.mjs\" \"contracts/**/*.test.mjs\" \"loader/**/*.test.mjs\" \"relay/**/*.test.mjs\" \"framework/**/*.test.mjs\" \"adapters/**/*.test.mjs\" \"builder/**/*.test.mjs\" \"cli/**/*.test.mjs\" \"mods/**/*.test.mjs\" \"setup-app/**/*.test.mjs\" \"tests/**/*.test.mjs\"",
     "lint": "eslint ."
   },
   "devDependencies": {

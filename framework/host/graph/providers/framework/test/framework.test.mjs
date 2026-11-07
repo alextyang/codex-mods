@@ -9,7 +9,7 @@ import { createGraphNs } from '../../../../ctx/graph.mjs';
 import { toDescriptor } from '../../../../../../sdk/graph/define.mjs';
 import { NATIVE_TYPES } from '../../../../../../sdk/graph/native/index.mjs';
 import { FRAMEWORK_TYPES } from '../../../../../../sdk/graph/framework.mjs';
-import { createFrameworkSource, refs, modData, modStateOf, operationData, keptOps, reasonsOf, permissionsOf, copyUpdateData, placesOf, PROVIDER, KIND } from '../index.mjs';
+import { createFrameworkSource, refs, modData, modStateOf, operationData, keptOps, reasonsOf, permissionsOf, copyUpdateData, placesOf, recommendedOf, PROVIDER, KIND } from '../index.mjs';
 
 const USER = { kind: 'user', id: 'user', owner: 'app' };
 const mod = (id) => ({ kind: 'mod', id, owner: `mod:${id}` });
@@ -422,4 +422,15 @@ test('F13 and F15: Mod.places is its rules\' kind, presentation and slot, each o
   assert.equal(modData(base, null, null, null, undefined, [], null, { seenStop: Date.parse('2026-11-02T10:00:00.000Z') }).state.stopSeen, false, 'a later stop is not looked at');
   assert.equal(modData({ ...base, status: 'enabled', quarantine: null }, null).state.stopSeen, undefined);
   assert.deepEqual(modData(base, null, null, null, undefined, [], null, { places: [{ kind: 'style' }] }).state.places, [{ kind: 'style' }]);
+});
+
+test('F10: CodexMods.recommended is the catalog\'s well-formed entries, each with its repository; a malformed catalog gives none', () => {
+  const repo = 'acme/mods';
+  assert.deepEqual(recommendedOf({ repo, mods: [
+    { id: 'acme.focus', name: 'Focus', description: 'One chat at a time', glyph: 'sparkle' },
+    { id: 'Bad Id', name: 'X', description: 'y' },
+    { id: 'acme.x', name: '', description: 'no name' },
+    { id: 'acme.y', name: 'Y', description: 'z', glyph: 7 },
+  ] }), [{ id: 'acme.focus', name: 'Focus', description: 'One chat at a time', glyph: 'sparkle', repo }]);
+  for (const bad of [null, {}, { repo: '../x', mods: [] }, { repo, mods: 'no' }]) assert.deepEqual(recommendedOf(bad), [], JSON.stringify(bad));
 });

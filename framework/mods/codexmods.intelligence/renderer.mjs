@@ -27,28 +27,34 @@ function renderer(ctx) {
     }, []);
     return items;
   }
+  const on = (v) => (typeof v === 'boolean' ? v : Boolean(v?.target?.checked));
+  // the app's own settings layout: a row per mod, its use and allowance below its name, the app's Switch on the right
   function Row({ use }) {
     const s = use.state ?? {};
-    return e('div', { 'data-model-use': s.modId, style: { display: 'flex', alignItems: 'center', gap: 'calc(var(--spacing) * 3)', padding: 'calc(var(--spacing) * 2) 0' } },
-      e(C.Checkbox, { checked: s.enabled === true, ariaLabel: `Model use for ${s.name}`, onChange: (on, intent) => act(use.ref, 'setEnabled', [on === true], intent) }),
-      e('div', { style: { flex: 1, minWidth: 0 } },
-        e('div', { className: 'text-sm font-medium' }, s.name),
-        e('div', { className: 'text-sm', style: { color: 'var(--color-text-secondary)' } }, s.why)),
-      e('div', { className: 'text-sm', style: { color: 'var(--color-text-secondary)', whiteSpace: 'nowrap' } },
-        `${fmt(s.usedHour)} of ${fmt(s.perHour)} this hour · ${fmt(s.usedDay)} of ${fmt(s.perDay)} today`),
-      e(C.Badge, { label: s.model }));
+    return e(C.SettingsRow, {
+      label: s.name,
+      description: `${s.why} · ${fmt(s.usedHour)} of ${fmt(s.perHour)} this hour · ${fmt(s.usedDay)} of ${fmt(s.perDay)} today`,
+      control: e('span', { 'data-model-use': s.modId, style: { display: 'inline-flex', alignItems: 'center', gap: 'calc(var(--spacing) * 2)' } },
+        e(C.Badge, { label: s.model }),
+        e(C.Switch, { checked: s.enabled === true, ariaLabel: `Model use for ${s.name}`, 'aria-label': `Model use for ${s.name}`, onChange: (...a) => act(use.ref, 'setEnabled', [on(a[0])], a.at(-1)) })),
+    });
   }
   function Overview() {
     const uses = useUses();
     if (!uses.length) return e(C.EmptyState, { glyph: 'sparkle', title: 'No mod uses models', description: 'A mod that asks to use models shows here, off until you turn it on.' });
     const total = uses.reduce((n, u) => n + (u.state?.usedDay ?? 0), 0);
-    return e('div', { 'data-model-uses': String(uses.length), style: { display: 'flex', flexDirection: 'column', gap: 'calc(var(--spacing) * 2)' } },
-      e('div', { className: 'text-sm', style: { color: 'var(--color-text-secondary)' } }, 'Mods use models through your Codex account, each only while you have it on, within the allowance you give it. Set its model, allowances and tools on its page in Mods.'),
+    const S = C.SettingsSection;
+    return e('div', { 'data-model-uses': String(uses.length), style: { display: 'flex', flexDirection: 'column', gap: 'calc(var(--spacing) * 3)' } },
       // a mod's calls under way, each stopped at once by its Stop
       ...uses.filter((u) => u.state?.running > 0).map((u) => e(C.Banner, { key: `run-${u.ref.id}`, tone: 'info', message: `${u.state.name} is using a model now`,
         actions: [{ label: 'Stop', danger: true, onClick: (intent) => act(u.ref, 'stop', [], intent) }] })),
-      ...uses.map((u) => e(Row, { key: u.ref.id, use: u })),
-      e('div', { className: 'text-sm font-medium', 'data-model-use-total': String(total) }, `${fmt(total)} tokens today in all`));
+      e(S, null,
+        e(S.Header, {
+          title: 'Mods that use models',
+          subtitle: 'Through your Codex account, each only while you have it on, within the allowance you give it. Set its model, allowances and tools on its page in Mods.',
+          actions: e('span', { className: 'text-sm text-secondary', 'data-model-use-total': String(total) }, `${fmt(total)} tokens today in all`),
+        }),
+        e(S.Content, null, e(C.SettingsCard, null, ...uses.map((u) => e(Row, { key: u.ref.id, use: u }))))));
   }
   const page = ctx.ui.settings.page({ id: 'overview', title: 'Mod intelligence', group: 'personal', render: () => e(Overview) });
   return () => page.dispose();

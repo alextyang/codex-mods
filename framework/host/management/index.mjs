@@ -379,7 +379,7 @@ export function createManagement(opts) {
       // F10: a mod from GitHub: its latest release found and downloaded first, then installed as a file is; an offered update applied
       if (method === 'mods.installFromGitHub') {
         if (!opts.modUpdates) throw new CodexModsError('Unavailable', 'installing from GitHub is not available here');
-        return { opId: await opts.modUpdates.install(params.repo) };
+        return { opId: await opts.modUpdates.install(params.repo, params.mod) };
       }
       if (method === 'mods.applyUpdate') {
         if (!opts.modUpdates) throw new CodexModsError('Unavailable', 'mod updates are not available here');

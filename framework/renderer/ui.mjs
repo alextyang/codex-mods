@@ -3,6 +3,12 @@
 import { CodexModsError } from '../../sdk/errors.mjs';
 import { createRuleApi } from '../shared/ui-rules-client.mjs';
 import { createSettingRow } from './present/setting-row.mjs';
+import { withIntent } from './present/attest.mjs';
+
+/** The app's components whose callbacks are the user's acts, and those callbacks: each gets `{asUser}` last, as the kit's do (G7.1). */
+const ACTING = Object.freeze({ Button: ['onClick'], Switch: ['onChange', 'onCheckedChange'] });
+const PART_ACTING = Object.freeze({ Menu: { Item: ['onSelect', 'onClick'] } });
+const REACT_MEMBERS = new Set(['$$typeof', 'render', 'type', 'compare', 'displayName', 'propTypes', 'defaultProps', 'contextTypes']);
 
 /**
  * @param {{ getReact: () => any, components: Record<string, any>, theme: ReturnType<import('./theme.mjs').createTheme>, ruleHandles?: object | null, onRuleRefused?: Function,
@@ -43,8 +49,32 @@ export function createUiFactory({ getReact, components, theme, ruleHandles = nul
         : Object.freeze(Object.fromEntries(Object.entries(v).filter(([, f]) => typeof f === 'function').map(([n, f]) => [n, forward(f)])))]));
       // the app's own chat in a place of this mod's (layouts.md D8): `ui.host` declares a region of a presentation; `ui.host.thread` draws one of the app's chats, a pane
       const hostedHost = Object.assign((...args) => forwarded.host(...args), { thread: (ref, opts) => (settingsPages?.hostThread ? settingsPages.hostThread(ref, opts) : null), tab: (kind, ref) => (settingsPages?.hostTab ? settingsPages.hostTab(kind, ref) : null), supported: () => settingsPages?.hostSupported?.() ?? { thread: false, transcript: false, tabs: [] } });
-      // the app's components and the kit, with this mod's SettingRow (G3.6: it reads and sets as this mod)
-      const own = Object.defineProperties({}, Object.getOwnPropertyDescriptors(components));
+      // the app's components and the kit, with this mod's SettingRow (G3.6: it reads and sets as this mod); the app's acting components
+      // carry the user's intent as the kit's do, so a page of the mod's drawn with the app's own Button acts as the user, through the mod
+      const own = Object.defineProperties({}, Object.fromEntries(Object.entries(Object.getOwnPropertyDescriptors(components)).map(([k, d]) => [k, { ...d, configurable: true }])));
+      const intentful = new WeakMap();   // the app's component -> its wrapper for this mod
+      const wrap = (C, keys, parts) => {
+        // the app's component is a function, or React's object for a forwardRef or memo one
+        if (typeof C !== 'function' && !(C && typeof C === 'object' && C.$$typeof)) return C;
+        const had = intentful.get(C);
+        if (had) return had;
+        const R = getReact();
+        const draw = (props, ref) => {
+          const p = { ...props };
+          for (const k of keys) if (typeof p[k] === 'function') p[k] = withIntent(p[k], modId);
+          if (ref != null) p.ref = ref;
+          return getReact().createElement(C, p);
+        };
+        const W = typeof R?.forwardRef === 'function' ? R.forwardRef(draw) : (props) => draw(props, null);
+        // its compound parts (Menu.Item, …), not React's own members of an object component
+        for (const [k, v] of Object.entries(C)) if (!REACT_MEMBERS.has(k)) W[k] = parts?.[k] ? wrap(v, parts[k]) : v;
+        intentful.set(C, W);
+        return W;
+      };
+      for (const name of [...Object.keys(ACTING), ...Object.keys(PART_ACTING)]) {
+        if (!(name in components)) continue;
+        Object.defineProperty(own, name, { enumerable: true, get: () => wrap(components[name], ACTING[name] ?? [], PART_ACTING[name]) });
+      }
       Object.defineProperty(own, 'SettingRow', { enumerable: true, value: createSettingRow({ R: getReact, kit: kit ?? components, exports: () => components, modId, graph: () => graph?.() }) });
       const ui = {
         ...forwarded,

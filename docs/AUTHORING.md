@@ -110,8 +110,8 @@ types and operations it needs:
 A mod acting alone on something the user owns (sending in their chat, stopping it, signing out) is asked of the user, each time, in the
 window they are in. Two things change that:
 
-- **The user's own act.** A control the framework draws for the mod (a kit or lent part, an answer to its `ui.ask`, a `SettingRow`) carries
-  the user's intent: its callback's last argument is `{asUser}` (after the event, if any). Pass it on from the renderer realm,
+- **The user's own act.** A control the framework draws for the mod (a kit or lent part, an answer to its `ui.ask`, a `SettingRow`), and
+  the app's own `Button`, `Switch` and `Menu.Item` from `ctx.ui.components`, carries the user's intent: its callback's last argument is `{asUser}` (after the event, if any). Pass it on from the renderer realm,
   `ctx.graph.invoke(ref, op, args, {asUser})`, and the act is the user's, through the mod (`caller.through`): nothing is asked. A context
   menu entry or a command gets it as `env.asUser`. An intent is good once, for a few seconds, from the window it was made in; the host
   realm never has one. The app's native menus (a project's or a chat's context menu) cannot attest: an act from them asks.
@@ -146,6 +146,15 @@ Both realms have most namespaces; the types and every member's contract are in [
 relation (`{ref, relation}`) or a type (`{type, where?}`), each instance's `state` and `links`. `invoke(ref, op, args)` runs an operation
 with every check (grants, policies, interceptors, the user's approval). The types, their members and their operations are the cards in
 [docs/graph/02-types.md](graph/02-types.md).
+
+### A page in the app's own look
+
+A settings page (`ctx.ui.settings.page`) is drawn inside the app's Settings, so build it from the app's settings pieces in
+`ctx.ui.components`, as the app's own pages are: a `SettingsSection` for each group (`SettingsSection.Header` takes `title`, `subtitle`
+and `actions`, such as a `Button`; `SettingsSection.Content` holds the rest), a `SettingsCard` of `SettingsRow`s inside it (`label`, `description`,
+and a `control` on the right: the app's `Switch`, `TextField`, `Button`, or a kit part), and the kit's `Banner` and `EmptyState` for
+states. Colours, fonts and spacing come from the app's tokens (`var(--color-text-secondary)`, `calc(var(--spacing) * 3)`), never literals.
+`codexmods.account-switcher`, `codexmods.live-usage`, `codexmods.ui-tweaks` and `codexmods.better-questions` are built this way.
 
 ## Interceptors
 
@@ -273,7 +282,9 @@ node cli/codexmods.mjs mods install ./acme.my-mod.codexmod --enable
 
 A package is signed with your key; the mod's page shows its publisher, and an update signed by another key asks the user again. A folder
 installs only as a development package (`--dev`, in Developer mode). Users install a package from Settings → Mods, or from a GitHub
-repository's latest release.
+repository's latest release (`codexmods mods install github:owner/repo`). A release may carry several mods: name each package
+`<id>-<version>.codexmod` and install one by its id (`github:owner/repo/<id>`); every release should carry all of them, since each mod's
+updates are looked for in the latest. The Mods page's Recommended list installs the maintained mods this way from this project's releases.
 
 ## Worked examples
 

@@ -5,7 +5,7 @@ import { createFallbacks } from './fallbacks.mjs';
 import { createKit, KIT_NAMES } from './present/kit/index.mjs';
 import { createLentParts, LENT_NAMES } from './present/lent/index.mjs';
 
-export const COMPONENT_NAMES = Object.freeze(['Button', 'Switch', 'TextField', 'Menu', 'Dialog', 'SettingsSection', 'SettingsRow', 'Tooltip', 'Icon', ...KIT_NAMES, ...LENT_NAMES]);
+export const COMPONENT_NAMES = Object.freeze(['Button', 'Switch', 'TextField', 'Menu', 'Dialog', 'SettingsSection', 'SettingsCard', 'SettingsRow', 'Tooltip', 'Icon', ...KIT_NAMES, ...LENT_NAMES]);
 const PARTS = { Menu: 'MenuParts', Dialog: 'DialogParts' };
 
 /**

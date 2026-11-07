@@ -57,3 +57,13 @@ for (const dir of packages) {
     if (m.permissions?.includes('ui')) assert.ok(m.entry.renderer, 'the ui permission needs a renderer entry');
   });
 }
+
+test('the Recommended catalog lists every maintained mod once, with its own name, description and glyph', () => {
+  const catalog = JSON.parse(fs.readFileSync(path.join(root, '..', 'framework', 'catalog.json'), 'utf8'));
+  assert.match(catalog.repo, /^[A-Za-z0-9-]+\/[A-Za-z0-9._-]+$/);
+  assert.deepEqual(catalog.mods.map((m) => m.id).sort(), [...EXPECTED].sort());
+  for (const m of catalog.mods) {
+    const own = JSON.parse(fs.readFileSync(path.join(root, m.id, 'mod.json'), 'utf8'));
+    assert.deepEqual({ name: m.name, description: m.description, glyph: m.glyph }, { name: own.name, description: own.description, glyph: own.glyph }, m.id);
+  }
+});

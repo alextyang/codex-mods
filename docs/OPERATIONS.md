@@ -36,7 +36,9 @@ Node 24 or newer is required. `cm ops …` needs a running Host; use `owned` to 
 cm setup --daily --identity "Apple Development: Your Name (ABCDE12345)"
 ```
 
-Setup installs the framework, writes `profile.json` (shared `~/.codex`, concurrency guard on), builds the copy from the installed stock app, and creates `$APP`. It is idempotent: a second run changes nothing unless a build input changed, and then it says which one.
+Setup installs the framework, writes `profile.json` (shared `~/.codex`, concurrency guard on), builds the copy from the installed stock app, and creates `$APP`. It is idempotent: a second run changes nothing unless a build input changed, and then it says which one. `--try` instead makes a copy to try it: its own Codex home under the profile and its own user data, signed ad hoc if you like (`--identity -`).
+
+**Codex Mods Setup** does the same in a window (`setup-app/README.md`; download it from the latest release or build it with `node setup-app/build.mjs`): it checks this Mac, backs up `~/.codex` first if you choose (an APFS clone in `~/CodexModsBackup`), runs this setup, puts the copy in the Dock (in ChatGPT's place for every day, beside it to try it) and sets the update policy. Opened again, it rebuilds the copy or uninstalls it (section 10).
 
 - codesign may ask once for permission to use the signing key. Click **Always Allow**.
 - Check the candidate's `build-report.json` (`readlink "$APP"`): `isolationBaseline.missing` is empty, `isolationScan.hits` is 0 (including the post-sign entitlement scan), `removedLockedUsePayload` is non-empty, `computerUseContainer.id` is `<TEAM>.com.openai.sky.CUAServicf` with `entitled` listing the app and helpers, every `mandatoryEdits` entry is applied, and the `updater` evidence is ok.
@@ -114,3 +116,7 @@ After launches, updates and Computer Use actions:
 - Five minutes after launch there is no Sparkle, Autoupdate or updater process, and no appcast line in `$OWL` or the profile logs.
 - A thread created in the copy appears in the CLI's history, and an existing CLI thread opens in the copy.
 - Quit and reopen the copy: no Keychain dialog, still signed in.
+
+## 10. Uninstall
+
+Open Codex Mods Setup and choose **Uninstall…** (quit ChatGPT Mods first). It puts your Dock back as it was before setup (ChatGPT's own tile where the copy's was, or the copy's tile gone), removes `$APP` (only when it is a link into `$CM_ROOT/apps`) and, in `apps`, `framework`, `adapters` and `updates` under `$CM_ROOT`, the entries the framework makes there (built copies, framework versions, adapter packs, update staging); anything else stays. Your mods, their data and settings (`store` and `profiles`), `~/.codex` and every backup stay, so setting up again brings your mods back; delete `$CM_ROOT` yourself to remove them too. The copy's own user data (`$OWL`) stays as well.

@@ -56,11 +56,24 @@ test('what each failure says: no repository, no release, no package, two package
   await assert.rejects(gh({ [`${API}/repos/acme/focus`]: reply(200, repoInfo) }).latest('acme/focus'), (e) => e.code === 'Invalid' && /acme\/focus has no release/.test(e.message));
   await assert.rejects(gh({ [`${API}/repos/acme/focus`]: reply(200, repoInfo), [`${API}/repos/acme/focus/releases/latest`]: reply(200, release([{ name: 'a.zip', browser_download_url: 'x' }])) }).latest('acme/focus'), /has no \.codexmod package/);
   await assert.rejects(gh({ [`${API}/repos/acme/focus`]: reply(200, repoInfo), [`${API}/repos/acme/focus/releases/latest`]: reply(200, release([asset('a.codexmod'), asset('b.codexmod')])) }).latest('acme/focus'), /has 2 \.codexmod packages/);
+  await assert.rejects(gh({ [`${API}/repos/acme/focus`]: reply(200, repoInfo), [`${API}/repos/acme/focus/releases/latest`]: reply(200, release([asset('a.codexmod'), asset('b.codexmod')])) }).latest('acme/focus', { mod: 'acme.c' }), /has no package for acme\.c/);
   await assert.rejects(gh({ [`${API}/repos/acme/focus`]: reply(403, { message: 'rate limit' }, { 'x-ratelimit-remaining': '0', 'x-ratelimit-reset': '1793750400' }) }).latest('acme/focus'),
     (e) => e.code === 'Unavailable' && /rate limit .* used up; it resets at \d\d:\d\d UTC/.test(e.message), 'never falls through to something else');
   await assert.rejects(gh({ [`${API}/repos/acme/focus`]: Object.assign(new Error('getaddrinfo ENOTFOUND'), { code: 'ENOTFOUND' }) }).latest('acme/focus'), (e) => e.code === 'Unavailable' && /Couldn’t reach github\.com \(ENOTFOUND\)/.test(e.message));
   await assert.rejects(gh({ [`${API}/repos/acme/focus`]: reply(500) }).latest('acme/focus'), (e) => e.code === 'Unavailable' && /answered 500/.test(e.message));
   await assert.rejects(gh({}).latest('not a repo'), /owner\/repository/);
+});
+
+test('a release of several mods: the package named for the mod asked for, as <id>.codexmod or <id>-<version>.codexmod; never a longer id that starts the same', async () => {
+  const many = [asset('acme.focus-1.2.0.codexmod', 'https://github.com/acme/focus/releases/download/v1.2.0/acme.focus-1.2.0.codexmod'),
+    asset('acme.focus-extra-2.0.0.codexmod', 'https://github.com/acme/focus/releases/download/v1.2.0/acme.focus-extra-2.0.0.codexmod'),
+    asset('acme.timer.codexmod', 'https://github.com/acme/focus/releases/download/v1.2.0/acme.timer.codexmod')];
+  const gh = createGitHub({ transport: fake({ [`${API}/repos/acme/focus`]: reply(200, repoInfo), [`${API}/repos/acme/focus/releases/latest`]: reply(200, release(many)) }).transport });
+  assert.equal((await gh.latest('acme/focus', { mod: 'acme.focus' })).asset.name, 'acme.focus-1.2.0.codexmod');
+  assert.equal((await gh.latest('acme/focus', { mod: 'acme.focus-extra' })).asset.name, 'acme.focus-extra-2.0.0.codexmod');
+  assert.equal((await gh.latest('acme/focus', { mod: 'acme.timer' })).asset.name, 'acme.timer.codexmod');
+  await assert.rejects(gh.latest('acme/focus'), /has 3 \.codexmod packages; install one of its mods/, 'without a mod, a release of several is not guessed at');
+  await assert.rejects(gh.latest('acme/focus', { mod: 'acme' }), /has no package for acme\b/);
 });
 
 test('a redirect goes only to GitHub\'s hosts, over HTTPS, a few times at most', async () => {

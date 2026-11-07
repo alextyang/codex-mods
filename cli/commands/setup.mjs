@@ -1,7 +1,10 @@
 // codexmods setup (ARCHITECTURE §14): installs the framework from this checkout, writes the profile, builds the first copy
 // from the installed stock app and creates the stable launch symlink. Idempotent: a second run changes nothing.
 //
-//   codexmods setup [--identity <name|->] [--profile <name>] [--daily] [--root <dir>] [--app-path <path>] [--stock <app>]
+//   codexmods setup [--identity <name|->] [--profile <name>] [--daily | --try] [--root <dir>] [--app-path <path>] [--stock <app>]
+//
+// --daily: the copy shares ~/.codex (everyday use); --try: its own Codex home under the profile and the copy's own user data (to try it),
+// whatever the profile was. Without either, a re-run keeps the profile's (a QA profile keeps its user data under the profile).
 import { cp, rename, rm, readFile, lstat } from 'node:fs/promises';
 import { execFile } from 'node:child_process';
 import { readdirSync } from 'node:fs';
@@ -46,7 +49,7 @@ async function copyAdapterPacks(sourceRoot, layout) {
 
 export async function run(argv, io = {}) {
   let c;
-  try { c = context(argv, io, { bool: ['daily', 'qa-no-restore', 'qa-socket-dirs'], value: ['identity', 'app-path', 'stock', 'source'] }); } catch (e) { (io.stderr ?? process.stderr).write(`${e.message}\n`); return 64; }
+  try { c = context(argv, io, { bool: ['daily', 'try', 'qa-no-restore', 'qa-socket-dirs'], value: ['identity', 'app-path', 'stock', 'source'] }); } catch (e) { (io.stderr ?? process.stderr).write(`${e.message}\n`); return 64; }
   return guarded(c, async () => {
     const { layout, flags, deps } = c;
     const sourceRoot = resolve(flags.source ?? deps.frameworkSource ?? FRAMEWORK_TREE);
@@ -61,7 +64,8 @@ export async function run(argv, io = {}) {
     // the stock app this profile's copies are built from (docs/design/systems.md E5): --stock records it, a re-run keeps it
     const stockApp = flags.stock ? resolve(expandHome(flags.stock, c.home)) : (existing?.stockApp ?? deps.stockApp ?? STOCK_APP);
     const identity = flags.identity ?? existing?.signingIdentity ?? await (deps.detectIdentity ?? detectIdentity)();
-    const daily = flags.daily ? true : undefined;
+    if (flags.daily && flags.try) throw new CodexModsError('Invalid', '--daily and --try are the two ways to use the copy: pass one');
+    const daily = flags.daily ? true : flags.try ? false : undefined;
     const isDaily = daily ?? (existing ? existing.codexHome === join(c.home, '.codex') : false);
     if (isDaily && flags['qa-no-restore']) throw new CodexModsError('Invalid', '--qa-no-restore is restricted to isolated QA profiles');
     if (isDaily && flags['qa-socket-dirs']) throw new CodexModsError('Invalid', '--qa-socket-dirs is restricted to isolated QA profiles');
@@ -70,12 +74,13 @@ export async function run(argv, io = {}) {
         + (flags.identity === '-' ? 'Pass an Apple Development identity with --identity "<name>".' : 'No Apple Development identity was found; pass one with --identity "<name>".'));
     }
     const profile = {
-      codexHome: daily ? join(c.home, '.codex') : (existing?.codexHome ?? layout.codexHome),
-      guardStockApp: daily ? true : (existing?.guardStockApp ?? false),
+      codexHome: daily ? join(c.home, '.codex') : daily === false ? layout.codexHome : (existing?.codexHome ?? layout.codexHome),
+      guardStockApp: daily ? true : daily === false ? false : (existing?.guardStockApp ?? false),
       signingIdentity: identity,
       appPath: resolve(expandHome(flags['app-path'] ?? existing?.appPath ?? join(c.home, 'Applications', 'ChatGPT Mods.app'), c.home)),
       // every (re)launch passes these after `open -n <appPath> --args` (v1.4): a QA profile keeps its own userData across app switches
-      launchArgs: isDaily ? [] : (daily === undefined && Array.isArray(existing?.launchArgs) ? existing.launchArgs : [`--user-data-dir=${layout.userData}`]),
+      // --try: none either, so the copy opens with its own user data however it is opened (the Dock, Finder, a relaunch)
+      launchArgs: isDaily || daily === false ? [] : (daily === undefined && Array.isArray(existing?.launchArgs) ? existing.launchArgs : [`--user-data-dir=${layout.userData}`]),
       ...(flags.stock ? { stockApp } : {}),
     };
     if (profile.codexHome === layout.codexHome) await mkdirs(layout.codexHome);

@@ -1,6 +1,6 @@
 {
   "id": "codexmods.account-switcher",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "name": "Account switcher",
   "description": "Several ChatGPT accounts in one app: each kept signed in, and your chats moved between them between turns so every account's usage is used and fewer chats hit a limit.",
   "author": "Codex Mods",

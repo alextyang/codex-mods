@@ -1,6 +1,6 @@
 {
   "id": "codexmods.intelligence",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "name": "Mod intelligence",
   "description": "Models for mods, under your control: each mod's model use is off until you turn it on, with the model and allowance you give it.",
   "author": "Codex Mods",

@@ -1,8 +1,8 @@
 // codexmods.ui-tweaks, renderer entry (GOAL.md goal 20). Single-file ESM, no imports.
 //
 // "Hidden parts": a page of this mod's in Settings (a tab of its page, after its settings) listing the app's own parts each place draws
-// (`ui.parts`: the names in the user's words, only those this build draws and the framework lets a mod hide), each with a checkbox. What
-// is checked is this mod's `hidden` setting; the host entry hides them.
+// (`ui.parts`: the names in the user's words, only those this build draws and the framework lets a mod hide), each a settings row with
+// the app's own Switch. What is on is this mod's `hidden` setting; the host entry hides them.
 
 const PLACES = [
   ['Sidebar', 'Sidebar'], ['SidebarItem', 'Chats in the sidebar'], ['TitleBar', 'Title bar'], ['ThreadHeader', 'Chat header'],
@@ -48,21 +48,24 @@ function renderer(ctx) {
     const set = (next) => { setError(null); ctx.settings.set('hidden', next).catch((err) => setError(String(err?.message ?? err))); };
     const toggle = (k, on) => set(on ? [...new Set([...hidden, k])] : hidden.filter((x) => x !== k));
     if (!places) return e(C.EmptyState, { glyph: 'customize', title: 'Reading the app\'s parts…' });
-    return e('div', { 'data-ui-tweaks-parts': String(hidden.length), style: { display: 'flex', flexDirection: 'column', gap: 'calc(var(--spacing) * 5)' } },
-      e('div', { style: { display: 'flex', alignItems: 'center', gap: 'calc(var(--spacing) * 3)' } },
-        e('div', { className: 'text-sm', style: { flex: 1, color: 'var(--color-text-secondary)' } },
-          'Checked parts are hidden in every window while this mod is on. Stop, Settings, signing in and out, and every answer to a request are never hidden.'),
-        hidden.length ? e(C.Button ?? 'button', { type: 'button', onClick: () => set([]) }, 'Show all') : null),
+    // the app's own settings layout: a section per place, a row per part, the app's Switch (on: hidden)
+    const S = C.SettingsSection;
+    return e('div', { 'data-ui-tweaks-parts': String(hidden.length), style: { display: 'flex', flexDirection: 'column', gap: 'calc(var(--spacing) * 6)' } },
       error ? e(C.Banner, { tone: 'danger', message: error }) : null,
-      ...places.map((place) => e('section', { key: place.presentation, 'data-place': place.presentation, style: { display: 'flex', flexDirection: 'column', gap: 'calc(var(--spacing) * 2)' } },
-        e('div', { className: 'text-sm font-medium' }, place.title),
-        ...place.parts.map((p) => {
+      ...places.map((place, i) => e(S, { key: place.presentation, 'data-place': place.presentation },
+        e(S.Header, {
+          title: place.title,
+          ...(i === 0 ? { subtitle: 'Parts turned on here are hidden in every window while this mod is on. Stop, Settings, signing in and out, and every answer to a request are never hidden.' } : {}),
+          ...(i === 0 && hidden.length ? { actions: e(C.Button, { color: 'secondary', onClick: () => set([]) }, 'Show all') } : {}),
+        }),
+        e(S.Content, null, e(C.SettingsCard, null, ...place.parts.map((p) => {
           const k = keyOf(place.presentation, p);
           const on = hidden.includes(k);
-          return e('label', { key: k, className: 'text-sm', style: { display: 'flex', alignItems: 'center', gap: 'calc(var(--spacing) * 2)' } },
-            e(C.Checkbox, { checked: on, ariaLabel: `Hide ${p.title}`, onChange: (v) => toggle(k, v) }),
-            e('span', null, p.title));
-        }))));
+          return e(C.SettingsRow, {
+            key: k, label: p.title, description: on ? 'Hidden' : undefined,
+            control: e(C.Switch, { checked: on, ariaLabel: `Hide ${p.title}`, 'aria-label': `Hide ${p.title}`, onChange: (v) => toggle(k, typeof v === 'boolean' ? v : Boolean(v?.target?.checked)) }),
+          });
+        }))))));
   }
 
   const page = ctx.ui.settings.page({ id: 'parts', title: 'Hidden parts', render: () => e(Page) });

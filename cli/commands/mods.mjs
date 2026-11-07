@@ -7,7 +7,7 @@ export const USAGE = `codexmods mods <subcommand>
 
   list                                  installed mods
   inspect <modId>                       permissions, versions, settings, recent operations
-  install <source> [--enable] [--dev]   .codexmod file, or a folder with --dev
+  install <source> [--enable] [--dev]   .codexmod file, a folder with --dev, or github:<owner>/<repository>[/<modId>]
   consent <modId> --approve|--deny [--enable]
   enable|disable|clear-quarantine|reload <modId>
   automatic <modId> <action> on|off     one automatic action's switch (it acts without asking while on)
@@ -122,6 +122,12 @@ export async function run(argv, io) {
       }
       case 'install': {
         const [source] = need(positionals, 1, 'install <source> [--enable] [--dev]');
+        // a GitHub release (F10): its latest signed package, or with a mod id the one named for that mod in a release of several; consent follows
+        const gh = /^github:([^/\s]+\/[^/\s]+)(?:\/([a-z0-9.-]{3,128}))?$/.exec(source);
+        if (gh) {
+          if (values.dev || values.enable) throw new UsageError('a GitHub install takes neither --dev nor --enable: consent comes first');
+          return doMutate('mods.installFromGitHub', { repo: gh[1], ...(gh[2] ? { mod: gh[2] } : {}) });
+        }
         return doMutate('mods.install', { source: absPath(io, source), ...(values.enable ? { enable: true } : {}), ...(values.dev ? { dev: true } : {}) });
       }
       case 'consent': {
