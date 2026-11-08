@@ -4,7 +4,7 @@
 // the Dock is put back, while the mods, their data and settings, the try-it copy's own chats and every backup stay where they are, so
 // setting up again brings them back. Nothing here deletes data the user made. Node built-ins and the framework's own modules only.
 import { execFile, spawn } from 'node:child_process';
-import { lstat, mkdir, mkdtemp, readdir, readFile, readlink, rm, stat } from 'node:fs/promises';
+import { lstat, mkdir, mkdtemp, readdir, readFile, readlink, realpath, rm, stat } from 'node:fs/promises';
 import { homedir } from 'node:os';
 import { join, resolve, sep } from 'node:path';
 import { layout as makeLayout, resolveRoot } from '../contracts/layout.mjs';
@@ -33,19 +33,46 @@ export const REMOVED = Object.freeze(Object.keys(OWNED));
 const isRoot = async (root) => (await exists(join(root, 'framework', 'current'))) || (await exists(join(root, 'setup.json')));
 
 /**
- * A copy of the Codex data in a new folder of its own under `base` (never one another backup has): an APFS clone when it can, a plain
- * copy otherwise; a link to the data is followed (review #3, #4). Answers the folder.
+ * What a backup leaves out of the Codex data: the chats (their transcripts, their index and locks) and the worktrees chats run in. They are
+ * most of its size, often many gigabytes; they stay where they are, and nothing setup does changes them.
+ */
+export const NOT_BACKED_UP = Object.freeze(['sessions', 'archived_sessions', 'session_index.jsonl', 'session_index.jsonl.lock', 'thread-writer-locks', 'worktrees']);
+
+/**
+ * A copy of the Codex data, but for NOT_BACKED_UP, in a new folder of its own under `base` (never one another backup has): an APFS clone of
+ * each item when it can, a plain copy otherwise. A link to the data folder is followed; links inside it stay links (review #3, #4). Answers
+ * the folder.
  */
 export async function backupCodex(from, base) {
+  const src = await realpath(from);
+  const items = (await readdir(src)).filter((n) => !NOT_BACKED_UP.includes(n));
   await mkdir(base, { recursive: true, mode: 0o700 });
-  for (const args of [['-cRpH'], ['-RpH']]) {
+  for (const clone of [true, false]) {
     const to = await mkdtemp(join(base, `codex-${stamp()}-`));
-    const r = await exec('/bin/cp', [...args, `${from}/`, to], { timeout: 30 * 60_000 });
-    if (r.ok) return to;
+    let failed = null;
+    for (const n of items) {
+      const r = await exec('/bin/cp', [clone ? '-cRp' : '-Rp', join(src, n), to], { timeout: 30 * 60_000 });
+      if (!r.ok) { failed = r.err.trim(); break; }
+    }
+    if (!failed) return to;
     await rm(to, { recursive: true, force: true });
-    if (args[0] === '-RpH') throw new Error(`the backup failed: ${r.err.trim()}`);
+    if (!clone) throw new Error(`the backup failed: ${failed}`);
   }
   throw new Error('the backup failed');
+}
+
+/** How big a backup of the Codex data is (what NOT_BACKED_UP leaves out not counted), or null. */
+async function backupBytesOf(home, du) {
+  const src = await realpath(home).catch(() => null);
+  if (!src) return null;
+  let total = 0;
+  for (const n of await readdir(src)) {
+    if (NOT_BACKED_UP.includes(n)) continue;
+    const b = await du(join(src, n));
+    if (b == null) return null;
+    total += b;
+  }
+  return total;
 }
 
 const exec = (cmd, args, opts = {}) => new Promise((res) => execFile(cmd, args, { timeout: 20000, maxBuffer: 8 * 1024 * 1024, ...opts }, (e, out, err) => res({ ok: !e, out: String(out ?? ''), err: String(err ?? e?.message ?? '') })));
@@ -138,7 +165,7 @@ export function createSteps(o = {}) {
         stock, newest: newest ? newest.split('-')[0] : null,
         node: { version: o.nodeVersion ?? process.versions.node, ok: major >= NODE_MAJOR },
         identities: await identities(),
-        codex: { path: codexHome, exists: hasCodex, bytes: hasCodex ? await bytesOf(codexHome) : 0 },
+        codex: { path: codexHome, exists: hasCodex, bytes: hasCodex ? await bytesOf(codexHome) : 0, backupBytes: hasCodex ? await backupBytesOf(codexHome, bytesOf) : 0 },
         running: await running(),
         installed: await installed(),
         framework: await frameworkVersionOf(sourceRoot).catch(() => null),

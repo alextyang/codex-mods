@@ -78,7 +78,7 @@ const VIEWS = {
         row('ChatGPT for Mac', `Version ${c.stock.version} (build ${c.stock.bundle}), supported`, badge('success', 'Ready', 'ok')),
         row('Node.js', `Version ${c.node.version}, used to build the copy and run mods`, c.node.ok ? badge('success', 'Ready', 'ok') : badge('danger', 'Needs 24 or newer', 'warn')),
         row('Signing certificate', id ? `${id}, for a copy you use every day` : 'None found. You can still make a copy to try it, without one.', id ? badge('success', 'Ready', 'ok') : badge('muted', 'Optional', 'skip')),
-        row('Your Codex data', c.codex.exists ? `Chats and settings in ~/.codex (${bytes(c.codex.bytes)}), backed up before anything changes if you choose` : 'None yet: a copy you use every day starts it', badge('muted', c.codex.exists ? 'Found' : 'None', c.codex.exists ? 'ok' : 'skip'))),
+        row('Your Codex data', c.codex.exists ? `Chats and settings in ~/.codex (${bytes(c.codex.bytes)}). The backup, if you choose it, is your settings without the chats (${bytes(c.codex.backupBytes)})` : 'None yet: a copy you use every day starts it', badge('muted', c.codex.exists ? 'Found' : 'None', c.codex.exists ? 'ok' : 'skip'))),
       busy ? h('div', { className: 'note', 'data-tone': 'warning' }, icon('warn'), h('span', null, 'Quit ChatGPT and any running codex sessions before a copy for every day, or a backup, so your Codex data is complete. ', h('button', { type: 'button', className: 'link', onClick: load }, 'Check again'))) : null,
     ], [btn('Quit', quit), btn('Continue', () => { S.choice ??= { mode: id ? 'daily' : 'try', identity: id ?? '-', backup: c.codex.exists, autoUpdate: true, dock: true }; S.view = 'choose'; render(); }, 'primary', !ready)]];
   },
@@ -117,7 +117,7 @@ const VIEWS = {
         option('try', 'To try it', 'A separate copy beside ChatGPT, with its own sign-in and its own data. Nothing you use today is touched.', 'Signed on this Mac, without your certificate', true)),
       identity,
       h('div', { className: 'card' },
-        check('backup', 'Back up your Codex data first', 'A copy of ~/.codex in ~/CodexModsBackup, kept on this Mac', !c.codex.exists),
+        check('backup', 'Back up your Codex settings first', `A copy of ~/.codex in ~/CodexModsBackup${c.codex.backupBytes ? ` (${bytes(c.codex.backupBytes)})` : ''}, without your chats and their worktrees, which are too large to copy and stay where they are`, !c.codex.exists),
         check('dock', 'Put it in your Dock', ch.mode === 'daily' ? 'In ChatGPT’s place; uninstalling puts ChatGPT back' : 'Beside ChatGPT; uninstalling takes it out again'),
         check('autoUpdate', 'Rebuild when ChatGPT updates', 'The copy is rebuilt from the new ChatGPT once Codex Mods supports it')),
     ], [btn('Back', () => { S.view = 'check'; render(); }), btn('Build my copy', start, 'primary')]];
@@ -126,7 +126,7 @@ const VIEWS = {
   build: () => {
     const j = S.job, ch = S.choice;
     const steps = [
-      ['backup', 'Back up your Codex data'],
+      ['backup', 'Back up your Codex settings'],
       ['framework', `Install the framework${S.check.framework ? ` ${S.check.framework}` : ''}`],
       ['copy', 'Build your copy', `Copied from ChatGPT ${S.check.stock.version}, with the adapter for build ${S.check.stock.bundle}, signed and checked to be isolated from ChatGPT`],
       ['dock', ch.mode === 'daily' ? 'Put it in ChatGPT’s place in your Dock' : 'Put it beside ChatGPT in your Dock'],

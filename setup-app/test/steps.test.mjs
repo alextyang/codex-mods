@@ -63,7 +63,7 @@ test('check: this ChatGPT and whether a pack supports it, the newest supported, 
     assert.equal(c.newest, '26.1027.30824');
     assert.deepEqual(c.node, { version: '24.21.0', ok: true });
     assert.deepEqual(c.identities, ['Apple Development: Me (TEAM)']);
-    assert.deepEqual(c.codex, { path: join(w.home, '.codex'), exists: true, bytes: 412e6 });
+    assert.deepEqual(c.codex, { path: join(w.home, '.codex'), exists: true, bytes: 412e6, backupBytes: 412e6 }, 'the backup\'s size counts what it copies');
     assert.deepEqual(c.running, { chatgpt: [11], codex: [12], copy: [] });
     assert.equal(c.installed, null);
     assert.match(c.framework, /^1\.2\.3\+[0-9a-f]+$/, 'its version and content');
@@ -184,19 +184,30 @@ test('setup refuses a folder with other files in it that Codex Mods did not set 
   } finally { await w.cleanup(); }
 });
 
-test('a backup is a new folder of its own each time, complete, and follows a Codex data folder that is a link', async () => {
+test('a backup is a new folder of its own each time with the settings, not the chats or their worktrees; it follows a data folder that is a link, and keeps links inside it as links', async () => {
   const w = await world({ codex: false });
   try {
-    await mkdir(join(w.home, 'elsewhere', 'sessions'), { recursive: true });
-    await writeFile(join(w.home, 'elsewhere', 'sessions', 'a.jsonl'), 'chat');
-    await symlink(join(w.home, 'elsewhere'), join(w.home, '.codex'));
+    const data = join(w.home, 'elsewhere');
+    for (const d of ['sessions/2026/11', 'archived_sessions', 'worktrees/abc/repo', 'thread-writer-locks', 'skills/mine', 'rules']) await mkdir(join(data, d), { recursive: true });
+    await writeFile(join(data, 'sessions', '2026', '11', 'rollout.jsonl'), 'a chat');
+    await writeFile(join(data, 'session_index.jsonl'), '{}');
+    await writeFile(join(data, 'worktrees', 'abc', 'repo', 'big.bin'), 'x'.repeat(1000));
+    await writeFile(join(data, 'config.toml'), 'model = "x"');
+    await writeFile(join(data, 'skills', 'mine', 'SKILL.md'), 'a skill');
+    await mkdir(join(w.home, 'shared-prompts'), { recursive: true });
+    await symlink(join(w.home, 'shared-prompts'), join(data, 'prompts'));
+    await symlink(data, join(w.home, '.codex'));
     const base = join(w.home, 'CodexModsBackup');
     const [a, b] = await Promise.all([backupCodex(join(w.home, '.codex'), base), backupCodex(join(w.home, '.codex'), base)]);
     assert.notEqual(a, b);
     for (const dir of [a, b]) {
       assert.equal((await lstat(dir)).isSymbolicLink(), false);
-      assert.equal(await readFile(join(dir, 'sessions', 'a.jsonl'), 'utf8'), 'chat', 'the data, not the link');
+      assert.equal(await readFile(join(dir, 'config.toml'), 'utf8'), 'model = "x"', 'the data, not the link to it');
+      assert.equal(await readFile(join(dir, 'skills', 'mine', 'SKILL.md'), 'utf8'), 'a skill');
+      assert.equal((await lstat(join(dir, 'prompts'))).isSymbolicLink(), true, 'a link inside stays a link');
+      for (const out of ['sessions', 'archived_sessions', 'session_index.jsonl', 'thread-writer-locks', 'worktrees']) assert.equal(await exists(join(dir, out)), false, out);
     }
+    assert.equal(await readFile(join(data, 'sessions', '2026', '11', 'rollout.jsonl'), 'utf8'), 'a chat', 'the chats stay where they are');
   } finally { await w.cleanup(); }
 });
 
