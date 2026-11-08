@@ -158,3 +158,15 @@ for (const { bundle, version } of [{ bundle: '20770', version: '26.1013.40934' }
     }
   });
 }
+
+test('usedResults: an awaited call whose value is a call argument is used, though commas surround it (review 2026-11-07); a statement or a non-final sequence operand is not', () => {
+  const body = 'let t=e.marketplaces;if(!t)throw Error(`Bundled CUA skill version mismatch: x`);return!0';
+  const at = (text) => text.indexOf('async function(e){');
+  const loc = (text) => { const start = at(text); return { name: null, start, end: matchClose(text, start + 'async function(e)'.length) }; };
+  for (const [text, used] of [
+    [`async function f(){await async function(e){${body}}(a),null!=e&&g()}`, false],
+    [`async function f(){await async function(e){${body}}(a);}`, false],
+    [`async function f(){consume(0,await async function(e){${body}}(a),1)}`, true],
+    [`async function f(){let x=await async function(e){${body}}(a)}`, true],
+  ]) assert.equal(usedResults(text, loc(text)).length > 0, used, text.slice(0, 60));
+});

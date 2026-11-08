@@ -24,14 +24,14 @@ async function onBuild(build, change) {
   if (change) change(ev);
   return { ev, evaluation: evaluate(log, ev) };
 }
-const B22943 = '26.1027.30824-22943', B21477 = '26.1016.62342-21477', B20770 = '26.1013.40934-20770';
+const B25679 = '26.1103.41825-25679', B22943 = '26.1027.30824-22943', B21477 = '26.1016.62342-21477', B20770 = '26.1013.40934-20770';
 const compat = (manifest, e) => computeCompatibility(manifest, { log, evaluation: e.evaluation });
 
 test('the log is what the code gives, and the scan\'s residue is declared', () => {
   const r = spawnSync(process.execPath, [join(ROOT, 'scripts', 'features.mjs'), '--check'], { encoding: 'utf8' });
   assert.equal(r.status, 0, r.stderr);
   assert.ok(Object.keys(log.features).length > 250 && Object.keys(log.mechanics).length > 150);
-  assert.deepEqual(log.reference.builds, [B22943, B21477, B20770]);
+  assert.deepEqual(log.reference.builds, [B25679, B22943, B21477, B20770]);
 });
 
 test('the SDK\'s entries name every namespace of its contexts (sdk/index.d.ts)', () => {

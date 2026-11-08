@@ -1,0 +1,3244 @@
+{
+  "generatedAt": "2026-11-08T03:09:57.171Z",
+  "from": "26.1027.30824-22943",
+  "to": "26.1103.41825-25679",
+  "transforms": {
+    "cua-relocate-dir": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-relocate-config": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-relocate-installer": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-disable-locked-use": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-helper-private-home": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-relocate-approvals": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-service-path-env": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-container": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-bundle-id:src:1": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-bundle-id:main:1": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-bundle-id:main:2": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-bundle-id:main:3": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-bundle-id:worker:1": {
+      "missed": false,
+      "derived": true
+    },
+    "managed-config-no-persist": {
+      "missed": false,
+      "derived": true
+    },
+    "managed-config-no-persist-cua-repl": {
+      "missed": false,
+      "derived": true
+    },
+    "managed-config-cua-repl-thread": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-skills-no-expose": {
+      "missed": false,
+      "derived": true
+    },
+    "cua-disable-cu-peer-auth": {
+      "missed": false,
+      "derived": true
+    },
+    "seam-jsx": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-jsx@78007": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-tap:commands": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-tap:handlers": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-tap:messages": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-tap:messages@654172": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-tap:messages@739641": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-tap:messages@892801": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-menu": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-menu@99588": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-menu:file-tree": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-menu:file-tree:end": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-menu:workspace-file": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-menu:tab": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-menu:tab:end": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-launcher": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-launcher@176566": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-launcher@99588": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-markdown:components": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-markdown:directives": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-markdown:components@904485": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-markdown:directives@904485": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-markdown:text": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-markdown:text:end": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-sidebar-groups": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-tab-visible": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-responsive": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-page-route": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-destinations:head": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-destinations": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-rail-mode": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-copy": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-copy-origin:markdown": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-copy-origin:folder": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-copy-origin:link": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-command": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-attach": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-attach:end": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-attach@884655": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-attach:end@884655": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-review-action": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-review-action:end": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-pr-create": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-props:mcp-row": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-props:mcp-row-plugin": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-props:mcp-row-forward": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-props:model-menu": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-props:model-row": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-props:model-row@220821": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-props:branch-list": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-app-host": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-menu-command": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-main-modules": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:348410:TL6G": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:357055:TL6G": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:727403:Vlts": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:100740:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:100740:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:100740:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:100740:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:109163:MCtJ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:111855:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:111855:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:111855:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:114243:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:114243:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:114243:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:114243:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:116410:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:116410:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:116410:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:116410:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:116432:DFiw": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:117976:vmZO": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:124801:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:124801:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:124801:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:12803:hwkA": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:13446:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:13446:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:136682:vmZO": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:142457:i5yi": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:150138:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:150138:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:150138:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:150138:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:152406:BI7J": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:164807:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:164807:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:164807:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:174514:hwkA": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:174531:jU2q": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:176566:jU2q": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:179206:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:179206:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:182735:b5fQ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:182735:CqQF": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:182735:Dgwo": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:182735:dt6g": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:182735:DUYS": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:182735:e2yU": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:182735:EDyN": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:182735:EFj1": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:182735:EpL9": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:182735:FHYD": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:182735:gbrq": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:182735:jFzS": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:182735:Oj9r": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:182735:q3HK": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:182735:QcW8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:182735:qhiJ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:182735:RFDv": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:182735:sa2M": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:182735:Sd8U": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:182735:tl5a": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:182735:TwSq": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:182735:V3rO": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:182735:X6Vn": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:182735:ydck": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:182735:YnF4": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:182735:zLIa": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:182735:ZU27": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:188101:MCtJ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:188101:vmZO": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:188990:DQaH": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:188990:y4kX": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:189497:bqtn": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:189497:F0xz": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:189497:hffr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:189497:JNtf": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:189497:mUDD": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:189497:OWtl": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:189497:SGsN": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:189497:UxN3": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:189497:zTeN": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:190247:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:1975:v5fl": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:205180:MCtJ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:206610:DFiw": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:21133:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:21133:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:214975:vmZO": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:232354:hwkA": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:232354:MCtJ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:234277:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:239573:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:239573:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:239573:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:239573:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:240269:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:240269:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:240269:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:258250:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:258250:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:258250:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:258250:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:265842:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:265842:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:272587:BI7J": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:276191:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:276191:hwkA": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:276191:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:279799:vmZO": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:280944:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:283932:y4kX": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:287084:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:287084:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:287084:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:287084:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:288641:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:288641:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:288641:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:288641:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:291906:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:291906:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:298571:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:298571:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:301219:hwkA": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:301845:hwkA": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:304904:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:304904:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:304904:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:304904:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:305846:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:306206:acby": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:306206:BI7J": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:309406:Ceox": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:318021:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:318021:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:320198:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:320198:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:320198:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:320198:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:320758:NzWk": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:321808:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:321808:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:325680:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:325680:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:325680:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:332459:hwkA": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:338923:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:352584:vmZO": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:359591:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:359591:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:362477:MCtJ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:362477:vmZO": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:366057:bREQ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:366057:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:368610:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:368610:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:369985:v5fl": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:377631:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:377631:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:380495:vmZO": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:381822:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:383085:MCtJ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:384375:MCtJ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:385860:hwkA": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:39017:zyAW": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:390890:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:390890:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:395916:vmZO": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:399410:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:399410:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:399410:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:399410:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:405329:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:405329:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:405765:hwkA": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:406753:hwkA": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:411497:acby": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:411497:BI7J": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:414655:v5fl": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:421962:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:424391:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:424391:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:424391:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:424391:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:434281:vmZO": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:440338:hwkA": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:451502:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:451502:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:451502:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:455653:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:457228:DQaH": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:473177:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:476405:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:476405:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:476405:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:476405:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:479025:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:479025:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:481370:MCtJ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:486447:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:486447:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:488465:vmZO": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:492075:MCtJ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:493889:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:499225:D8ee": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:499225:DQaH": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:499225:ZIk0": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:503486:BI7J": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:503951:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:503951:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:506672:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:506672:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:506672:hwkA": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:506672:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:524314:hwkA": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:530534:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:530534:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:530534:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:530534:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:534015:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:543778:MCtJ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:543778:y4kX": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:54449:hwkA": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:545437:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:545437:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:545437:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:545437:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:546307:vmZO": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:548929:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:548929:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:5493:v5fl": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:552859:DQaH": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:559431:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:559431:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:565116:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:565116:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:57123:MCtJ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:578639:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:578639:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:578639:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:579403:vmZO": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:580472:hwkA": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:589469:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:598999:hwkA": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:599909:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:599909:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:603622:MCtJ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:608446:BI7J": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:612724:hwkA": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:612724:MCtJ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:616568:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:621444:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:629964:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:636047:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:636047:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:636701:hwkA": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:636701:MCtJ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:636701:vmZO": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:638310:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:642510:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:642510:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:649275:MCtJ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:657158:zyAW": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:668007:By8V": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:670294:hwkA": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:670294:vmZO": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:670415:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:670415:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:670415:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:670415:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:680701:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:680701:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:680701:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:680701:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:688809:hwkA": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:689302:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:697522:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:697522:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:697522:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:698876:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:703658:MCtJ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:705412:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:705412:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:708390:hwkA": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:710096:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:710096:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:710096:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:710876:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:710876:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:710876:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:710876:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:711042:MCtJ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:714089:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:714314:DFiw": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:718858:v5fl": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:71968:vmZO": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:739641:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:739641:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:739641:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:739641:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:740485:hwkA": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:740995:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:740995:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:747556:vmZO": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:751848:hwkA": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:769028:BI7J": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:770887:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:770887:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:771578:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:773327:MCtJ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:777822:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:777822:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:778184:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:778184:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:785384:hwkA": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:792994:By8V": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:794486:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:794486:By8V": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:794486:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:810493:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:810493:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:813718:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:832672:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:836008:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:836008:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:836008:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:836008:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:837769:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:837769:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:841755:vmZO": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:848739:MCtJ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:851065:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:851065:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:851065:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:851065:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:851255:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:851255:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:851255:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:851255:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:853364:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:853364:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:853364:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:853364:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:853694:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:853694:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:854205:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:865196:hwkA": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:865196:MCtJ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:870386:JhHS": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:870635:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:870635:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:870635:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:87437:Itrj": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:878027:By8V": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:883001:hwkA": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:884779:KVWT": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:887800:hwkA": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:889224:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:889224:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:889224:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:889224:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:890434:ygO2": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:895082:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:895082:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:895082:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:898577:MCtJ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:899308:acby": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:904015:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:904015:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:904015:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:904323:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:904323:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:904485:NzWk": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:906175:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:906175:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:906175:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:906175:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:906413:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:906413:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:906413:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:909697:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:909697:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:909697:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:909697:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:912488:By8V": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:912488:v5fl": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:913986:hwkA": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:917120:MCtJ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:922492:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:928601:hwkA": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:938100:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:938100:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:938100:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:959752:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:959752:hwkA": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:959752:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:961657:bJfu": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:970028:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:970028:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:970028:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:970028:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:971042:AWNZ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:971042:BSnr": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:971042:jxU8": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:971042:MCtJ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:971042:ZEx5": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:982192:BI7J": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:982673:MCtJ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:986871:v5fl": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:99588:jU2q": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:99588:MCtJ": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:998287:CqQF": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:998287:e2yU": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-expose:998287:ygO2": {
+      "missed": false,
+      "derived": true,
+      "uiSeam": true
+    },
+    "seam-lazy": {
+      "missed": true,
+      "reason": "not derived for this build (the UI seams are derived again for every build)",
+      "uiSeam": true
+    },
+    "seam-expose:agent-activity-item": {
+      "missed": true,
+      "reason": "not derived for this build (the UI seams are derived again for every build)",
+      "uiSeam": true
+    },
+    "seam-expose:agent-activity-item-row": {
+      "missed": true,
+      "reason": "not derived for this build (the UI seams are derived again for every build)",
+      "uiSeam": true
+    },
+    "seam-expose:app-initial": {
+      "missed": true,
+      "reason": "not derived for this build (the UI seams are derived again for every build)",
+      "uiSeam": true
+    },
+    "seam-expose:app-primary": {
+      "missed": true,
+      "reason": "not derived for this build (the UI seams are derived again for every build)",
+      "uiSeam": true
+    },
+    "seam-expose:app-runtime": {
+      "missed": true,
+      "reason": "not derived for this build (the UI seams are derived again for every build)",
+      "uiSeam": true
+    },
+    "seam-expose:app-shared": {
+      "missed": true,
+      "reason": "not derived for this build (the UI seams are derived again for every build)",
+      "uiSeam": true
+    },
+    "seam-expose:composer-content": {
+      "missed": true,
+      "reason": "not derived for this build (the UI seams are derived again for every build)",
+      "uiSeam": true
+    },
+    "seam-expose:followup-analytics": {
+      "missed": true,
+      "reason": "not derived for this build (the UI seams are derived again for every build)",
+      "uiSeam": true
+    },
+    "seam-expose:local-conversation-thread": {
+      "missed": true,
+      "reason": "not derived for this build (the UI seams are derived again for every build)",
+      "uiSeam": true
+    },
+    "seam-expose:settings-content-layout": {
+      "missed": true,
+      "reason": "not derived for this build (the UI seams are derived again for every build)",
+      "uiSeam": true
+    },
+    "seam-expose:settings-group": {
+      "missed": true,
+      "reason": "not derived for this build (the UI seams are derived again for every build)",
+      "uiSeam": true
+    },
+    "seam-expose:thread-panel-launcher-artifacts": {
+      "missed": true,
+      "reason": "not derived for this build (the UI seams are derived again for every build)",
+      "uiSeam": true
+    }
+  },
+  "anchors": {
+    "settings.section": {
+      "missed": false,
+      "selectors": [
+        {
+          "selector": "body:has([data-settings-panel-slug=\"general-settings\"][aria-current=\"page\"]) [class~=\"group/settings\"][data-density] > div:last-child",
+          "status": "found"
+        },
+        {
+          "selector": "body:has([data-settings-panel-slug=\"general-settings\"][aria-current=\"page\"]) [class~=\"group/settings\"][data-density]",
+          "status": "found"
+        },
+        {
+          "selector": "body:has([data-settings-panel-slug=\"general-settings\"][aria-current=\"page\"]) div[class~=\"overflow-y-auto\"]:has(> [class~=\"group/settings\"])",
+          "status": "found"
+        }
+      ]
+    },
+    "sidebar": {
+      "missed": false,
+      "selectors": [
+        {
+          "selector": "nav[role=\"navigation\"][class*=\"_Navigation_\"]",
+          "status": "missed"
+        },
+        {
+          "selector": "[data-app-shell-page-sidebar]",
+          "status": "found"
+        },
+        {
+          "selector": "[data-app-navigation-rail]",
+          "status": "found"
+        }
+      ]
+    },
+    "workspace": {
+      "missed": false,
+      "selectors": [
+        {
+          "selector": "[data-app-shell-workspace-layout]",
+          "status": "found"
+        },
+        {
+          "selector": "[data-app-shell-main-content-layout]",
+          "status": "found"
+        },
+        {
+          "selector": "main[data-app-shell-main-surface]",
+          "status": "found"
+        }
+      ]
+    }
+  },
+  "protocol": {
+    "regenerated": true,
+    "counts": {
+      "clientRequests": 106,
+      "clientNotifications": 1,
+      "serverRequests": 10,
+      "serverNotifications": 86
+    },
+    "census": {
+      "written": true,
+      "failed": []
+    }
+  },
+  "binaryPatches": {
+    "derived": 31,
+    "previous": 31,
+    "missing": []
+  },
+  "declarations": {
+    "components": [],
+    "react": false,
+    "seams": []
+  },
+  "uiSeams": {
+    "applied": [
+      "jsx",
+      "taps",
+      "menus",
+      "file-menu",
+      "workspace-file-menu",
+      "tab-menu",
+      "launcher",
+      "markdown",
+      "markdown-text",
+      "sidebar-groups",
+      "tab-visible",
+      "responsive",
+      "page-route",
+      "destinations",
+      "rail-mode",
+      "copy",
+      "copy-origin",
+      "command",
+      "attach",
+      "review-action",
+      "pr-create",
+      "props:mcp-row",
+      "props:model-menu",
+      "props:branch-list",
+      "app-host",
+      "menu-command",
+      "main-modules",
+      "seam-expose:348410:TL6G",
+      "seam-expose:357055:TL6G",
+      "seam-expose:727403:Vlts",
+      "seam-expose:100740:AWNZ",
+      "seam-expose:100740:BSnr",
+      "seam-expose:100740:jxU8",
+      "seam-expose:100740:ZEx5",
+      "seam-expose:109163:MCtJ",
+      "seam-expose:111855:AWNZ",
+      "seam-expose:111855:BSnr",
+      "seam-expose:111855:ZEx5",
+      "seam-expose:114243:AWNZ",
+      "seam-expose:114243:BSnr",
+      "seam-expose:114243:jxU8",
+      "seam-expose:114243:ZEx5",
+      "seam-expose:116410:AWNZ",
+      "seam-expose:116410:BSnr",
+      "seam-expose:116410:jxU8",
+      "seam-expose:116410:ZEx5",
+      "seam-expose:116432:DFiw",
+      "seam-expose:117976:vmZO",
+      "seam-expose:124801:AWNZ",
+      "seam-expose:124801:BSnr",
+      "seam-expose:124801:ZEx5",
+      "seam-expose:12803:hwkA",
+      "seam-expose:13446:AWNZ",
+      "seam-expose:13446:ZEx5",
+      "seam-expose:136682:vmZO",
+      "seam-expose:142457:i5yi",
+      "seam-expose:150138:AWNZ",
+      "seam-expose:150138:BSnr",
+      "seam-expose:150138:jxU8",
+      "seam-expose:150138:ZEx5",
+      "seam-expose:152406:BI7J",
+      "seam-expose:164807:AWNZ",
+      "seam-expose:164807:jxU8",
+      "seam-expose:164807:ZEx5",
+      "seam-expose:174514:hwkA",
+      "seam-expose:174531:jU2q",
+      "seam-expose:176566:jU2q",
+      "seam-expose:179206:AWNZ",
+      "seam-expose:179206:ZEx5",
+      "seam-expose:182735:b5fQ",
+      "seam-expose:182735:CqQF",
+      "seam-expose:182735:Dgwo",
+      "seam-expose:182735:dt6g",
+      "seam-expose:182735:DUYS",
+      "seam-expose:182735:e2yU",
+      "seam-expose:182735:EDyN",
+      "seam-expose:182735:EFj1",
+      "seam-expose:182735:EpL9",
+      "seam-expose:182735:FHYD",
+      "seam-expose:182735:gbrq",
+      "seam-expose:182735:jFzS",
+      "seam-expose:182735:Oj9r",
+      "seam-expose:182735:q3HK",
+      "seam-expose:182735:QcW8",
+      "seam-expose:182735:qhiJ",
+      "seam-expose:182735:RFDv",
+      "seam-expose:182735:sa2M",
+      "seam-expose:182735:Sd8U",
+      "seam-expose:182735:tl5a",
+      "seam-expose:182735:TwSq",
+      "seam-expose:182735:V3rO",
+      "seam-expose:182735:X6Vn",
+      "seam-expose:182735:ydck",
+      "seam-expose:182735:YnF4",
+      "seam-expose:182735:zLIa",
+      "seam-expose:182735:ZU27",
+      "seam-expose:188101:MCtJ",
+      "seam-expose:188101:vmZO",
+      "seam-expose:188990:DQaH",
+      "seam-expose:188990:y4kX",
+      "seam-expose:189497:bqtn",
+      "seam-expose:189497:F0xz",
+      "seam-expose:189497:hffr",
+      "seam-expose:189497:JNtf",
+      "seam-expose:189497:mUDD",
+      "seam-expose:189497:OWtl",
+      "seam-expose:189497:SGsN",
+      "seam-expose:189497:UxN3",
+      "seam-expose:189497:zTeN",
+      "seam-expose:190247:AWNZ",
+      "seam-expose:1975:v5fl",
+      "seam-expose:205180:MCtJ",
+      "seam-expose:206610:DFiw",
+      "seam-expose:21133:AWNZ",
+      "seam-expose:21133:ZEx5",
+      "seam-expose:214975:vmZO",
+      "seam-expose:232354:hwkA",
+      "seam-expose:232354:MCtJ",
+      "seam-expose:234277:ZEx5",
+      "seam-expose:239573:AWNZ",
+      "seam-expose:239573:BSnr",
+      "seam-expose:239573:jxU8",
+      "seam-expose:239573:ZEx5",
+      "seam-expose:240269:AWNZ",
+      "seam-expose:240269:BSnr",
+      "seam-expose:240269:ZEx5",
+      "seam-expose:258250:AWNZ",
+      "seam-expose:258250:BSnr",
+      "seam-expose:258250:jxU8",
+      "seam-expose:258250:ZEx5",
+      "seam-expose:265842:AWNZ",
+      "seam-expose:265842:ZEx5",
+      "seam-expose:272587:BI7J",
+      "seam-expose:276191:AWNZ",
+      "seam-expose:276191:hwkA",
+      "seam-expose:276191:ZEx5",
+      "seam-expose:279799:vmZO",
+      "seam-expose:280944:BSnr",
+      "seam-expose:283932:y4kX",
+      "seam-expose:287084:AWNZ",
+      "seam-expose:287084:BSnr",
+      "seam-expose:287084:jxU8",
+      "seam-expose:287084:ZEx5",
+      "seam-expose:288641:AWNZ",
+      "seam-expose:288641:BSnr",
+      "seam-expose:288641:jxU8",
+      "seam-expose:288641:ZEx5",
+      "seam-expose:291906:AWNZ",
+      "seam-expose:291906:ZEx5",
+      "seam-expose:298571:AWNZ",
+      "seam-expose:298571:ZEx5",
+      "seam-expose:301219:hwkA",
+      "seam-expose:301845:hwkA",
+      "seam-expose:304904:AWNZ",
+      "seam-expose:304904:BSnr",
+      "seam-expose:304904:jxU8",
+      "seam-expose:304904:ZEx5",
+      "seam-expose:305846:ZEx5",
+      "seam-expose:306206:acby",
+      "seam-expose:306206:BI7J",
+      "seam-expose:309406:Ceox",
+      "seam-expose:318021:AWNZ",
+      "seam-expose:318021:ZEx5",
+      "seam-expose:320198:AWNZ",
+      "seam-expose:320198:BSnr",
+      "seam-expose:320198:jxU8",
+      "seam-expose:320198:ZEx5",
+      "seam-expose:320758:NzWk",
+      "seam-expose:321808:AWNZ",
+      "seam-expose:321808:ZEx5",
+      "seam-expose:325680:AWNZ",
+      "seam-expose:325680:jxU8",
+      "seam-expose:325680:ZEx5",
+      "seam-expose:332459:hwkA",
+      "seam-expose:338923:jxU8",
+      "seam-expose:352584:vmZO",
+      "seam-expose:359591:AWNZ",
+      "seam-expose:359591:ZEx5",
+      "seam-expose:362477:MCtJ",
+      "seam-expose:362477:vmZO",
+      "seam-expose:366057:bREQ",
+      "seam-expose:366057:jxU8",
+      "seam-expose:368610:AWNZ",
+      "seam-expose:368610:ZEx5",
+      "seam-expose:369985:v5fl",
+      "seam-expose:377631:AWNZ",
+      "seam-expose:377631:ZEx5",
+      "seam-expose:380495:vmZO",
+      "seam-expose:381822:BSnr",
+      "seam-expose:383085:MCtJ",
+      "seam-expose:384375:MCtJ",
+      "seam-expose:385860:hwkA",
+      "seam-expose:39017:zyAW",
+      "seam-expose:390890:AWNZ",
+      "seam-expose:390890:ZEx5",
+      "seam-expose:395916:vmZO",
+      "seam-expose:399410:AWNZ",
+      "seam-expose:399410:BSnr",
+      "seam-expose:399410:jxU8",
+      "seam-expose:399410:ZEx5",
+      "seam-expose:405329:AWNZ",
+      "seam-expose:405329:ZEx5",
+      "seam-expose:405765:hwkA",
+      "seam-expose:406753:hwkA",
+      "seam-expose:411497:acby",
+      "seam-expose:411497:BI7J",
+      "seam-expose:414655:v5fl",
+      "seam-expose:421962:BSnr",
+      "seam-expose:424391:AWNZ",
+      "seam-expose:424391:BSnr",
+      "seam-expose:424391:jxU8",
+      "seam-expose:424391:ZEx5",
+      "seam-expose:434281:vmZO",
+      "seam-expose:440338:hwkA",
+      "seam-expose:451502:AWNZ",
+      "seam-expose:451502:jxU8",
+      "seam-expose:451502:ZEx5",
+      "seam-expose:455653:BSnr",
+      "seam-expose:457228:DQaH",
+      "seam-expose:473177:ZEx5",
+      "seam-expose:476405:AWNZ",
+      "seam-expose:476405:BSnr",
+      "seam-expose:476405:jxU8",
+      "seam-expose:476405:ZEx5",
+      "seam-expose:479025:AWNZ",
+      "seam-expose:479025:ZEx5",
+      "seam-expose:481370:MCtJ",
+      "seam-expose:486447:AWNZ",
+      "seam-expose:486447:ZEx5",
+      "seam-expose:488465:vmZO",
+      "seam-expose:492075:MCtJ",
+      "seam-expose:493889:AWNZ",
+      "seam-expose:499225:D8ee",
+      "seam-expose:499225:DQaH",
+      "seam-expose:499225:ZIk0",
+      "seam-expose:503486:BI7J",
+      "seam-expose:503951:AWNZ",
+      "seam-expose:503951:ZEx5",
+      "seam-expose:506672:AWNZ",
+      "seam-expose:506672:BSnr",
+      "seam-expose:506672:hwkA",
+      "seam-expose:506672:ZEx5",
+      "seam-expose:524314:hwkA",
+      "seam-expose:530534:AWNZ",
+      "seam-expose:530534:BSnr",
+      "seam-expose:530534:jxU8",
+      "seam-expose:530534:ZEx5",
+      "seam-expose:534015:jxU8",
+      "seam-expose:543778:MCtJ",
+      "seam-expose:543778:y4kX",
+      "seam-expose:54449:hwkA",
+      "seam-expose:545437:AWNZ",
+      "seam-expose:545437:BSnr",
+      "seam-expose:545437:jxU8",
+      "seam-expose:545437:ZEx5",
+      "seam-expose:546307:vmZO",
+      "seam-expose:548929:BSnr",
+      "seam-expose:548929:jxU8",
+      "seam-expose:5493:v5fl",
+      "seam-expose:552859:DQaH",
+      "seam-expose:559431:BSnr",
+      "seam-expose:559431:jxU8",
+      "seam-expose:565116:AWNZ",
+      "seam-expose:565116:ZEx5",
+      "seam-expose:57123:MCtJ",
+      "seam-expose:578639:BSnr",
+      "seam-expose:578639:jxU8",
+      "seam-expose:578639:ZEx5",
+      "seam-expose:579403:vmZO",
+      "seam-expose:580472:hwkA",
+      "seam-expose:589469:AWNZ",
+      "seam-expose:598999:hwkA",
+      "seam-expose:599909:AWNZ",
+      "seam-expose:599909:ZEx5",
+      "seam-expose:603622:MCtJ",
+      "seam-expose:608446:BI7J",
+      "seam-expose:612724:hwkA",
+      "seam-expose:612724:MCtJ",
+      "seam-expose:616568:jxU8",
+      "seam-expose:621444:BSnr",
+      "seam-expose:629964:BSnr",
+      "seam-expose:636047:AWNZ",
+      "seam-expose:636047:ZEx5",
+      "seam-expose:636701:hwkA",
+      "seam-expose:636701:MCtJ",
+      "seam-expose:636701:vmZO",
+      "seam-expose:638310:AWNZ",
+      "seam-expose:642510:AWNZ",
+      "seam-expose:642510:ZEx5",
+      "seam-expose:649275:MCtJ",
+      "seam-expose:657158:zyAW",
+      "seam-expose:668007:By8V",
+      "seam-expose:670294:hwkA",
+      "seam-expose:670294:vmZO",
+      "seam-expose:670415:AWNZ",
+      "seam-expose:670415:BSnr",
+      "seam-expose:670415:jxU8",
+      "seam-expose:670415:ZEx5",
+      "seam-expose:680701:AWNZ",
+      "seam-expose:680701:BSnr",
+      "seam-expose:680701:jxU8",
+      "seam-expose:680701:ZEx5",
+      "seam-expose:688809:hwkA",
+      "seam-expose:689302:BSnr",
+      "seam-expose:697522:AWNZ",
+      "seam-expose:697522:BSnr",
+      "seam-expose:697522:ZEx5",
+      "seam-expose:698876:AWNZ",
+      "seam-expose:703658:MCtJ",
+      "seam-expose:705412:AWNZ",
+      "seam-expose:705412:ZEx5",
+      "seam-expose:708390:hwkA",
+      "seam-expose:710096:AWNZ",
+      "seam-expose:710096:BSnr",
+      "seam-expose:710096:ZEx5",
+      "seam-expose:710876:AWNZ",
+      "seam-expose:710876:BSnr",
+      "seam-expose:710876:jxU8",
+      "seam-expose:710876:ZEx5",
+      "seam-expose:711042:MCtJ",
+      "seam-expose:714089:jxU8",
+      "seam-expose:714314:DFiw",
+      "seam-expose:718858:v5fl",
+      "seam-expose:71968:vmZO",
+      "seam-expose:739641:AWNZ",
+      "seam-expose:739641:BSnr",
+      "seam-expose:739641:jxU8",
+      "seam-expose:739641:ZEx5",
+      "seam-expose:740485:hwkA",
+      "seam-expose:740995:AWNZ",
+      "seam-expose:740995:ZEx5",
+      "seam-expose:747556:vmZO",
+      "seam-expose:751848:hwkA",
+      "seam-expose:769028:BI7J",
+      "seam-expose:770887:AWNZ",
+      "seam-expose:770887:ZEx5",
+      "seam-expose:771578:jxU8",
+      "seam-expose:773327:MCtJ",
+      "seam-expose:777822:AWNZ",
+      "seam-expose:777822:ZEx5",
+      "seam-expose:778184:AWNZ",
+      "seam-expose:778184:ZEx5",
+      "seam-expose:785384:hwkA",
+      "seam-expose:792994:By8V",
+      "seam-expose:794486:AWNZ",
+      "seam-expose:794486:By8V",
+      "seam-expose:794486:ZEx5",
+      "seam-expose:810493:AWNZ",
+      "seam-expose:810493:ZEx5",
+      "seam-expose:813718:BSnr",
+      "seam-expose:832672:jxU8",
+      "seam-expose:836008:AWNZ",
+      "seam-expose:836008:BSnr",
+      "seam-expose:836008:jxU8",
+      "seam-expose:836008:ZEx5",
+      "seam-expose:837769:jxU8",
+      "seam-expose:837769:ZEx5",
+      "seam-expose:841755:vmZO",
+      "seam-expose:848739:MCtJ",
+      "seam-expose:851065:AWNZ",
+      "seam-expose:851065:BSnr",
+      "seam-expose:851065:jxU8",
+      "seam-expose:851065:ZEx5",
+      "seam-expose:851255:AWNZ",
+      "seam-expose:851255:BSnr",
+      "seam-expose:851255:jxU8",
+      "seam-expose:851255:ZEx5",
+      "seam-expose:853364:AWNZ",
+      "seam-expose:853364:BSnr",
+      "seam-expose:853364:jxU8",
+      "seam-expose:853364:ZEx5",
+      "seam-expose:853694:AWNZ",
+      "seam-expose:853694:jxU8",
+      "seam-expose:854205:jxU8",
+      "seam-expose:865196:hwkA",
+      "seam-expose:865196:MCtJ",
+      "seam-expose:870386:JhHS",
+      "seam-expose:870635:AWNZ",
+      "seam-expose:870635:BSnr",
+      "seam-expose:870635:ZEx5",
+      "seam-expose:87437:Itrj",
+      "seam-expose:878027:By8V",
+      "seam-expose:883001:hwkA",
+      "seam-expose:884779:KVWT",
+      "seam-expose:887800:hwkA",
+      "seam-expose:889224:AWNZ",
+      "seam-expose:889224:BSnr",
+      "seam-expose:889224:jxU8",
+      "seam-expose:889224:ZEx5",
+      "seam-expose:890434:ygO2",
+      "seam-expose:895082:AWNZ",
+      "seam-expose:895082:jxU8",
+      "seam-expose:895082:ZEx5",
+      "seam-expose:898577:MCtJ",
+      "seam-expose:899308:acby",
+      "seam-expose:904015:AWNZ",
+      "seam-expose:904015:BSnr",
+      "seam-expose:904015:ZEx5",
+      "seam-expose:904323:AWNZ",
+      "seam-expose:904323:ZEx5",
+      "seam-expose:904485:NzWk",
+      "seam-expose:906175:AWNZ",
+      "seam-expose:906175:BSnr",
+      "seam-expose:906175:jxU8",
+      "seam-expose:906175:ZEx5",
+      "seam-expose:906413:AWNZ",
+      "seam-expose:906413:jxU8",
+      "seam-expose:906413:ZEx5",
+      "seam-expose:909697:AWNZ",
+      "seam-expose:909697:BSnr",
+      "seam-expose:909697:jxU8",
+      "seam-expose:909697:ZEx5",
+      "seam-expose:912488:By8V",
+      "seam-expose:912488:v5fl",
+      "seam-expose:913986:hwkA",
+      "seam-expose:917120:MCtJ",
+      "seam-expose:922492:BSnr",
+      "seam-expose:928601:hwkA",
+      "seam-expose:938100:AWNZ",
+      "seam-expose:938100:BSnr",
+      "seam-expose:938100:ZEx5",
+      "seam-expose:959752:AWNZ",
+      "seam-expose:959752:hwkA",
+      "seam-expose:959752:ZEx5",
+      "seam-expose:961657:bJfu",
+      "seam-expose:970028:AWNZ",
+      "seam-expose:970028:BSnr",
+      "seam-expose:970028:jxU8",
+      "seam-expose:970028:ZEx5",
+      "seam-expose:971042:AWNZ",
+      "seam-expose:971042:BSnr",
+      "seam-expose:971042:jxU8",
+      "seam-expose:971042:MCtJ",
+      "seam-expose:971042:ZEx5",
+      "seam-expose:982192:BI7J",
+      "seam-expose:982673:MCtJ",
+      "seam-expose:986871:v5fl",
+      "seam-expose:99588:jU2q",
+      "seam-expose:99588:MCtJ",
+      "seam-expose:998287:CqQF",
+      "seam-expose:998287:e2yU",
+      "seam-expose:998287:ygO2"
+    ],
+    "dropped": [],
+    "missing": [],
+    "previous": [
+      "seam-jsx",
+      "seam-lazy",
+      "seam-tap:commands",
+      "seam-tap:handlers",
+      "seam-tap:messages",
+      "seam-menu",
+      "seam-menu:file-tree",
+      "seam-menu:workspace-file",
+      "seam-menu:tab",
+      "seam-launcher",
+      "seam-markdown:components",
+      "seam-markdown:directives",
+      "seam-markdown:text",
+      "seam-sidebar-groups",
+      "seam-tab-visible",
+      "seam-responsive",
+      "seam-page-route",
+      "seam-destinations:head",
+      "seam-destinations",
+      "seam-rail-mode",
+      "seam-copy",
+      "seam-copy-origin:markdown",
+      "seam-copy-origin:folder",
+      "seam-copy-origin:link",
+      "seam-command",
+      "seam-attach",
+      "seam-review-action",
+      "seam-pr-create",
+      "seam-props:mcp-row",
+      "seam-props:mcp-row-plugin",
+      "seam-props:mcp-row-forward",
+      "seam-props:model-menu",
+      "seam-props:model-row",
+      "seam-props:branch-list",
+      "seam-app-host",
+      "seam-menu-command",
+      "seam-main-modules",
+      "seam-expose:agent-activity-item",
+      "seam-expose:agent-activity-item-row",
+      "seam-expose:app-initial",
+      "seam-expose:app-primary",
+      "seam-expose:app-runtime",
+      "seam-expose:app-shared",
+      "seam-expose:composer-content",
+      "seam-expose:followup-analytics",
+      "seam-expose:local-conversation-thread",
+      "seam-expose:settings-content-layout",
+      "seam-expose:settings-group",
+      "seam-expose:thread-panel-launcher-artifacts"
+    ],
+    "declared": {
+      "abi": 1,
+      "jsx": "seam-jsx",
+      "taps": [
+        "seam-tap:commands",
+        "seam-tap:handlers",
+        "seam-tap:messages",
+        "seam-tap:messages@654172",
+        "seam-tap:messages@739641",
+        "seam-tap:messages@892801"
+      ],
+      "menuItems": "seam-menu",
+      "menuKinds": {
+        "file-tree": "seam-menu:file-tree",
+        "workspace-file": "seam-menu:workspace-file",
+        "tab": "seam-menu:tab"
+      },
+      "launcher": "seam-launcher",
+      "markdown": [
+        "seam-markdown:components",
+        "seam-markdown:directives",
+        "seam-markdown:components@904485",
+        "seam-markdown:directives@904485",
+        "seam-markdown:text",
+        "seam-markdown:text:end"
+      ],
+      "props": [
+        "seam-props:mcp-row",
+        "seam-props:mcp-row-plugin",
+        "seam-props:mcp-row-forward",
+        "seam-props:model-menu",
+        "seam-props:model-row",
+        "seam-props:model-row@220821",
+        "seam-props:branch-list"
+      ],
+      "appHost": "seam-app-host",
+      "mainModules": "seam-main-modules",
+      "copy": "seam-copy",
+      "command": "seam-command",
+      "attach": "seam-attach",
+      "reviewAction": "seam-review-action",
+      "pullRequestCreate": "seam-pr-create",
+      "sidebarGroups": "seam-sidebar-groups",
+      "responsive": "seam-responsive",
+      "pageRoute": "seam-page-route",
+      "destinations": "seam-destinations:head",
+      "railMode": "seam-rail-mode",
+      "tabVisible": "seam-tab-visible",
+      "exposures": {
+        "bus": "seam-expose:348410:TL6G",
+        "react": "seam-expose:727403:Vlts",
+        "SettingsRow": "seam-expose:100740:AWNZ",
+        "SettingsSection": "seam-expose:100740:BSnr",
+        "SettingsPageFrame": "seam-expose:100740:jxU8",
+        "SettingsCard": "seam-expose:100740:ZEx5",
+        "shellSignals": "seam-expose:109163:MCtJ",
+        "composerBanners": "seam-expose:116432:DFiw",
+        "routeScopes": "seam-expose:117976:vmZO",
+        "Button": "seam-expose:12803:hwkA",
+        "reactDom": "seam-expose:142457:i5yi",
+        "activityRow": "seam-expose:152406:BI7J",
+        "launcherOrder": "seam-expose:174531:jU2q",
+        "NavItem": "seam-expose:182735:b5fQ",
+        "NavGroup": "seam-expose:182735:b5fQ",
+        "Tooltip": "seam-expose:182735:CqQF",
+        "hostClient": "seam-expose:182735:Dgwo",
+        "layoutSource": "seam-expose:182735:dt6g",
+        "panelMaths": "seam-expose:182735:DUYS",
+        "KeysLabel": "seam-expose:182735:e2yU",
+        "sidebarOrderState": "seam-expose:182735:EDyN",
+        "commandRegistered": "seam-expose:182735:EFj1",
+        "tabRegistry": "seam-expose:182735:EpL9",
+        "ResizeDivider": "seam-expose:182735:FHYD",
+        "windowRegions": "seam-expose:182735:gbrq",
+        "responsive": "seam-expose:182735:gbrq",
+        "sidebarGroupState": "seam-expose:182735:jFzS",
+        "RouteScope": "seam-expose:182735:Oj9r",
+        "commandStack": "seam-expose:182735:q3HK",
+        "headerSlots": "seam-expose:182735:QcW8",
+        "commandMenu": "seam-expose:182735:qhiJ",
+        "commandMenuState": "seam-expose:182735:qhiJ",
+        "sidebarShowAll": "seam-expose:182735:RFDv",
+        "terminalManager": "seam-expose:182735:sa2M",
+        "ComposerScope": "seam-expose:182735:Sd8U",
+        "composerScopeValue": "seam-expose:182735:Sd8U",
+        "pendingRequest": "seam-expose:182735:tl5a",
+        "threadFind": "seam-expose:182735:TwSq",
+        "ThreadScope": "seam-expose:182735:V3rO",
+        "modal": "seam-expose:182735:X6Vn",
+        "conversationTab": "seam-expose:182735:ydck",
+        "workspaceState": "seam-expose:182735:YnF4",
+        "TextField": "seam-expose:182735:zLIa",
+        "workspaceLayout": "seam-expose:182735:ZU27",
+        "panelControllers": "seam-expose:182735:ZU27",
+        "commandMenuAsyncValue": "seam-expose:188990:DQaH",
+        "commandMenuSections": "seam-expose:188990:y4kX",
+        "Menu": "seam-expose:189497:bqtn",
+        "MenuParts": "seam-expose:189497:bqtn",
+        "Switch": "seam-expose:189497:F0xz",
+        "atoms": "seam-expose:189497:hffr",
+        "Dialog": "seam-expose:189497:JNtf",
+        "DialogParts": "seam-expose:189497:mUDD",
+        "AppScope": "seam-expose:189497:OWtl",
+        "toast": "seam-expose:189497:SGsN",
+        "Icon": "seam-expose:189497:UxN3",
+        "useScope": "seam-expose:189497:zTeN",
+        "ScopeProvider": "seam-expose:189497:zTeN",
+        "ComposerControllerContext": "seam-expose:1975:v5fl",
+        "dynamicToolRenderers": "seam-expose:306206:acby",
+        "PendingRequestPanel": "seam-expose:309406:Ceox",
+        "markdownComponents": "seam-expose:320758:NzWk",
+        "routes": "seam-expose:366057:bREQ",
+        "commandMenuPages": "seam-expose:366057:bREQ",
+        "ComposerDropdown": "seam-expose:39017:zyAW",
+        "SidebarGroup": "seam-expose:499225:D8ee",
+        "sidebarFooter": "seam-expose:499225:ZIk0",
+        "SidebarSortable": "seam-expose:499225:ZIk0",
+        "SidebarList": "seam-expose:499225:ZIk0",
+        "slashRegistry": "seam-expose:668007:By8V",
+        "slashHooks": "seam-expose:668007:By8V",
+        "transcriptReveal": "seam-expose:870386:JhHS",
+        "commandMenuItem": "seam-expose:87437:Itrj",
+        "threadView": "seam-expose:884779:KVWT",
+        "CodexButton": "seam-expose:890434:ygO2",
+        "appShell": "seam-expose:961657:bJfu",
+        "bottomHeight": "seam-expose:961657:bJfu",
+        "navigationShell": "seam-expose:961657:bJfu",
+        "panelSlots": "seam-expose:961657:bJfu",
+        "panelWidth": "seam-expose:961657:bJfu"
+      }
+    }
+  },
+  "retargetedOverrides": [
+    "backend.configOverrides.mcp_servers.node_repl.env.BROWSER_USE_CODEX_APP_VERSION"
+  ],
+  "mandatoryEdits": [
+    "cua-relocate-dir",
+    "cua-relocate-config",
+    "cua-relocate-installer",
+    "cua-disable-locked-use",
+    "cua-helper-private-home",
+    "cua-relocate-approvals",
+    "cua-service-path-env",
+    "cua-container",
+    "managed-config-no-persist",
+    "managed-config-no-persist-cua-repl",
+    "managed-config-cua-repl-thread",
+    "keychain-service-name",
+    "keychain-service-name-account",
+    "aura-fallback-service",
+    "aura-fallback-account",
+    "cua-container:bin/node_repl:1",
+    "cua-container:lib/node_modules/@oai/cua/dist/project/cua/sky_js/src/targets/mac/native-pipe.js:1",
+    "cua-container:lib/node_modules/@oai/cua/dist/project/cua/sky_js/src/targets/mac/native-pipe.js:2",
+    "cua-container:lib/node_modules/@oai/cua/dist/project/cua/sky_js/src/targets/mac/native-pipe.js:3",
+    "cua-container:lib/node_modules/@oai/cua/dist/project/cua/sky_js/src/targets/mac/native-pipe.js:4",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/Info.plist:1",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/MacOS/SkyComputerUseService:1",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/MacOS/SkyComputerUseService:2",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/MacOS/SkyComputerUseService:3",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/MacOS/SkyComputerUseService:4",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/CUALockScreenGuardian.app/Contents/Info.plist:1",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/CUALockScreenGuardian.app/Contents/MacOS/CUALockScreenGuardian:1",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/CUALockScreenGuardian.app/Contents/MacOS/CUALockScreenGuardian:2",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/CUALockScreenGuardian.app/Contents/MacOS/CUALockScreenGuardian:3",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/Codex Computer Use Installer.app/Contents/Info.plist:1",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/Codex Computer Use Installer.app/Contents/Resources/CodexComputerUseAuthorizationPlugin.bundle/Contents/Info.plist:1",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/Codex Computer Use Installer.app/Contents/Resources/CodexComputerUseAuthorizationPlugin.bundle/Contents/MacOS/CodexComputerUseAuthorizationPlugin:1",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/Codex Computer Use Installer.app/Contents/Resources/CodexComputerUseAuthorizationPlugin.bundle/Contents/MacOS/CodexComputerUseAuthorizationPlugin:2",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/Codex Computer Use Installer.app/Contents/Resources/CodexComputerUseAuthorizationPlugin.bundle/Contents/MacOS/CodexComputerUseAuthorizationPlugin:3",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/Codex Computer Use Installer.app/Contents/Resources/CodexComputerUseAuthorizationPluginInstallerTool:1",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/Info.plist:1",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient:1",
+    "cua-container:lib/node_modules/@oai/sky/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient:2",
+    "cua-container:lib/node_modules/@oai/sky/dist/project/cua/sky_js/src/targets/mac/native-pipe.js:1",
+    "cua-container:lib/node_modules/@oai/sky/dist/project/cua/sky_js/src/targets/mac/native-pipe.js:2",
+    "cua-container:lib/node_modules/@oai/sky/dist/project/cua/sky_js/src/targets/mac/native-pipe.js:3",
+    "cua-container:lib/node_modules/@oai/sky/dist/project/cua/sky_js/src/targets/mac/native-pipe.js:4",
+    "cua-skills-no-expose",
+    "cua-disable-cu-peer-auth",
+    "cua-bundle-id:src:1",
+    "cua-bundle-id:main:1",
+    "cua-bundle-id:main:2",
+    "cua-bundle-id:main:3",
+    "cua-bundle-id:worker:1"
+  ]
+}

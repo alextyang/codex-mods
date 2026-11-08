@@ -9,7 +9,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { openAsar } from './asar.mjs';
 import { locateStock, locateStockApp, INSTALLED_APP } from './stock.mjs';
-import { deriveUiSeams, declarationFor, sealGroupsAfter, isUiSeam, exposedKeys, ABI, UI_SEAM_KINDS, PROPS_KEYS } from './seams.mjs';
+import { deriveUiSeams, declarationFor, sealGroupsAfter, isUiSeam, exposedKeys, siteOf, ABI, UI_SEAM_KINDS, PROPS_KEYS } from './seams.mjs';
 import { deriveTransforms, sourceFromAsar, COMPONENT_KEYS } from './derive.mjs';
 import { applyBinaryPatches, applyBinaryPatch, sha256 as binSha256 } from './binary-patch.mjs';
 import { deriveFrameworkPatches, mandatoryEditIds, checkConfigOverrides } from './generate-adapter.mjs';
@@ -249,18 +249,37 @@ export function definePackTests({ dir, version, bundle, electron, keychain = fal
     for (const id of [decl.jsx, decl.lazy, decl.appHost, ...(decl.taps ?? []), ...Object.values(decl.exposures ?? {})].filter(Boolean)) assert.ok(pack.transforms.some((t) => t.id === id), `declared transform ${id}`);
     // every declared exposure key is defined by the block of its transform, and every block key is declared
     const blockKeys = pack.transforms.filter((t) => t.seam === 'expose').flatMap((t) => exposedKeys(t.text).map((k) => [k, t.id]));
-    assert.deepEqual(Object.fromEntries(blockKeys), decl.exposures ?? {});
-    assert.equal(new Set(blockKeys.map(([k]) => k)).size, blockKeys.length, 'a key is defined once');
+    const first = {}; for (const [k, id] of blockKeys) first[k] ??= id;
+    assert.deepEqual(first, decl.exposures ?? {});
+    // a key is defined once, or (rspack) by the blocks of one module's copies: `seam-expose:<chunk>:<module>`, one module for all of them
+    const moduleOf = (id) => /^seam-expose:[^:]+:(.+)$/.exec(id)?.[1] ?? id;
+    for (const k of new Set(blockKeys.map(([x]) => x))) {
+      const at = blockKeys.filter(([x]) => x === k).map(([, id]) => id);
+      assert.ok(at.length === 1 || new Set(at.map(moduleOf)).size === 1, `${k} is defined once, or by the copies of one module (${at.join(', ')})`);
+    }
   });
 
   test('UI seams: the taps are all three or none; the seams are single; one exposure block per chunk; every edit is inert (calls only globalThis.__codexmods)', () => {
     const ids = (kind) => uiTransforms.filter((t) => t.seam === kind).map((t) => t.id);
-    assert.ok([0, 3].includes(ids('tap').length), 'the three command taps apply together or not at all');
-    if (ids('tap').length) assert.deepEqual(ids('tap'), ['seam-tap:commands', 'seam-tap:handlers', 'seam-tap:messages']);
-    for (const kind of ['jsx', 'lazy', 'app-host', 'copy', 'command', 'attach', 'review-action', 'pr-create', 'main-modules', 'sidebar-groups', 'tab-visible']) assert.ok(ids(kind).length <= 1, kind);
+    // an rspack module copied into several chunks is one site edited in each copy (`<id>@<chunk>`): sites are counted, copies sit in distinct chunks
+    const sites = (kind) => [...new Set(ids(kind).map(siteOf))];
+    // the closing half of a wrapper around an anonymous function (`<id>:end`) is the same seam's second edit, in the same chunk as its head
+    const isEnd = (id) => /:end(?:@[^@:]*)?$/.test(id);
+    for (const kind of ['jsx', 'lazy', 'tap', 'menu', 'launcher', 'markdown', 'props', 'app-host', 'copy', 'command', 'attach', 'review-action', 'pr-create', 'main-modules', 'sidebar-groups', 'tab-visible']) {
+      for (const site of sites(kind)) {
+        for (const half of [false, true]) { const copies = uiTransforms.filter((t) => t.seam === kind && siteOf(t.id) === site && isEnd(t.id) === half); assert.equal(new Set(copies.map((t) => t.file)).size, copies.length, `${site}: one copy per chunk`); }
+      }
+    }
+    assert.ok([0, 3].includes(sites('tap').length), 'the three command taps apply together or not at all');
+    if (sites('tap').length) assert.deepEqual(sites('tap'), ['seam-tap:commands', 'seam-tap:handlers', 'seam-tap:messages']);
+    for (const kind of ['jsx', 'lazy', 'app-host', 'copy', 'command', 'attach', 'review-action', 'pr-create', 'main-modules', 'sidebar-groups', 'tab-visible']) assert.ok(sites(kind).length <= 1, kind);
     const blocks = uiTransforms.filter((t) => t.seam === 'expose');
-    assert.equal(blocks.length, new Set(blocks.map((t) => t.file)).size, 'one insertion per chunk');
-    for (const t of blocks) { assert.equal(t.op, 'insert-before-once'); assert.match(t.find, /^\/\/# sourceMappingURL=\S+\.js\.map$/); assert.ok(t.text.endsWith('\n')); }
+    // a Vite build: one block per chunk, before its source-map comment; an rspack build: one block per module copy, first in the module's body
+    const viteBlocks = blocks.filter((t) => t.op === 'insert-before-once'); const moduleBlocks = blocks.filter((t) => t.op !== 'insert-before-once');
+    assert.equal(viteBlocks.length, new Set(viteBlocks.map((t) => t.file)).size, 'one insertion per chunk');
+    for (const t of viteBlocks) { assert.match(t.find, /^\/\/# sourceMappingURL=\S+\.js\.map$/); assert.ok(t.text.endsWith('\n')); }
+    assert.equal(moduleBlocks.length, new Set(moduleBlocks.map((t) => `${t.file}\0${t.find}`)).size, 'one insertion per module copy');
+    for (const t of moduleBlocks) { assert.equal(t.op, 'insert-after-once'); assert.match(t.find, /^(?:[A-Za-z0-9_$]+|"[^"]+")\([\w$,]*\)\{$/, 'anchored on the module\'s head'); assert.match(t.text, /^;\(\(\)=>\{let __cmE=/); }
     for (const t of uiTransforms) {
       // an identity props edit (H7v) only inserts `name:value` props (a name or a path, or !0) into the app's call: nothing runs
       if (t.seam === 'props') { assert.ok(propsOnly(t), `${t.id}: inserts props only`); continue; }
@@ -268,6 +287,8 @@ export function definePackTests({ dir, version, bundle, electron, keychain = fal
       if (t.seam === 'menu-command') { assert.ok(propsOnly(t, ['codexmodsCommand']), `${t.id}: inserts a menu item's command id only`); continue; }
       // a tab's visibility (layouts §4.1) only passes the tab to the kind's own isVisible: nothing else changes
       if (t.seam === 'tab-visible') { assert.equal(t.text.replace(/isVisible\?\.\(([\w$]+),[\w$]+\)!==!1\}$/, 'isVisible?.($1)!==!1}'), t.find, `${t.id}: passes the tab only`); continue; }
+      // the closing half of a wrapper around an anonymous function (25679) only closes the wrapper's call after the function
+      if (/:end(?:@[^@:]*)?$/.test(t.id)) { assert.equal(t.text, `${t.find})`, `${t.id}: closes the wrapper only`); continue; }
       assert.match(t.text, /globalThis\.__codexmods/); assert.ok(!t.text.includes('__codexmodsApp') && !t.text.includes('__codexmodsJsx'), `${t.id}: the probe's globals are not the product's`); assert.ok(!/(?<![\w$.])(?:eval|Function)\(/.test(t.text), t.id);
     }
     const inMain = (t) => t.seam === 'app-host' || t.seam === 'menu-command' || t.seam === 'main-modules';
@@ -460,7 +481,9 @@ export function definePackTests({ dir, version, bundle, electron, keychain = fal
       const lk = pack.transforms.find((t) => t.id === 'cua-disable-locked-use');
       assert.equal(lk.file, reloc.file);
       assert.doesNotMatch(lk.text, /execFile|spawn|exec\(|OK: installed/, 'the replacement never calls anything that could run the installer');
-      assert.match(lk.text, /^async function [\w$]+\(e\)\{return null\}async function [\w$]+\(\)\{return null\}async function [\w$]+\([\w$]+\)\{throw Error\(`Locked use is unavailable in this copy`\)(?:\}|;let\{stdout:[\w$]+\}=await [\w$]+\()$/,
+      // 25679 inlines install/uninstall and the status reader into their callers: the group is the status function and the executor, which returns null first
+      const inlined = /^async function [\w$]+\(\)\{return null\}async function [\w$]+\([\w$]+\)\{return null;let\{stdout:[\w$]+\}=await [\w$]+\($/;
+      if (!inlined.test(lk.text)) assert.match(lk.text, /^async function [\w$]+\(e\)\{return null\}async function [\w$]+\(\)\{return null\}async function [\w$]+\([\w$]+\)\{throw Error\(`Locked use is unavailable in this copy`\)(?:\}|;let\{stdout:[\w$]+\}=await [\w$]+\()$/,
         'install/uninstall and status return null; the executor throws before anything (on 22943 the rest of its body, its inlined installer path, is unreachable after the throw)');
       assert.match(lk.find, /OK: installed/, 'the stock status protocol is what is replaced');
     });
@@ -573,7 +596,7 @@ export function definePackTests({ dir, version, bundle, electron, keychain = fal
       assert.equal(pack.transforms.filter((t) => t.id === SKILLS_ID).length, 1);
       assert.ok(pack.mandatoryEdits.includes(SKILLS_ID), `${SKILLS_ID} is mandatory`);
       const t = pack.transforms.find((x) => x.id === SKILLS_ID);
-      const head = /^async function [\w$]+\([\w$]+\)\{/.exec(t.find)?.[0];
+      const head = /^async function(?: [\w$]+)?\([\w$]+\)\{/.exec(t.find)?.[0];   // named, or (25679) the anonymous function the app inlined where it is called
       assert.ok(head && t.find.includes(MISMATCH), 'the find is the skill exposure function');
       assert.deepEqual([t.op, t.text], ['replace-once', `${head}return;${t.find.slice(head.length)}`], 'the function returns before its body');
       assert.match(notesOf(), new RegExp(SKILLS_ID));
@@ -618,20 +641,21 @@ export function definePackTests({ dir, version, bundle, electron, keychain = fal
       assert.match(main, /let ([\w$]+)=([\w$]+)\.appshotsEnabled,([\w$]+)=\2\.computerUse;[\w$]+\.setEnabledFeatures\(\{appshotsEnabled:\1,computerUseEnabled:\3,skysightEnabled:[\w$]+\}\)/, 'fed from the renderer\'s desktop features');
       assert.match(main, /let [\w$]+=[\w$]+\.skysight;/);
       const chunks = source.list('webview/assets/').filter((p) => p.endsWith('.js')).map((p) => source.read(p));
-      const features = chunks.find((t) => t.includes('electron-desktop-features-changed`,{'));
+      const features = chunks.find((t) => t.includes('electron-desktop-features-changed`,{') || t.includes('electron-desktop-features-changed",{'));   // a template literal up to 22943, quoted on 25679
       assert.ok(features, 'the renderer bundle that sends the desktop features');
       assert.match(features, /appshotsEnabled:[\w$]+,/);
       assert.match(features, /computerUse:[\w$]+\.available,/);
       assert.match(features, /skysight:[\w$]+\.available,/);
       // appshots: statsig gate 1304276663 and requirements.allowAppshots; Chronicle: gate 3488289778 and requirements.featureRequirements.chronicle
       // (the gates' chunk: the features' own up to 21477, another on 22943, where a Windows clause sits between the gate and the requirement)
-      const APPSHOTS = /`1304276663`\)[^;]{0,400}requirements\?\.allowAppshots!==!1/, CHRONICLE = /[\w$]+\(`3488289778`\)[^]{0,600}requirements\?\.featureRequirements\?\.chronicle!==!1/;
+      // (25679: quoted ids, the gate read as `t(X.JW,"id")`, and the requirement after a `return!1;` of the Windows clause)
+      const APPSHOTS = /[`"]1304276663[`"]\)(?:[^;]{0,400}|[^]{0,400}?)requirements\?\.allowAppshots!==!1/, CHRONICLE = /[`"]3488289778[`"]\)[^]{0,600}?requirements\?\.featureRequirements\?\.chronicle!==!1/;
       const appshots = chunks.find((t) => APPSHOTS.test(t)), chronicle = chunks.find((t) => CHRONICLE.test(t));
       assert.ok(appshots, 'appshots: statsig gate 1304276663 and requirements.allowAppshots');
       assert.ok(chronicle, 'Chronicle: statsig gate 3488289778 and requirements.featureRequirements.chronicle');
       // neither consults the computer_use feature: that key is read only for computerUse availability (featureName `computer_use`)
       for (const [gate, text] of [['1304276663', appshots], ['3488289778', chronicle]]) {
-        const at = text.indexOf(`\`${gate}\``);
+        const at = Math.max(text.indexOf(`\`${gate}\``), text.indexOf(`"${gate}"`));
         assert.doesNotMatch(text.slice(Math.max(0, at - 400), at + 600), /computer_use/, gate);
       }
     });
@@ -691,12 +715,13 @@ export function definePackTests({ dir, version, bundle, electron, keychain = fal
     const files = source.list('webview/assets/').filter((p) => p.endsWith('.js'));
     const nav = files.map((f) => source.read(f)).filter((t) => t.includes('data-settings-panel-slug'));
     assert.ok(nav.length >= 1);
-    assert.ok(nav.some((t) => t.includes('`general-settings.notifications.')), 'general-settings is the first slug of the Personal group');
+    // up to 22943 the group's ids name it (`general-settings.notifications.…`); 25679 lists the group's slugs, general-settings first
+    assert.ok(nav.some((t) => /[`"]general-settings\.notifications\./.test(t) || /\["general-settings","notifications",/.test(t)), 'general-settings is the first slug of the Personal group');
     // the navigation row component takes `isActive` (with `excludeFromNavigation`) and renders aria-current="page" for the active row, located by its props, not by a name
     const entry = files.map((f) => source.read(f)).find((t) => {
       const props = /isActive:[\w$]+,[^{}]{0,200}?excludeFromNavigation:[\w$]+/.exec(t);
       const body = props ? t.slice(props.index, props.index + 12000) : '';
-      return /[\w$]+\?`page`:void 0/.test(body) && body.includes('"aria-current":');
+      return /[\w$]+\?[`"]page[`"]:void 0/.test(body) && body.includes('"aria-current":');
     });
     assert.ok(entry, 'the navigation row component sets aria-current="page" when isActive');
   });
@@ -711,7 +736,7 @@ export function definePackTests({ dir, version, bundle, electron, keychain = fal
     for (const f of files) { const text = source.read(f); for (const t of wanted) if (!seen.has(t) && text.includes(t)) seen.add(t); if (seen.size === wanted.size) break; }
     assert.deepEqual([...wanted].filter((t) => !seen.has(t)), []);
     // the settings frame renders both on the same element: a content column with class group/settings and a data-density attribute
-    const frame = files.filter((f) => { const t = source.read(f); return t.includes('`group/settings ') && t.includes('"data-density":'); });
+    const frame = files.filter((f) => { const t = source.read(f); return (t.includes('`group/settings ') || t.includes('"group/settings ')) && t.includes('"data-density":'); });
     assert.ok(frame.length >= 1, 'a chunk renders the group/settings column with data-density');
   });
 

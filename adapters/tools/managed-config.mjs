@@ -17,6 +17,7 @@
 //                                          assigns it per thread, the app's native assignment is kept and the stash is only the fallback when the app does not assign it.
 // The static baseline (notify, node_repl) for the app-server's own process is declared in the pack as `backend.configOverrides` (the Host adds `-c` args).
 import { applyOp, findMainBundle } from './transform.mjs';
+import { shapeOf } from './js-shape.mjs';
 
 const ID = '[A-Za-z_$][\\w$]*';
 const esc = (s) => s.replaceAll('$', '\\$');
@@ -53,13 +54,26 @@ export function persistedManagedConfig(text) {
   }
   const writer = new RegExp(`(?<![\\w$])${ID}=${ID}\\.mcpServers\\.cua_repl[,;]`).exec(text);
   const repl = writer ? writer.index : -1;
+  const end = repl < 0 ? -1 : functionAround(text, repl)?.end ?? -1;
   if (repl < 0) out.push('anchor not found: the cua_repl plugin definition writer (fail closed)');
-  else {
-    const tail = text.slice(repl, repl + 2400);
-    const end = tail.search(/return [\w$]+\}/);
-    if (/writeFile|\.rename\)|\.rename\(/.test(end < 0 ? tail : tail.slice(0, end))) out.push('the cua_repl plugin definition is still written to the shared plugin .mcp.json');
-  }
+  else if (end < 0) out.push('anchor not found: the function that holds the cua_repl plugin definition writer (fail closed)');
+  else if (/writeFile|\.rename\)|\.rename\(/.test(text.slice(repl, end))) out.push('the cua_repl plugin definition is still written to the shared plugin .mcp.json');
   return out;
+}
+
+const FUNCTIONS = new Set(['FunctionDeclaration', 'FunctionExpression', 'ArrowFunctionExpression']);
+let shaped = { text: null, shape: null };   // the last bundle parsed
+/**
+ * The innermost function (named or anonymous, declaration, expression or arrow) whose body holds `at`, by the JavaScript parser (`{start, end}`, `end` just
+ * past its closing brace); null when the text does not parse or no function holds it. 25679 inlines the rewrite as an anonymous function called where it
+ * stands, followed by other inlined code; a bracket count would be fooled by a `}` in a regular expression.
+ */
+export function functionAround(text, at) {
+  if (shaped.text !== text) shaped = { text, shape: shapeOf(text) };
+  if (!shaped.shape) return null;
+  let best = null;
+  for (const n of shaped.shape.nodes) if (FUNCTIONS.has(n.type) && n.body.start < at && at < n.end && (!best || n.end - n.start < best.end - best.start)) best = n;
+  return best;
 }
 
 /**
@@ -116,6 +130,10 @@ export function deriveManagedConfigTransforms(source) {
   const rnes = [...text.matchAll(rneRe)];
   if (rnes.length !== 1) return miss(`the cua-repl plugin .mcp.json rewrite occurs ${rnes.length} times (expected exactly 1)`);
   const rm = rnes[0]; const cDef = rm[2]; const nVar = rm[9];
+  // the writer and the write tail are one function: the innermost function around the writer ends where the tail ends (a write split off into
+  // another function, or a function closed between them, would leave a write the check below could not see)
+  const own = functionAround(text, rm.index);
+  if (!own || own.end !== rm.index + rm[0].length) return miss('the cua-repl plugin .mcp.json rewrite (its cua_repl writer and its write tail) is not one function');
   // 22943 also writes a constant helper file into the same plugin cache just before (`await (0,F.writeFile)(tmp,'…'),await (0,F.rename)(tmp,path),`):
   // the find starts there, and what follows that write is kept
   const rneHead = rm[1];

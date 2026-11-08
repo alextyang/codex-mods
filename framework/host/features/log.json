@@ -2,6 +2,7 @@
  "log": 1,
  "reference": {
   "builds": [
+   "26.1103.41825-25679",
    "26.1027.30824-22943",
    "26.1016.62342-21477",
    "26.1013.40934-20770"
@@ -515,6 +516,7 @@
    "initialize": {
     "in": "schema",
     "fp": [
+     "3da7eca585cadc57",
      "f7d046d1d936d230"
     ]
    },
@@ -567,6 +569,7 @@
    "item/commandExecution/requestApproval": {
     "in": "schema",
     "fp": [
+     "2a21a9863bc49295",
      "4fc6b191d6b3f830"
     ]
    },
@@ -579,6 +582,7 @@
    "item/completed": {
     "in": "schema",
     "fp": [
+     "6114ffe2e85fe820",
      "739c514c8a544140",
      "c322ed043b12ccab"
     ]
@@ -645,7 +649,8 @@
     "in": "schema",
     "fp": [
      "684404d8b3a48e83",
-     "9d7221fbe2ae09b9"
+     "9d7221fbe2ae09b9",
+     "b80a4a110bcff800"
     ]
    },
    "item/tool/call": {
@@ -1028,6 +1033,7 @@
    "review/start": {
     "in": "schema",
     "fp": [
+     "3daa9944a3802f07",
      "5ee8a2ec6ffc3030",
      "b45a16a3ef2a3d18"
     ]
@@ -1195,6 +1201,7 @@
    "thread/fork": {
     "in": "schema",
     "fp": [
+     "18ff6e6893c4b5f3",
      "288a5bd5fb6f9f1f",
      "fff5cde754e6f44b"
     ]
@@ -1229,6 +1236,12 @@
      "fcfa9e65d2662775"
     ]
    },
+   "thread/guardianReview": {
+    "in": "schema",
+    "fp": [
+     "6b59e356c54d865c"
+    ]
+   },
    "thread/increment_elicitation": {
     "in": "schema",
     "fp": [
@@ -1245,12 +1258,14 @@
     "in": "schema",
     "fp": [
      "144d98b894920705",
-     "9c67b243d02767d8"
+     "9c67b243d02767d8",
+     "d4866b0954cfe3bc"
     ]
    },
    "thread/items/read": {
     "in": "schema",
     "fp": [
+     "14feb35aed3128cd",
      "49260aa9a5814346",
      "9a66c5fbd5e17302"
     ]
@@ -1259,7 +1274,8 @@
     "in": "schema",
     "fp": [
      "2d0ca9bf682fac36",
-     "fc937519efa7ce62"
+     "fc937519efa7ce62",
+     "fd494c31181dd169"
     ]
    },
    "thread/loaded/list": {
@@ -1284,6 +1300,7 @@
     "in": "schema",
     "fp": [
      "89ce887e9deac30e",
+     "c8620cd12238c370",
      "f03e6c15bb8341ea"
     ]
    },
@@ -1324,6 +1341,7 @@
    "thread/queue/add": {
     "in": "schema",
     "fp": [
+     "cb901c7db90571e3",
      "d60230aef9746452"
     ]
    },
@@ -1342,7 +1360,8 @@
    "thread/queue/list": {
     "in": "schema",
     "fp": [
-     "8c82b2459b1aef06"
+     "8c82b2459b1aef06",
+     "fa23720010d36b6a"
     ]
    },
    "thread/queue/reorder": {
@@ -1354,6 +1373,7 @@
    "thread/queue/start": {
     "in": "schema",
     "fp": [
+     "253e6909ed1b626c",
      "2d98048d46f85e0c",
      "9598a30dbd9933fd"
     ]
@@ -1361,12 +1381,14 @@
    "thread/queue/update": {
     "in": "schema",
     "fp": [
-     "2b25e242b967a5e7"
+     "2b25e242b967a5e7",
+     "4ac60f0bd4bd9b48"
     ]
    },
    "thread/read": {
     "in": "schema",
     "fp": [
+     "010fd0bd2bfbe804",
      "04afe9d2a076657f",
      "b9b38b174c4b836e"
     ]
@@ -1490,12 +1512,14 @@
     "in": "schema",
     "fp": [
      "b3270889181f5ee0",
-     "b664d677c7bec959"
+     "b664d677c7bec959",
+     "cef7b48a3a232837"
     ]
    },
    "thread/revert": {
     "in": "schema",
     "fp": [
+     "41b05cf4b6317a16",
      "892b573d839cab17",
      "f9b5a15b47d674cb"
     ]
@@ -1513,6 +1537,7 @@
    "thread/sample": {
     "in": "schema",
     "fp": [
+     "07a25f4aa953dbfc",
      "9f5eb00212539f39"
     ]
    },
@@ -1526,13 +1551,20 @@
     "in": "schema",
     "fp": [
      "8afeba98183f4ea1",
-     "aaff2f6c76ebebfb"
+     "aaff2f6c76ebebfb",
+     "b0b33555fc4214e0"
     ]
    },
    "thread/searchOccurrences": {
     "in": "schema",
     "fp": [
      "04ece439cf629850"
+    ]
+   },
+   "thread/section/changed": {
+    "in": "schema",
+    "fp": [
+     "3b549722ee5d9d63"
     ]
    },
    "thread/section/move": {
@@ -1563,7 +1595,8 @@
     "in": "schema",
     "fp": [
      "9750ac59a5267921",
-     "c0044a3368afc80e"
+     "c0044a3368afc80e",
+     "e82435a7a94d5b53"
     ]
    },
    "thread/startAeon": {
@@ -1573,6 +1606,7 @@
    "thread/started": {
     "in": "schema",
     "fp": [
+     "3ab67cd36fdbe84f",
      "88ff4b4c8b4d30b8",
      "ad15ee46af25cf07"
     ]
@@ -1591,7 +1625,8 @@
     "in": "schema",
     "fp": [
      "0adc69b1c1a16e5c",
-     "121a57a7519a8b4e"
+     "121a57a7519a8b4e",
+     "53a38f721fd97927"
     ]
    },
    "thread/tokenUsage/updated": {
@@ -1604,13 +1639,15 @@
     "in": "schema",
     "fp": [
      "5867544a2bc2b400",
-     "7de32b75e7be1add"
+     "7de32b75e7be1add",
+     "8a67959e7b6ccf6a"
     ]
    },
    "thread/unarchive": {
     "in": "schema",
     "fp": [
      "1344702071918019",
+     "63e090a2c144f818",
      "f285d4f79512f31e"
     ]
    },
@@ -1658,6 +1695,7 @@
     "in": "schema",
     "fp": [
      "7a2a3d792c8507bf",
+     "9fcd4d1a30e2bdf5",
      "d8c3283bac61050c"
     ]
    },
@@ -1695,6 +1733,7 @@
     "in": "schema",
     "fp": [
      "01fbc3498e8b9cf7",
+     "777fae55167d6ab1",
      "9a639b4b094802b4"
     ]
    },
@@ -1702,6 +1741,7 @@
     "in": "schema",
     "fp": [
      "7a2a3d792c8507bf",
+     "9fcd4d1a30e2bdf5",
      "d8c3283bac61050c"
     ]
    },
@@ -1709,7 +1749,8 @@
     "in": "schema",
     "fp": [
      "08225d139be11eae",
-     "12c0caea7e2b5bc2"
+     "12c0caea7e2b5bc2",
+     "4e2bd3deced6e704"
     ]
    },
    "userVerification/cancel": {

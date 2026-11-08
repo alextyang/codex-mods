@@ -31,7 +31,7 @@ const UNITS = BASE_UNITS.map((u) => (DECLS[u.id] ? { ...u, ...DECLS[u.id], notMe
 export const LOG = join(ROOT, 'framework', 'host', 'features', 'log.json');
 /** The builds whose evidence the log takes as its reference: their packs ship with this framework, and their census and tests ran. A
  *  build becomes a reference only by being added here. */
-export const REFERENCE_BUILDS = Object.freeze(['26.1027.30824-22943', '26.1016.62342-21477', '26.1013.40934-20770']);
+export const REFERENCE_BUILDS = Object.freeze(['26.1103.41825-25679', '26.1027.30824-22943', '26.1016.62342-21477', '26.1013.40934-20770']);
 
 const readJson = (p) => JSON.parse(readFileSync(join(ROOT, p), 'utf8'));
 const uniq = (a) => [...new Set(a)];

@@ -66,17 +66,22 @@
     } catch (e) { log({ ev: 'hold.error', error: String(e && e.message || e) }); }
   };
 
-  // ---- the load-time edit at the listener: 21477's own spelling, or 22943's (the host made inline, which the framework's app-host
-  // seam has already named `__cmH`)
+  // ---- the load-time edit at the listener: 21477's own spelling, 22943's (the host made inline, which the framework's app-host
+  // seam has already named `__cmH`), or 25679's (the host bound, a close listener between, the view made in its own declaration)
   const RE = /([$\w]+)=([$\w]+)\?\.createAppHost\(([$\w]+)\.sender\),([$\w]+)=([$\w]+)\(([$\w]+),\1\);\2\?\.registerAppView\(\3\.sender,\4\)/g;
   const RE_INLINE = /([$\w]+)=([$\w]+)\(([$\w]+)\.sender\),__cmH=\1\?\.createAppHost\(\3\.sender\),([$\w]+)=([$\w]+)\(([$\w]+),__cmH\);null!=\1&&\1\.registerAppView\(\3\.sender,\4\)/g;
+  const RE_SPLIT = /([$\w]+)=([$\w]+)\?\.createAppHost\(([$\w]+)\.sender\),[^{}]{0,300}?;let ([$\w]+)=[$\w]+\([$\w]+,\1\);null!=\2&&\2\.registerAppView\(\3\.sender,\4\)/g;
   const compile = Module.prototype._compile;
   Module.prototype._compile = function probeCompile(content, filename) {
     if (typeof content === 'string' && /[\\/]\.vite[\\/]build[\\/](?:main-[^\\/]+|early-bootstrap(?:-[^\\/]+)?)\.js$/.test(String(filename))) {
       const n = (content.match(RE) || []).length;
       const m = (content.match(RE_INLINE) || []).length;
-      if (n + m) log({ ev: 'edit', file: path.basename(filename), matches: n + m });
-      if (n === 1 && m === 0) {
+      const k = (content.match(RE_SPLIT) || []).length;
+      if (n + m + k) log({ ev: 'edit', file: path.basename(filename), matches: n + m + k });
+      if (k === 1 && n + m === 0) {
+        content = content.replace(RE_SPLIT, (all, host, mgr, e, view) => all.replace(`;null!=${mgr}&&`,
+          `;globalThis.__codexmodsQaAppHost?.({sender:${e}.sender,host:${host},view:${view},manager:${mgr}});null!=${mgr}&&`));
+      } else if (n === 1 && m === 0) {
         content = content.replace(RE, (_m, r, mgr, e, i, session, port) => `${r}=${mgr}?.createAppHost(${e}.sender),${i}=${session}(${port},${r});`
           + `globalThis.__codexmodsQaAppHost?.({sender:${e}.sender,host:${r},view:${i},manager:${mgr}});${mgr}?.registerAppView(${e}.sender,${i})`);
       } else if (m === 1 && n === 0) {
@@ -266,7 +271,7 @@
   }
 
   // ---- the JSX seam (G-jsx): a serve-time edit of the renderer chunk that holds the JSX factory
-  const JSX_RE = /([$\w]+)\.Fragment=([$\w]+),\1\.jsx=([$\w]+),\1\.jsxs=\3\}/g;
+  const JSX_RE = /([$\w]+)\.Fragment=([$\w]+|Symbol\.for\("react\.fragment"\)),\1\.jsx=([$\w]+),\1\.jsxs=\3\}/g;   // rspack (25679) writes the fragment inline
   const seamJsx = (text) => {
     const n = (text.match(JSX_RE) || []).length;
     if (n !== 1) return { text, n };

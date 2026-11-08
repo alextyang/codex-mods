@@ -402,6 +402,13 @@
         "workspaceKind"
       ],
       "exact": true,
+      "optional": [
+        "disabled",
+        "disabledReason",
+        "initiallySelected",
+        "beforeSelectResult",
+        "presentation"
+      ],
       "needs": {
         "seams": [
           "jsx"
@@ -1137,7 +1144,6 @@
       "id": "side.panel.frame",
       "presentation": "SidePanel",
       "keys": [
-        "contentPaneDefaultWidth",
         "contentPaneWidth",
         "contentPaneWidthRatio",
         "isContentPaneOpen",
@@ -1160,7 +1166,7 @@
         "isContentPaneOpen": "boolean",
         "contentPaneWidthRatio": "object"
       },
-      "note": "the right panel's frame (21477 and 20770: one call; its width's motion values and mode), a part of the route's SidePanel: resize as the app's own drag (E8.9)"
+      "note": "the right panel's frame (21477, 20770, 22943 and 25679: one call; its width's motion values and mode), a part of the route's SidePanel: resize as the app's own drag (E8.9)"
     },
     {
       "id": "bottom.panel.frame",
@@ -1199,7 +1205,6 @@
         "tabs",
         "activeTabId",
         "presentedTabId",
-        "renderTab",
         "afterSticky"
       ],
       "scope": "RouteScope",
@@ -1968,6 +1973,9 @@
         "hideLabel"
       ],
       "exact": true,
+      "optional": [
+        "workSetup"
+      ],
       "scope": "ComposerScope",
       "needs": {
         "seams": [
@@ -1999,6 +2007,9 @@
         "selectPermission"
       ],
       "exact": true,
+      "optional": [
+        "disabled"
+      ],
       "needs": {
         "seams": [
           "jsx"
@@ -2039,12 +2050,16 @@
         "presentation",
         "taskOptions",
         "startingState",
-        "setStartingState",
-        "hostConfig",
-        "gitRootOverride",
-        "branchSource"
+        "hostConfig"
       ],
       "exact": true,
+      "optional": [
+        "setStartingState",
+        "onStartingStateChange",
+        "gitRootOverride",
+        "gitRoot",
+        "branchSource"
+      ],
       "scope": "ComposerScope",
       "needs": {
         "seams": [
@@ -2057,8 +2072,9 @@
         ]
       },
       "canary": {
-        "setStartingState": "function",
-        "branchSource": "string"
+        "startingState": "object?",
+        "setStartingState": "function?",
+        "onStartingStateChange": "function?"
       },
       "note": "the starting branch of a new chat in a new worktree or the cloud (21477 and 20770: one call, in the bar below the new chat's composer, exactly these props; mounted only for those run locations): read by the run location's setBranch (E8.3g)"
     },
@@ -2205,6 +2221,9 @@
         "isSidebarExpanded"
       ],
       "exact": true,
+      "optional": [
+        "panelExpanded"
+      ],
       "scope": "RouteScope",
       "needs": {
         "seams": [
@@ -2249,7 +2268,8 @@
       "exact": true,
       "optional": [
         "titleBar",
-        "hasCustomTitleBar"
+        "hasCustomTitleBar",
+        "trailingSidebarSlot"
       ],
       "needs": {
         "seams": [
@@ -2266,7 +2286,7 @@
       "slots": [
         "regions"
       ],
-      "note": "the window's frame (22943 hjt, 21477 FJa; its props exactly children, footer and leftPanelSlot, and the declarative shell's titleBar and hasCustomTitleBar): the mods' regions beside the app's column, the shell's context narrowed for it (layouts.md WL4a, scout wl4-frame.md)"
+      "note": "the window's frame (22943 hjt, 21477 FJa, 25679 ty; its props exactly children, footer and leftPanelSlot, and the titleBar, hasCustomTitleBar and trailingSidebarSlot a build's call may also carry): the mods' regions beside the app's column, the shell's context narrowed for it (layouts.md WL4a, scout wl4-frame.md)"
     },
     {
       "id": "frame.divider",

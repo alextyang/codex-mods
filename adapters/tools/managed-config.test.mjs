@@ -231,3 +231,12 @@ test('persistedManagedConfig fails closed: a text without the anchors (a bundle 
   assert.equal(r.length, 2);
   assert.ok(r.every((x) => /anchor not found/.test(x)));
 });
+
+test('persistedManagedConfig bounds the rewrite by the parser\'s function: a `}` in a regular expression, or a write split off before the writer, is still seen (review 2026-11-07)', () => {
+  const tail = 'Object.assign(o,rN({...e}));return globalThis.__codexmodsCuaRepl=r?structuredClone(o):null,r}';
+  const head = 'async function W(e){let n=e.dir,i=ee().join(n,".mcp.json"),s=await (0,eb.readFile)(i,"utf8"),a=JSON.parse(s),o=a.mcpServers.cua_repl,l=1;';
+  const anchors = 'let T=[{keyPath:`shell_environment_policy.set.${e}`}];';
+  assert.deepEqual(persistedManagedConfig(`${anchors}${head}${tail}`).filter((f) => /written to the shared plugin/.test(f)), []);
+  // a regular expression holding `}` before a write: a bracket count would end the function there
+  assert.equal(persistedManagedConfig(`${anchors}${head}/}/.test(s);await (0,eb.writeFile)(i,JSON.stringify(a));${tail}`).filter((f) => /written to the shared plugin/.test(f)).length, 1);
+});

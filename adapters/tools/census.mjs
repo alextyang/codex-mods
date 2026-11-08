@@ -21,7 +21,8 @@ import { createHash } from 'node:crypto';
 import { basename, join } from 'node:path';
 import { addressesDigest } from '../../framework/host/features/evidence.mjs';
 import { createRequire } from 'node:module';
-import { JSX_RE, LAZY_RE, LAZY_GUARD, TAP_TABLE_RE, TAP_HANDLERS_RE, TAP_MESSAGES_RE, MENU_RE, MENU_NEEDLE, APP_HOST_RE, APP_HOST_INLINE_RE, corpusOf, deriveExposures, EXPOSURES } from './seams.mjs';
+import { JSX_RE, LAZY_RE, LAZY_GUARD, TAP_TABLE_RE, TAP_HANDLERS_RE, TAP_MESSAGES_RE, MENU_RE, MENU_NEEDLE, APP_HOST_RE, APP_HOST_INLINE_RE, APP_HOST_SPLIT_RE, corpusOf, deriveExposures, EXPOSURES, spellings } from './seams.mjs';
+import { rspackModules, moduleAt } from './rspack.mjs';
 
 // =====================================================================================================================
 // 1. Structural scanner (strings, templates, regex literals, comments, brackets). Local, never whole-file, so a desync stays local.
@@ -224,10 +225,12 @@ class Corpus {
     this.localeFiles = []; this.localeKeyCount = new Map();
     const loc = new Set();
     for (const f of web) {
-      if (!/\/[a-z]{2,3}(?:-[A-Za-z0-9]{2,4})?-[0-9a-f]{12}\.js$/.test(f) || src.size(f) <= 400_000) continue;
+      const named = /\/[a-z]{2,3}(?:-[A-Za-z0-9]{2,4})?-[0-9a-f]{12}\.js$/.test(f);             // Vite: xx-YY-<hash>.js, `X={"id":`message`,…}` + `export{X as default}`
+      if (!(named || /\/\d+\.[0-9a-f]{10}\.js$/.test(f)) || src.size(f) <= 400_000) continue;   // rspack: <chunk>.<hash>.js holding one JSON module
       const t = src.read(f);
-      if (!t.includes(LOCALE_ANCHOR)) continue;
+      if (named ? !t.includes(LOCALE_ANCHOR) : !(t.includes(LOCALE_ANCHOR_JSON) && jsonCatalogAt(t) >= 0)) continue;
       loc.add(f); this.localeFiles.push(f);
+      if (!named) { this.localeKeyCount.set(f, (t.slice(jsonCatalogAt(t)).match(/[{,]"(?:[^"\\]|\\.)*":"/g) ?? []).length); continue; }
       const d = /([\w$]+) as default/.exec(t.slice(t.lastIndexOf('export{')));
       const at = d ? t.lastIndexOf(`${d[1]}={`) : -1;
       this.localeKeyCount.set(f, at < 0 ? 0 : (t.slice(at).match(/[{,]"(?:[^"\\]|\\.)*":`/g) ?? []).length);
@@ -269,7 +272,11 @@ class Corpus {
   }
 }
 const LOCALE_ANCHOR = '"codex.command.newThread":`';
-const stem = (f) => basename(f).replace(/-(?![a-z]+\.)[0-9A-Za-z_-]{8,16}\.(js|css)$/, '').replace(/\.js$/, '');   // a word (`early-bootstrap.js`) is not a hash
+/** rspack (25679): a catalog is a JSON module, `<id>(x){x.exports=JSON.parse('{"id":"message",…}')}`, alone in its chunk; the anchor key then has a string value. */
+const LOCALE_ANCHOR_JSON = '"codex.command.newThread":"';
+/** Index of the `{` of the JSON text of a catalog module `e.exports=JSON.parse('{"…` (near the head of its chunk), -1 for another chunk. */
+const jsonCatalogAt = (t) => { const m = /[\w$]+\.exports=JSON\.parse\('\{"/.exec(t.slice(0, 600)); return m ? m.index + m[0].length - 2 : -1; };
+const stem = (f) => basename(f).replace(/^(\d+)\.[0-9a-f]{10}\.js$/, '$1').replace(/-(?![a-z]+\.)[0-9A-Za-z_-]{8,16}\.(js|css)$/, '').replace(/\.js$/, '');   // a word (`early-bootstrap.js`) is not a hash; an rspack chunk `<id>.<hash>.js` is its id
 
 // ---- alias chasing through rolldown's `export{local as name}` / `import{name as alias}from"./chunk.js"` (ESM webview) ----
 const exportAliasCache = new Map();
@@ -432,9 +439,12 @@ const role = (C, f) => `${f.startsWith('webview/') ? 'renderer' : 'main-process'
 // ---- shared locators (memoised) ----
 const memo = new Map();
 const once = (k, fn) => { if (!memo.has(k)) memo.set(k, fn()); return memo.get(k); };
-const mainFile = (C) => once('main', () => C.one(C.mainFiles, caseOf('shared-object-set'), 'main bundle (per-window message switch)'));
+const PER_WINDOW_LABELS = ['shared-object-set', 'open-codex-bundle'];
+const perWindowLabel = (C) => once('perWindowLabel', () => PER_WINDOW_LABELS.find((l) => C.find(C.mainFiles, caseOf(l)).length) ?? PER_WINDOW_LABELS[0]);
+const mainFile = (C) => once('main', () => C.one(C.mainFiles, caseOf(perWindowLabel(C)), 'main bundle (per-window message switch)'));
 /** The renderer chunk with the command table (`app-initial` through 21477; `app-shared` on 22943): only commands.ids reads it, the other families find their own chunk by what it holds. */
-const commandChunk = (C) => once('commandChunk', () => C.one(C.webFiles, '[{id:`newTask`,titleIntlId:', 'command table chunk'));
+const COMMAND_TABLE = '[{id:`newTask`,titleIntlId:';
+const commandChunk = (C) => once('commandChunk', () => C.one(C.webFiles, spellings(COMMAND_TABLE), 'command table chunk'));
 const appShared = (C) => once('appShared', () => C.one(C.webFiles, 'e.useSyncExternalStore=function', 'app-shared chunk (React CJS wrapper)'));
 const lastWithin = (t, re, from, to) => { let last = null; for (const m of t.slice(from, to).matchAll(re)) last = m; return last; };
 
@@ -477,6 +487,12 @@ function prefixDelegates(t, pre, guards) {
   for (const g of guards) {
     const at = g.name ? (() => { const m = new RegExp(`if\\(${esc(g.name)}\\(\\w+\\)\\)`).exec(pre); return m ? m.index + m[0].length : -1; })()
       : (() => { const i = pre.lastIndexOf('if(', g.start); const c = i < 0 ? -1 : scanBlock(pre, i + 2); return c < 0 ? -1 : c + 1; })();   // just after the `if(…)` condition
+    const inl = at < 0 ? null : /^(?:\{|\s|(?:return|void|await)\s+)*(?:async\s+)?function\s*\(/.exec(pre.slice(at, at + 200));   // the delegate written in place: `await async function(e,t,r){switch(r.type){…}}(…)` (25679)
+    if (inl) {
+      const pc = scanBlock(pre, at + inl[0].length - 1); const b = pc < 0 ? -1 : pre.indexOf('{', pc); const sw2 = b < 0 ? -1 : pre.indexOf('switch(', b);
+      if (sw2 >= 0 && sw2 <= b + 40) out.push(...switchLabels(pre, pre.indexOf('{', sw2)).labels.filter((x) => x.startsWith(g.prefix)));
+      continue;
+    }
     const m = at < 0 ? null : /^(?:\{|\s|(?:return|void|await)\s+)*(?!(?:switch|if|return|void|await)\b)([A-Za-z_$][\w$]*)\(/.exec(pre.slice(at, at + 200));
     if (!m) continue;
     for (const d of t.matchAll(new RegExp(`function ${esc(m[1])}\\(`, 'g'))) {
@@ -525,7 +541,7 @@ function callbackOf(t, at) {
 // ---- 1. bus ------------------------------------------------------------------------------------------------------
 fam['bus.fromView'] = (C) => {
   const f = mainFile(C); const t = C.text(f);
-  const idx = indexOfAny(t, caseOf('shared-object-set'));
+  const idx = indexOfAny(t, caseOf(perWindowLabel(C)));
   const open = enclosingOpen(t, idx);
   if (!/switch\([\w$]+\.type\)$/.test(t.slice(open - 24, open))) throw new CensusError('bus.fromView: enclosing block of case`shared-object-set` is not a `switch(x.type)`');
   const sw = switchLabels(t, open);
@@ -568,7 +584,7 @@ fam['bus.fromView'] = (C) => {
   const handled = new Set(values);
   return {
     anchor: 'switch(x.type) enclosing case`shared-object-set`: (per-window handleMessage; exhaustive over the union) + ipcMain.handle(<message-from-view const>) front-door `.type===` chain + preamble type-guard delegates (+ `e.type in MAP` delegate handler); quote spelling and chunk of each part are free',
-    files: uniq([role(C, f), role(C, fd[0].file), ...refs.map((r) => role(C, r.def))]), anchorHits: { 'case`shared-object-set`': 1, 'ipcMain.handle(message-from-view)': 1 },
+    files: uniq([role(C, f), role(C, fd[0].file), ...refs.map((r) => role(C, r.def))]), anchorHits: { ['case`' + perWindowLabel(C) + '`']: 1, 'ipcMain.handle(message-from-view)': 1 },
     count: values.length, values,
     parts: { perWindowSwitch: sw.labels.length, perWindowSwitchDynamicLabels: sw.dynamic, frontDoor: frontDoor.length, frontDoorNotInSwitch: frontDoor.filter((x) => !sw_.has(x)), guardTypes: uniq([...g1.types, ...g2.types]), guardTypesNotInSwitch: uniq([...g1.types, ...g2.types]).filter((x) => !sw_.has(x)), typeInMapDelegate: uniq(inMap).length, typeInMapNotInSwitch: uniq(inMap).filter((x) => !sw_.has(x)), prefixDelegateTypes: uniq(delegated) },
     prefixDelegates: uniq([...g1.prefixes, ...g2.prefixes]).map((p) => `${p}*`),
@@ -624,6 +640,10 @@ function enclosingClassBody(t, idx) {
 /** Anchor of the fetch handler map: the dispatcher's own failure text (20770 had `automation-create` as a key; 21477 moved most handlers to the AppHost services and no longer has it; 22943 keeps one). */
 const FETCH_DISPATCH = 'not implemented in the current Electron process';
 fam['bus.fetchHandlers'] = (C) => {
+  // 25679 removed the whole `vscode://codex/<name>` fetch channel from the main process (its `handleRequest` answers only the dictation URL and throws "HTTP requests must use the HTTP fetch service."): the dispatcher, its prefix constant and its handler table are gone, not renamed
+  if (!C.find(C.mainFiles, FETCH_DISPATCH).length && !C.find(C.mainFiles, 'vscode://codex/').length && !C.find(C.mainFiles, 'handleVSCodeRequest').length)
+    return { anchor: `none: no main-process file holds the fetch dispatcher ("${FETCH_DISPATCH}"), the \`vscode://codex/\` prefix or \`handleVSCodeRequest\` (the channel is gone; HTTP goes through the AppHost HTTP fetch service)`, files: [], anchorHits: { [FETCH_DISPATCH]: 0 }, count: 0, values: [], retired: true,
+      falsePositiveRisk: '`retired` means the three strings are absent from every main-process file; a dispatcher rewritten with none of them would read as retired (the renderer still builds vscode://codex/<name> URLs, so check apphost.services for where they went)' };
   const f = C.one(C.mainFiles, FETCH_DISPATCH, 'main bundle (fetch handler dispatcher)');
   const t = C.text(f); const i = t.indexOf(FETCH_DISPATCH);
   if (!/this\.handlers\[[\w$]+\]/.test(t.slice(Math.max(0, i - 200), i))) throw new CensusError('bus.fetchHandlers: the dispatcher does not look its handler up in this.handlers[...]');
@@ -775,7 +795,20 @@ fam['state.globalKeys'] = (C) => {
   const parse = ({ file, at }) => {
     const t = C.text(file); const open = enclosingOpen(t, at); const oe = objectEntries(t, open);
     if (!oe || oe.entries.length < 30) throw new CensusError(`state.globalKeys: enum in ${file} has ${oe?.entries.length} entries`);
-    const map = {}; for (const e of oe.entries) { if (e.kind !== 'prop') continue; const v = tpl(t.slice(e.valueStart, e.end)); if (v !== null) map[e.key] = v; }
+    const map = {}; const add = (o) => { for (const e of o.entries) { if (e.kind !== 'prop') continue; const v = tpl(t.slice(e.valueStart, e.end)); if (v !== null) map[e.key] = v; } };
+    add(oe);
+    // 25679 splits the enum in two: `r={…LOCAL_PROJECTS…}` and the enum the app uses, `a={STATSIG_STABLE_ID:…,…,...r}`; the one object nearby that
+    // spreads the anchor's object is part of it (none on earlier builds)
+    const name = new RegExp(`(?:^|[,;{(\\s])(${ID})=$`).exec(t.slice(Math.max(0, open - 40), open))?.[1];
+    if (name) {
+      const lo = Math.max(0, open - 40_000), hi = Math.min(t.length, open + 40_000); const by = [];
+      for (const m of t.slice(lo, hi).matchAll(new RegExp(`\\.\\.\\.${esc(name)}(?=[,}])`, 'g'))) {
+        const o2 = enclosingOpen(t, lo + m.index); const e2 = o2 >= 0 && o2 !== open ? objectEntries(t, o2) : null;
+        if (e2 && e2.entries.some((e) => e.kind === 'spread' && t.slice(e.valueStart, e.end).trim() === name) && e2.entries.filter((e) => e.kind === 'prop').length >= 10) by.push(e2);
+      }
+      if (by.length > 1) throw new CensusError(`state.globalKeys: ${by.length} objects spread the enum ${name} in ${file} (expected at most 1)`);
+      if (by.length) add(by[0]);
+    }
     return map;
   };
   const maps = [...rend, ...main_].map(parse);
@@ -796,7 +829,17 @@ fam['state.globalKeys'] = (C) => {
  *  static: `function F(key,initial,options){R({initialValue:initial,key});...`    keyed: `function K(keyOf,initial){let a=W(S,n=>V(keyOf(n),initial),{getServerSnapshot:()=>initial,onMount(...` */
 const STATIC_FACTORY_RE = new RegExp(`function (${ID})\\((${ID}),(${ID}),(${ID})\\)\\{(${ID})\\(\\{(?:initialValue:\\3,key:\\2|key:\\2,initialValue:\\3)\\}\\);`, 'g');
 const KEYED_FACTORY_RE = new RegExp(`function (${ID})\\((${ID}),(${ID})\\)\\{let ${ID}=${ID}\\(${ID},(${ID})=>${ID}\\(\\2\\(\\4\\),\\3\\),\\{getServerSnapshot:\\(\\)=>\\3,onMount\\(`, 'g');
+/** An rspack module exports both factories (`n.d(t,{},{Kn:function(key…){…},m3:function(e,t,n){var o;o={initialValue:t,key:e},…registry…}})`: a single-use function is inlined, so the registry call is the factory's own code). */
+const RS_STATIC_FACTORY_RE = new RegExp(`(${ID}):function\\((${ID}),(${ID}),(${ID})\\)\\{(?:var ${ID};)?(?:${ID}=)?\\{(?:initialValue:\\3,key:\\2|key:\\2,initialValue:\\3)\\}`, 'g');
+const RS_KEYED_FACTORY_RE = new RegExp(`(${ID}):function\\((${ID}),(${ID})\\)\\{let ${ID}=\\(0,${ID}\\.${ID}\\)\\(${ID}\\.${ID},(${ID})=>\\(0,${ID}\\.${ID}\\)\\(\\2\\(\\4\\),\\3\\),\\{getServerSnapshot:\\(\\)=>\\3,onMount\\(`, 'g');
 const persistedFactories = (C) => once('persistedFactories', () => {
+  if (rspackRenderer(C)) {
+    const st = rsSites(C, RS_STATIC_FACTORY_RE, 'initialValue:');
+    if (st.length !== 1 || st[0].per !== 1) throw new CensusError(`state.persistedAtoms: static factory shape matched ${st.length} modules${st.length ? ` (${st.map((x) => x.r.mod.id).join(', ')})` : ''}, ${st[0]?.per ?? 0} times in the first`);
+    const ky = rsSites(C, RS_KEYED_FACTORY_RE, 'getServerSnapshot:').filter((x) => x.r.mod.id === st[0].r.mod.id);
+    if (ky.length !== 1 || ky[0].per !== 1) throw new CensusError(`state.persistedAtoms: keyed factory shape matched ${ky.length} times in module ${st[0].r.mod.id}`);
+    return { r: st[0].r, id: st[0].r.mod.id, copies: st[0].copies, staticName: st[0].m[1], keyedName: ky[0].m[1] };
+  }
   const at = [];                                      // renderer chunks with a static-factory match
   for (const f of C.webFiles) { const t = C.text(f); if (t.includes('initialValue:')) { const m = [...t.matchAll(STATIC_FACTORY_RE)]; if (m.length) at.push({ file: f, m }); } }
   const n = at.reduce((a, h) => a + h.m.length, 0);
@@ -806,7 +849,42 @@ const persistedFactories = (C) => once('persistedFactories', () => {
   return { file: at[0].file, staticName: at[0].m[0][1], keyedName: km[0][1], registrar: at[0].m[0][5] };
 });
 
+/** state.persistedAtoms on an rspack renderer: the factories are exports of one module (any number of copies); a call is `(0,A.name)(key,…)` in a module that requires it, its key resolved in that module (own constants, other modules' exports). */
+function persistedAtomsRspack(C) {
+  const { r, id, staticName, keyedName } = persistedFactories(C);
+  const out = new Map(); const unresolved = []; let calls = 0;
+  const add = (key, kind, host) => { if (!out.has(key)) out.set(key, { kind, files: new Set() }); out.get(key).files.add(host); };
+  const norm = (raw) => raw.includes('${') ? raw.slice(0, raw.indexOf('${')) + '*' : raw;
+  for (const [name, kind] of [[staticName, 'static'], [keyedName, 'keyed']]) {
+    for (const c of rsCalls(C, id, name)) {
+      const s = C.text(c.r.file); const [a, b] = c.args; const first = s.slice(a, b).trim(); const host = `module:${c.r.mod.id}`; calls++;
+      if (kind === 'static') {
+        const v = rsStr(C, c.r, a, b);
+        if (v !== null) add(v, 'static', host);
+        else if (first[0] === '`' && first.includes('${')) add(norm(first.slice(1, -1)), 'dynamic', host);
+        else unresolved.push(`${host}: ${first.slice(0, 40)}`);
+      } else {
+        const km2 = /^\(?[\w$]+\)?=>([`"'])([^]*)\1$/.exec(first);
+        if (km2) add(norm(km2[2]), 'keyed', host); else unresolved.push(`${host}: ${first.slice(0, 40)}`);
+      }
+    }
+  }
+  const pure = out.has('*') ? [...out.get('*').files] : [];
+  out.delete('*');
+  const values = sorted([...out.keys()]);
+  const kinds = { static: 0, keyed: 0, dynamic: 0 }; for (const v of out.values()) kinds[v.kind]++;
+  const hosts = uniq([...out.values()].flatMap((v) => [...v.files]));
+  const body = C.text(r.file).slice(r.mod.open, r.mod.close);
+  return {
+    anchor: 'one rspack module exporting a static factory `F:function(e,t,n){…{initialValue:t,key:e}…}` and a keyed factory `K:function(e,t){let n=W(S,n=>V(e(n),t),{getServerSnapshot:()=>t,onMount(`, each located by shape; key = first arg of every call `(0,A.F)(key,…)` in the modules that require it (a module counts once whatever its number of copies; template, quoted string, own constant or another module\'s export resolved)',
+    files: [`renderer:module:${id}`, `renderer:${hosts.length} modules`], anchorHits: { 'static factory': 1, 'keyed factory': 1 },
+    count: values.length, values, kinds, factoryCalls: calls, fullyDynamicKeyCalls: pure.length, unresolvedKeyCalls: unresolved.length, unresolved: unresolved.slice(0, 12),
+    crossCheck: { registryCallSites: (body.match(/\binitialValue:/g) ?? []).length },
+    falsePositiveRisk: `calls whose key is built by a non-constant expression (${unresolved.length}) are listed in unresolved; keys ending in * are prefixes of runtime-built keys; modules that re-export the factory instead of requiring it are not chased`,
+  };
+}
 fam['state.persistedAtoms'] = (C) => {
+  if (rspackRenderer(C)) return persistedAtomsRspack(C);
   const { file: f, staticName, keyedName, registrar } = persistedFactories(C);
   // cross-check: the registry call in the static factory is the only way an atom enters the registry (one call site besides the declaration)
   const registrarCalls = [...C.text(f).matchAll(new RegExp(`(?<![\\w$.])${esc(registrar)}\\(`, 'g'))].filter((m) => C.text(f).slice(m.index - 9, m.index) !== 'function ').length;
@@ -860,8 +938,13 @@ fam['state.sharedObjects'] = (C) => {
   const atomFiles = withText(C.webFiles, 'getSharedObjectSnapshotValue');                                  // renderer: the atom that reads the bridge
   const busFiles = withText(C.webFiles, 'shared-object-', lit('shared-object-(?:set|subscribe|unsubscribe)'));   // renderer: dispatches of the write/subscribe messages
   const noopFiles = withText(C.webFiles, 'shared-object-updated', lit('shared-object-updated', 'case', ':break'));   // renderer: `case shared-object-updated:break` (ignored)
-  if (!handlerFiles.length && !repoFiles.length && !bridgeFiles.length && !atomFiles.length && !busFiles.length)
-    throw new CensusError('state.sharedObjects: no shared-object signal in either realm (no bus case, repository, bridge method or renderer atom): removed or renamed; confirm and retire the family');
+  const channelFiles = withText(C.mainFiles, 'get-shared-object-snapshot');                               // preload: the sendSync channel of the initial snapshot
+  if (!handlerFiles.length && !repoFiles.length && !bridgeFiles.length && !atomFiles.length && !busFiles.length && !noopFiles.length && !channelFiles.length)
+    // 25679 removed the mechanism itself (no bus cases, repository, preload bridge or channel, renderer atom, dispatch or ignore-case): the vocabulary is empty and nothing can write it. Same result shape as 22943's `retired`.
+    return { anchor: 'none: no `shared-object-*` message, `sharedObjectRepository`, `getSharedObjectSnapshotValue` or `get-shared-object-snapshot` anywhere in the main process or the renderer (the mechanism was removed after 22943)', files: [], anchorHits: { 'renderer shared-object atom': 0, 'main shared-object-set handler': 0 },
+      count: 0, values: [], retired: true, removed: true, parts: { renderer: 0, main: 0, accessors: 0, unresolvedKeyCalls: 0, unresolved: [] },
+      plumbing: { mainHandler: [], mainRepository: [], preloadBridge: [], rendererAtom: [], rendererDispatchesMessages: [], rendererIgnoresUpdates: [], mainDynamicKeyCalls: 0 },
+      falsePositiveRisk: '`removed` means none of the mechanism\'s strings exists in any file of either realm; a renamed mechanism would read the same (compare the build\'s window state sync: bus.toView, state.persistedAtoms)' };
   if (handlerFiles.length > 1) throw new CensusError(`state.sharedObjects: main \`case shared-object-set:\` matched in ${handlerFiles.length} files`);
   if (!handlerFiles.length && (repoFiles.length || bridgeFiles.length)) throw new CensusError('state.sharedObjects: the repository or bridge is there but the main-process `case shared-object-set:` is not');
   // --- renderer: the atom and its accessors; no atom is only "no consumers" when nothing else in the renderer speaks the messages
@@ -917,26 +1000,62 @@ fam['state.sharedObjects'] = (C) => {
 };
 
 // ---- 3. commands, settings, panels, items, apphost, routes ---------------------------------------------------------
+/** rspack: the array a module exports as `member` (`n.d(t,{},{member:r})` with `r=[…]` declared in the module, or `{member:[…]}` written in place); the index of its `[` in f's text, or -1. */
+function exportedArray(C, f, modId, member) {
+  const t = C.text(f); const mod = modulesOf(C, f)?.find((m) => m.id === modId); if (!mod) return -1;
+  const body = t.slice(mod.open, mod.close); const d = /[\w$]+\.d\([\w$]+,\{\},\{/.exec(body); if (!d) return -1;
+  const oe = objectEntries(t, mod.open + d.index + d[0].length - 1); const p = oe?.entries.find((e) => e.key === member && e.kind === 'prop'); if (!p) return -1;
+  const v = t.slice(p.valueStart, p.end).trim().replace(/^\(\)=>/, '');
+  if (v[0] === '[') return t.indexOf('[', p.valueStart);
+  if (!/^[A-Za-z_$][\w$]*$/.test(v)) return -1;
+  const defs = [...body.matchAll(new RegExp(`(?<![\\w$.])${esc(v)}=\\[`, 'g'))];
+  return defs.length === 1 ? mod.open + defs[0].index + defs[0][0].length - 1 : -1;
+}
+/** `a.b.id` where `a={b:{id:"x"}}` is declared in the same rspack module (a one-letter local that resolveStr takes for an import alias): the string, or null. */
+function moduleLocalPath(t, lo, hi, expr) {
+  const parts = expr.trim().split('.'); if (parts.length < 2 || !parts.every((x) => /^[A-Za-z_$][\w$]*$/.test(x))) return null;
+  const defs = [...t.slice(lo, hi).matchAll(new RegExp(`(?<![\\w$.])${esc(parts[0])}=\\{`, 'g'))]; if (defs.length !== 1) return null;
+  let at = lo + defs[0].index + defs[0][0].length - 1;
+  for (const key of parts.slice(1)) {
+    if (t[at] !== '{') return null;
+    const p = objectEntries(t, at)?.entries.find((e) => e.key === key && e.kind === 'prop'); if (!p) return null;
+    at = p.valueStart; while (/\s/.test(t[at])) at++;
+  }
+  return tpl(t.slice(at, exprEnd(t, at, Math.min(t.length, at + 200))).trim());
+}
 fam['commands.ids'] = (C) => {
   const f = commandChunk(C); const t = C.text(f);
-  const anchor = '[{id:`newTask`,titleIntlId:';
-  C.one([f], anchor, 'command table start');
-  // the three tables are assembled as `Z=[...tag(A,`webview`),...tag(B,`vscode-only`),...tag(C,`electron-only`)]`
-  const asm = [...t.matchAll(new RegExp(`\\[\\.\\.\\.(${ID})\\((${ID}),\`webview\`\\),\\.\\.\\.\\1\\((${ID}),\`vscode-only\`\\),\\.\\.\\.\\1\\((${ID}),\`electron-only\`\\)\\]`, 'g'))];
-  if (asm.length !== 1) throw new CensusError(`commands.ids: command-table assembly [...tag(A,\`webview\`),...tag(B,\`vscode-only\`),...tag(C,\`electron-only\`)] matched ${asm.length} times`);
+  const anchors = spellings(COMMAND_TABLE);
+  C.one([f], anchors, 'command table start');
+  // the three tables are assembled as `Z=[...tag(A,`webview`),...tag(B,`vscode-only`),...tag(C,`electron-only`)]`; rspack (25679) keeps each table in its own module and the assembly in a
+  // fourth one, copied into the chunks that use it: a table is then `X.member`, a cross-module reference (`var X=n("moduleId")`)
+  const REF = `(${ID}(?:\\.${ID})?)`;
+  const ASM = new RegExp(`\\[\\.\\.\\.(${ID})\\(${REF},${litRe('webview')}\\),\\.\\.\\.\\1\\(${REF},${litRe('vscode-only')}\\),\\.\\.\\.\\1\\(${REF},${litRe('electron-only')}\\)\\]`, 'g');
+  const sites = sitesRe(C, C.webFiles, '`vscode-only`', ASM);
+  if (sites.length !== 1 || sites[0].n !== sites[0].files.length) throw new CensusError(`commands.ids: command-table assembly [...tag(A,\`webview\`),...tag(B,\`vscode-only\`),...tag(C,\`electron-only\`)] matched ${sites.length} sites (${sites.map((x) => `${x.files.length} copies, ${x.n} matches`).join('; ')}; expected 1 site, one match per copy)`);
+  const af = sites[0].files[0]; const asm = [...C.text(af).matchAll(ASM)];
   const tables = [['webview', asm[0][2]], ['vscode-only', asm[0][3]], ['electron-only', asm[0][4]]];
   const byKind = {}; const ids = []; const unresolved = []; let expanded = 0;
   for (const [kind, name] of tables) {
-    const defs = [...t.matchAll(new RegExp(`(?<![\\w$.])${esc(name)}=\\[`, 'g'))];
-    if (defs.length !== 1) throw new CensusError(`commands.ids: table ${kind} definition matched ${defs.length} times`);
-    const open = defs[0].index + defs[0][0].length - 1;
-    if (kind === 'webview' && t.slice(open, open + anchor.length) !== anchor) throw new CensusError('commands.ids: the webview table does not start with the newTask anchor');
+    let open;
+    if (name.includes('.')) {                     // rspack: X.member -> `X=n("moduleId")` in the assembly's module -> that module's export `member`
+      const [local, member] = name.split('.'); const at = C.text(af); const amod = moduleAt(modulesOf(C, af), asm[0].index);
+      const im = amod && new RegExp(`(?<![\\w$.])${esc(local)}=${ID}\\(["']([\\w$]+)["']\\)`).exec(at.slice(amod.open, amod.close));
+      open = im ? exportedArray(C, f, im[1], member) : -1;
+      if (open < 0) throw new CensusError(`commands.ids: table ${kind} (${name}) is not an array exported by a module of the command-table chunk`);
+    } else {
+      const defs = [...t.matchAll(new RegExp(`(?<![\\w$.])${esc(name)}=\\[`, 'g'))];
+      if (defs.length !== 1) throw new CensusError(`commands.ids: table ${kind} definition matched ${defs.length} times`);
+      open = defs[0].index + defs[0][0].length - 1;
+    }
+    if (kind === 'webview' && !anchors.some((a) => t.startsWith(a, open))) throw new CensusError('commands.ids: the webview table does not start with the newTask anchor');
+    const mod = modulesOf(C, f) ? moduleAt(modulesOf(C, f), open) : null;   // rspack: the module that declares the table (its locals resolve ids)
     const ae = arrayElements(t, open); byKind[kind] = [];
     for (const el of ae.elements) {
       const text = t.slice(el.start, el.end);
       if (text[0] === '{') {
         const oe = objectEntries(t, el.start); const p = oe.entries.find((e) => e.key === 'id' && e.kind === 'prop');
-        const v = p && resolveStr(C, f, t.slice(p.valueStart, p.end));
+        const v = p && (resolveStr(C, f, t.slice(p.valueStart, p.end)) ?? (mod ? moduleLocalPath(t, mod.open, mod.close, t.slice(p.valueStart, p.end)) : null));
         if (v) { byKind[kind].push(v); ids.push(v); } else unresolved.push(text.slice(0, 40));
       } else {
         const m = /^\.\.\.\[((?:\d+,?)+)\]\.map\(([\w$]+)=>\(\{id:`([^`$]*)\$\{\2\}`/.exec(text);   // ...[1,2,3].map(e=>({id:`focusTab${e}`,...}))
@@ -947,11 +1066,13 @@ fam['commands.ids'] = (C) => {
   }
   if (ids.length < 100) throw new CensusError(`commands.ids: only ${ids.length} ids`);
   const cross = {};
-  for (const h of C.find(C.mainFiles, '{id:`newTask`,titleIntlId:')) { const s2 = C.text(h.file); const arr = enclosingOpen(s2, s2.indexOf('{id:`newTask`,titleIntlId:'), '['); const e2 = arrayElements(s2, arr); cross[stem(h.file)] = e2.elements.length; }
+  // the main-process copies of the table: the build's own spelling (a template literal up to 22943, quoted on 25679), the other only when there is none
+  const crossNeedles = C.find(C.mainFiles, '{id:`newTask`,titleIntlId:').length ? ['{id:`newTask`,titleIntlId:'] : spellings('{id:`newTask`,titleIntlId:');
+  for (const h of C.find(C.mainFiles, crossNeedles)) { const s2 = C.text(h.file); const arr = enclosingOpen(s2, indexOfAny(s2, crossNeedles), '['); const e2 = arrayElements(s2, arr); cross[stem(h.file)] = e2.elements.length; }
   const values = ids.slice().sort();
   return {
     anchor: 'command-table assembly `[...tag(A,`webview`),...tag(B,`vscode-only`),...tag(C,`electron-only`)]`; A starts `[{id:`newTask`,titleIntlId:`; id = literal, `Enum.member.id`, or `...[1..9].map(e=>({id:`prefix${e}`}))` expansion',
-    files: [role(C, f)], anchorHits: { '[{id:`newTask`,titleIntlId:': 1, 'tag(A,webview)..tag(C,electron-only) assembly': 1 },
+    files: [role(C, f)], anchorHits: { [COMMAND_TABLE]: 1, 'tag(A,webview)..tag(C,electron-only) assembly': 1 },
     count: ids.length, values, duplicates: ids.length - new Set(ids).size, byKind: Object.fromEntries(Object.entries(byKind).map(([k, v]) => [k, v.length])), expandedByMap: expanded, unresolvedElements: unresolved.length, unresolved: unresolved.slice(0, 5),
     crossCheck: { mainProcessLibCopiesWebviewTableElements: cross },
     falsePositiveRisk: 'ids of elements built by other computation are listed in unresolved; vscode-only commands exist only for the VS Code host and never reach the Electron app, kept in byKind so a consumer can drop them',
@@ -981,29 +1102,76 @@ fam['settings.slugs'] = (C) => {
  *  Every renderer chunk that mentions `dropDestinations:` is a candidate; exactly one register(kind, Component, options) must exist. -> {file, register, meta, map} */
 function tabRegistrars(C) {
   const found = [];
-  for (const f of C.webFiles) {
-    const t = C.text(f); if (!t.includes('dropDestinations:')) continue;
-    for (const m of t.matchAll(new RegExp(`function (${ID})\\((${ID}),(${ID}),(${ID})\\)\\{(?:let|const|var) (${ID})=\\{\\.\\.\\.\\4,`, 'g'))) {
+  // an rspack renderer exports both registrars from one module (`v:function(e,t,n){let r={...n,…,Component:t,dropDestinations:…,kind:e};return o.set(e,r),r}`): one site per module id, whatever its number of copies
+  const rs = rspackRenderer(C);
+  const REGISTER = new RegExp(`${rs ? `(${ID}):function` : `function (${ID})`}\\((${ID}),(${ID}),(${ID})\\)\\{(?:let|const|var) (${ID})=\\{\\.\\.\\.\\4,`, 'g');
+  const candidates = rs ? rsSites(C, REGISTER, 'dropDestinations:').map((x) => ({ f: x.r.file, ms: [x.m], r: x.r })) : C.webFiles.filter((f) => C.text(f).includes('dropDestinations:')).map((f) => ({ f, ms: [...C.text(f).matchAll(REGISTER)] }));
+  for (const { f, ms, r } of candidates) {
+    const t = C.text(f);
+    for (const m of ms) {
       const [, name, kind, comp, opts, obj] = m; const open = m.index + m[0].lastIndexOf('{');
       const oe = objectEntries(t, open); if (!oe) continue;
       const val = (key) => { const e = oe.entries.find((x) => x.key === key && x.kind === 'prop'); return e ? t.slice(e.valueStart, e.end).trim() : null; };
       if (val('Component') !== comp || val('kind') !== kind || val('dropDestinations') === null || !oe.entries.some((x) => x.kind === 'spread' && t.slice(x.valueStart, x.end).trim() === opts)) continue;
       const body = enclosingOpen(t, open); const be = scanBlock(t, body);
       const map = new RegExp(`(?<![\\w$.])(${ID})\\.set\\(${esc(kind)},${esc(obj)}\\)`).exec(t.slice(body, be))?.[1];
-      if (map) found.push({ file: f, register: name, map });
+      if (map) found.push({ file: f, register: name, map, r });
     }
   }
   if (found.length !== 1) throw new CensusError(`panel.tabKinds: register(kind, Component, options) shape matched ${found.length} times`);
-  const { file, register, map } = found[0]; const t = C.text(file);
+  const { file, register, map, r } = found[0]; const t = C.text(file);
   const metas = [];
-  for (const m of t.matchAll(new RegExp(`(?<![\\w$.])${esc(map)}\\.set\\((${ID})\\.kind,\\1\\)`, 'g'))) {
-    const open = enclosingOpen(t, m.index); const d = open < 0 ? null : new RegExp(`function (${ID})\\(${esc(m[1])}\\)$`).exec(t.slice(Math.max(0, open - 80), open));
-    if (d) metas.push(d[1]);
+  const [from, to] = r ? [r.mod.open, r.mod.close] : [0, t.length];                    // an rspack module's own text
+  for (const m of t.slice(from, to).matchAll(new RegExp(`(?<![\\w$.])${esc(map)}\\.set\\((${ID})\\.kind,\\1\\)`, 'g'))) {
+    const at = from + m.index; const open = enclosingOpen(t, at); const d = open < 0 ? null : new RegExp(`${r ? `(?:function (${ID})|(${ID}):function)` : `function (${ID})`}\\(${esc(m[1])}\\)$`).exec(t.slice(Math.max(0, open - 80), open));
+    if (d) metas.push(d[1] ?? d[2]);
   }
   if (metas.length !== 1) throw new CensusError(`panel.tabKinds: register({kind,...}) metadata shape matched ${metas.length} times`);
-  return { file, register, meta: metas[0], map };
+  return { file, register, meta: metas[0], map, r };
+}
+/** The kind an rspack tab descriptor names: a string, `D.kind`, an object literal (its own `kind:`, else that of a spread), or the registrar's own return value (`(0,A.register)("kind",…)`). */
+function rsTabKind(C, r, a, b, reg, depth = 0) {
+  if (depth > 8) return null;
+  const v = rsStr(C, r, a, b); if (v !== null) return v;
+  const t = C.text(r.file); const x = t.slice(a, b); const lead = x.length - x.trimStart().length;
+  const dot = /^([^]*)\.kind$/.exec(x.trim()); if (dot) return rsTabKind(C, r, a + lead, a + lead + dot[1].length, reg, depth + 1);
+  const n = rsEval(C, r, a, b); if (!n || n.ns || n.free) return null;
+  const nt = C.text(n.r.file); const nx = nt.slice(n.s, n.e);
+  if (nx[0] === '{') {
+    const ents = objectEntries(nt, n.s)?.entries ?? [];
+    const own = ents.find((y) => y.kind === 'prop' && y.key === 'kind'); if (own) return rsTabKind(C, n.r, own.valueStart, own.end, reg, depth + 1);
+    for (const sp of ents.filter((y) => y.kind === 'spread')) { const k = rsTabKind(C, n.r, sp.valueStart, sp.end, reg, depth + 1); if (k !== null) return k; }
+    return null;
+  }
+  const call = /^\(0,([\w$]+)\.([\w$]+)\)\(/.exec(nx);
+  if (call && call[2] === reg.name && rsEval(C, n.r, n.s + 3, n.s + 3 + call[1].length)?.ns?.[0].mod.id === reg.id) {
+    const open = n.s + call[0].length - 1; return rsTabKind(C, n.r, open + 1, exprEnd(nt, open + 1, scanBlock(nt, open)), reg, depth + 1);
+  }
+  return null;
+}
+/** panel.tabKinds on an rspack renderer: the calls of the two registrars (exports of one module) in the modules that require it. */
+function tabKindsRspack(C) {
+  const { r, register, meta } = tabRegistrars(C); const id = r.mod.id;
+  const found = new Map(); const unresolved = []; let sites = 0;
+  const record = (kind, host, expr) => { if (kind == null) { unresolved.push(`${host}: ${expr.slice(0, 50)}`); return; } if (!found.has(kind)) found.set(kind, new Set()); found.get(kind).add(host); };
+  for (const name of [register, meta]) {
+    for (const c of rsCalls(C, id, name)) {
+      const s = C.text(c.r.file); const [a, b] = c.args; const host = `module:${c.r.mod.id}`; sites++;
+      record(rsTabKind(C, c.r, a, b, { id, name: register }), host, s.slice(a, b).trim());
+    }
+  }
+  const values = sorted([...found.keys()]);
+  const enums = rsSites(C, new RegExp(`\\{BROWSER:${litRe('browser')},DIFF:${litRe('diff')},[^}]*\\}`, 'g'), 'BROWSER:');
+  const builtin = enums.length === 1 ? [...enums[0].m[0].matchAll(/([A-Z_]+):(?:`([^`]+)`|"([^"]+)"|'([^']+)')/g)].map((x) => x[2] ?? x[3] ?? x[4]) : [];
+  return {
+    anchor: 'two registrar shapes writing one Map, exported by one rspack module and found by what they do: `register(kind,Component,options)` (builds `{...options,<inherited options>,Component,dropDestinations,kind}` and `MAP.set(kind,it)`) and `register({kind,...})` (`MAP.set(meta.kind,meta)`); first arg of every call `(0,A.register)(…)` in the modules that require it (a module counts once whatever its number of copies), resolved from a string, an own constant, another module\'s export, `D.kind` or a spread descriptor',
+    files: [`renderer:module:${id}`, `renderer:${uniq([...found.values()].flatMap((v) => [...v])).length} modules`], anchorHits: { 'register(kind,Component,options)': 1, 'register({kind})': 1 },
+    count: values.length, values, registerCallSites: sites, unresolvedSites: unresolved.length, unresolved: unresolved.slice(0, 10), builtinTabIdEnum: builtin,
+    falsePositiveRisk: `tab types whose kind is not statically resolvable (${unresolved.length}) are listed in unresolved; builtinTabIdEnum (browser, diff, plan, ...) is the id enum of fixed side-panel tabs, a different thing from registered kinds`,
+  };
 }
 fam['panel.tabKinds'] = (C) => {
+  if (rspackRenderer(C)) return tabKindsRspack(C);
   const { file: f, register, meta } = tabRegistrars(C); const t = C.text(f);
   const found = new Map(); const unresolved = []; let sites = 0;
   const record = (kind, file, expr) => { if (kind == null) { unresolved.push(`${stem(file)}: ${expr.slice(0, 50)}`); return; } if (!found.has(kind)) found.set(kind, new Set()); found.get(kind).add(stem(file)); };
@@ -1034,17 +1202,24 @@ fam['panel.tabKinds'] = (C) => {
 };
 
 fam['items.types'] = (C, opts) => {
-  const needle = 'case`contextCompaction`:';
-  const hits = C.find(C.webFiles, needle);
+  const needles = caseOf('contextCompaction');            // case`contextCompaction`: (Vite), case"contextCompaction": (rspack)
+  const hits = C.find(C.webFiles, needles);
   if (!hits.length) throw new CensusError('items.types: no switch contains case`contextCompaction`');
-  const sw = [];
+  const sw = []; const sites = new Set();
   for (const h of hits) {
-    const t = C.text(h.file); let i = -1;
-    while ((i = t.indexOf(needle, i + 1)) >= 0) {
-      const open = enclosingOpen(t, i);
-      if (open < 0 || !/switch\([\w$.]+\)$/.test(t.slice(open - 24, open).replace(/\s/g, ''))) continue;
-      const l = switchLabels(t, open).labels;
-      if (l.includes('userMessage') && l.includes('agentMessage') && l.includes('commandExecution')) sw.push({ file: h.file, labels: l });
+    const t = C.text(h.file); const mods = modulesOf(C, h.file);
+    for (const needle of needles) {
+      let i = -1;
+      while ((i = t.indexOf(needle, i + 1)) >= 0) {
+        const open = enclosingOpen(t, i);
+        if (open < 0 || !/switch\([\w$.]+\)$/.test(t.slice(Math.max(0, open - 24), open).replace(/\s/g, ''))) continue;
+        const l = switchLabels(t, open).labels;
+        if (!(l.includes('userMessage') && l.includes('agentMessage') && l.includes('commandExecution'))) continue;
+        // an rspack module is copied into every chunk that needs it: its switch is one site (a copy has the same labels)
+        const mod = mods ? moduleAt(mods, i) : null; const site = mod ? `module:${mod.id}:${l.join('|')}` : null;
+        if (site !== null) { if (sites.has(site)) continue; sites.add(site); }
+        sw.push({ file: h.file, labels: l, ...(mod ? { module: mod.id } : {}) });
+      }
     }
   }
   if (!sw.length) throw new CensusError('items.types: no switch contains userMessage+agentMessage+commandExecution+contextCompaction');
@@ -1056,8 +1231,8 @@ fam['items.types'] = (C, opts) => {
   const inProto = values.filter((v) => proto.includes(v));
   return {
     anchor: 'switches in renderer chunks whose labels include userMessage, agentMessage, commandExecution and contextCompaction; the largest one is the renderer turn-item union',
-    files: uniq(sw.map((s) => role(C, s.file))), anchorHits: { 'item switches': sw.length, 'largest (union) switch': 1 },
-    count: values.length, values, switches: sw.map((s) => ({ file: role(C, s.file), labels: s.labels.length })),
+    files: uniq(sw.map((s) => s.module ? `renderer:module:${s.module}` : role(C, s.file))), anchorHits: { 'item switches': sw.length, 'largest (union) switch': 1 },
+    count: values.length, values, switches: sw.map((s) => ({ file: s.module ? `renderer:module:${s.module}` : role(C, s.file), labels: s.labels.length })),
     crossCheck: { schemaThreadItemTypes: proto.length, rendererKnowsOfThem: inProto.length, schemaTypesTheRendererDoesNotSwitchOn: proto.filter((p) => !values.includes(p)), rendererOnlyTypes: values.filter((v) => !proto.includes(v)) },
     falsePositiveRisk: 'the 36-label union mixes protocol ThreadItem types (19) with renderer-synthesised turn items (17: error, steered, todo-list, ...); an item type handled only by `.type===` comparisons and no switch would be missed',
   };
@@ -1117,7 +1292,7 @@ fam['apphost.services'] = (C) => {
 fam['routes.paths'] = (C) => {
   // The route table is one chunk's JSX: <Route path=...> elements, one component dominating the calls that carry a path prop. Which chunk holds it is the bundler's
   // choice (app-initial in 20770/21477, app-runtime in 22943), so every renderer chunk is counted and exactly one may hold >= 50 of them.
-  const ROUTE_EL = /\(0,[\w$]+\.jsxs?\)\(([\w$]+),\{(?:index:!0,)?path:/g;
+  const ROUTE_EL = /\(0,[\w$]+\.jsxs?\)\(([\w$]+(?:\.[\w$]+)?),\{(?:index:!0,)?path:/g;   // R is a local (`H`) or, in rspack (25679), another module's export (`A.qh`)
   const tables = [];
   for (const file of C.webFiles) {
     const ft = C.text(file); if (!ft.includes('path:')) continue;
@@ -1131,13 +1306,15 @@ fam['routes.paths'] = (C) => {
   if (top[1] && top[1][1] * 10 > top[0][1]) throw new CensusError(`routes.paths: no dominant Route component (candidates ${JSON.stringify(top.slice(0, 3))})`);
   const R = top[0][0];
   const lits = []; const unresolved = []; let index = 0; let withPath = 0;
+  const mods = modulesOf(C, f);   // rspack: a path may be another module's constant (`K.W0`, `eE.Ke.scheduled.path`), resolved through its exports
   for (const m of t.matchAll(new RegExp(`\\(0,[\\w$]+\\.jsxs?\\)\\(${esc(R)},\\{`, 'g'))) {
     const oe = objectEntries(t, m.index + m[0].length - 1);
     if (!oe) continue;
     const p = oe.entries.find((e) => e.key === 'path' && e.kind === 'prop');
     if (!p) { if (oe.entries.some((e) => e.key === 'index')) index++; continue; }
     withPath++;
-    const raw = t.slice(p.valueStart, p.end); const v = resolveStr(C, f, raw);
+    const raw = t.slice(p.valueStart, p.end); let v = resolveStr(C, f, raw);
+    if (v === null && mods) { const mod = moduleAt(mods, p.valueStart); if (mod) v = rsStr(C, { file: f, mod }, p.valueStart, p.end); }
     if (v !== null) lits.push(v); else unresolved.push(raw.slice(0, 40));
   }
   const nav = new Set();
@@ -1158,20 +1335,28 @@ fam['i18n.ids'] = (C, opts) => {
   if (C.localeFiles.length < 20) throw new CensusError(`i18n.ids: only ${C.localeFiles.length} locale catalogs carry ${LOCALE_ANCHOR}`);
   const pivotFile = [...C.localeKeyCount].sort((a, b) => b[1] - a[1])[0][0];
   const t = C.text(pivotFile);
-  const d = /([\w$]+) as default/.exec(t.slice(t.lastIndexOf('export{')));
-  if (!d) throw new CensusError(`i18n.ids: no default export in ${pivotFile}`);
-  const m = new RegExp(`(?<![\\w$.])${esc(d[1])}=\\{`).exec(t);
-  const oe = objectEntries(t, m.index + m[0].length - 1);
-  const ids = oe.entries.filter((e) => e.kind === 'prop').map((e) => e.key);
+  let ids;
+  const jat = jsonCatalogAt(t);
+  if (jat >= 0) {                                 // rspack: the module's JSON text (a single-quoted JS string: `\\` and `\'` are its only escapes); keys are plain strings
+    const end = t.lastIndexOf("')}");
+    if (end < jat) throw new CensusError(`i18n.ids: the JSON catalog of ${pivotFile} does not end with ')}`);
+    ids = Object.keys(JSON.parse(t.slice(jat, end).replace(/\\(['\\])/g, '$1')));
+  } else {
+    const d = /([\w$]+) as default/.exec(t.slice(t.lastIndexOf('export{')));
+    if (!d) throw new CensusError(`i18n.ids: no default export in ${pivotFile}`);
+    const m = new RegExp(`(?<![\\w$.])${esc(d[1])}=\\{`).exec(t);
+    const oe = objectEntries(t, m.index + m[0].length - 1);
+    ids = oe.entries.filter((e) => e.kind === 'prop').map((e) => e.key);
+  }
   const dup = ids.length - new Set(ids).size;
   const codeIds = new Set(); let codeSites = 0;
-  for (const f of C.webFiles) { const s = C.text(f); if (!s.includes('defaultMessage:')) continue; for (const x of s.matchAll(/\bid:`([^`$]+)`,defaultMessage:/g)) { codeIds.add(x[1]); codeSites++; } }
+  for (const f of C.webFiles) { const s = C.text(f); if (!s.includes('defaultMessage:')) continue; for (const x of s.matchAll(/\bid:(["`])([^"`$]+)\1,defaultMessage:/g)) { codeIds.add(x[2]); codeSites++; } }
   const idSet = new Set(ids);
   const sorted_ = sorted(ids);
   const counts = [...C.localeKeyCount.values()];
   return {
     anchor: 'locale catalogs = renderer chunks named xx-YY-<hash>.js (>400KB) that carry the key "codex.command.newThread":; ids = keys of the default-export object of the largest catalog',
-    files: [`renderer:${C.localeFiles.length} locale catalogs`], anchorHits: { [LOCALE_ANCHOR]: C.localeFiles.length },
+    files: [`renderer:${C.localeFiles.length} locale catalogs`], anchorHits: { [jat >= 0 ? LOCALE_ANCHOR_JSON : LOCALE_ANCHOR]: C.localeFiles.length },
     count: ids.length, digestSha256: createHash('sha256').update(sorted_.join('\n')).digest('hex'),
     sample: [0, 1, 2, 3, 4].map((i) => sorted_[Math.floor(i * sorted_.length / 5) + 7]),
     values: opts.fullI18n ? sorted_ : undefined,
@@ -1283,14 +1468,150 @@ fam['protocol.wireOnly'] = (C, opts) => {
 // ---- 6. choke points -----------------------------------------------------------------------------------------------
 // the anchors are the ones the build-time seams are derived from (seams.mjs): the census and the derivers can never disagree about a site
 const countRe = (C, files, needle, re) => files.filter((f) => C.text(f).includes(needle)).map((f) => ({ f, n: (C.text(f).match(re) ?? []).length })).filter((x) => x.n);
+/** The rspack module map of a chunk (rspack.mjs), null for a Vite chunk; read once. */
+const modulesOf = (C, f) => { const m = (C.__mods ??= new Map()); if (!m.has(f)) m.set(f, rspackModules(C.text(f))); return m.get(f); };
+/**
+ * The sites of `re` in the files holding `needle` (any spelling): one per match, except that the matches inside one rspack module are one site
+ * (rspack copies a module into every chunk that needs it). `[{ files, n }]`: the chunks of the site's copies (sorted), `n` its matches.
+ */
+const sitesRe = (C, files, needle, re) => {
+  const sites = new Map();
+  for (const f of files) {
+    const t = C.text(f);
+    if (!spellings(needle).some((nd) => t.includes(nd))) continue;
+    const mods = modulesOf(C, f);
+    for (const m of t.matchAll(re)) { const mod = mods ? moduleAt(mods, m.index) : null; const k = mod ? `module:${mod.id}` : `${f}@${m.index}`; if (!sites.has(k)) sites.set(k, []); sites.get(k).push(f); }
+  }
+  return [...sites.values()].map((fs) => ({ files: [...new Set(fs)].sort(), n: fs.length }));
+};
+/** True for an rspack renderer (25679 on). */
+const rspackRenderer = (C) => (C.__rspack ??= C.webFiles.some((f) => /\/\d+\.[0-9a-f]{10}\.js$/.test(f) && !!modulesOf(C, f)));
+
+// ---- rspack renderers (25679 on): a name is local to its module, a value is reached through the module graph ----
+// A module is copied into every chunk that needs it and every copy says the same, so a site is a module id: `rsSites` counts the matches of one id once and reads its first copy.
+// A "ref" is {file, mod}: a module copy. A "node" is an expression of a ref, {r, s, e} (a span of the chunk's text), or {ns: [ref]} (the copies of a module) for `var x=require("id")`.
+const IDENT = /^[A-Za-z_$][\w$]*$/;
+/** The sites of global regex `re` in the chunks holding `needle`, one per rspack module id: [{r: first copy, m: its first match, per: matches in that copy, copies: every chunk that has the module's match}]. */
+function rsSites(C, re, needle) {
+  const sites = new Map();
+  for (const f of C.webFiles) {
+    const t = C.text(f); if (!t.includes(needle)) continue;
+    const mods = modulesOf(C, f); if (!mods) continue;
+    for (const m of t.matchAll(re)) {
+      const mod = moduleAt(mods, m.index); if (!mod) continue;
+      let s = sites.get(mod.id); if (!s) sites.set(mod.id, s = { r: { file: f, mod }, m, per: 0, copies: new Set() });
+      s.copies.add(f); if (s.r.file === f) s.per++;
+    }
+  }
+  return [...sites.values()].map((s) => ({ ...s, copies: [...s.copies].sort() }));
+}
+/** Every rspack module by id: id -> its copies [ref]. Copies are not identical: a chunk only carries the exports it uses (a constant another module reads may be inlined away in one copy and exported in another). */
+const rsIndex = (C) => once('rsIndex', () => {
+  const ix = new Map();
+  for (const f of C.webFiles) { const mods = modulesOf(C, f); if (mods) for (const mod of mods) { if (!ix.has(mod.id)) ix.set(mod.id, []); ix.get(mod.id).push({ file: f, mod }); } }
+  return ix;
+});
+/** The module's own top-level declarations `let|const|var NAME=expr`: name -> [start, end] of expr (a name declared twice is left out). */
+const rsTop = (C, r) => once(`rsTop:${r.file}:${r.mod.start}`, () => {
+  const t = C.text(r.file); const out = new Map(); const dup = new Set();
+  scanBlock(t, r.mod.open, (i, c, d) => {
+    if (d !== 0 || (c !== 'l' && c !== 'c' && c !== 'v') || isId(t[i - 1])) return false;
+    const kw = /^(?:let|const|var) /.exec(t.slice(i, i + 6)); if (!kw) return false;
+    for (let j = i + kw[0].length; ;) {
+      const m = new RegExp(`(${ID})(=(?![=>])|(?=[,;]))`, 'y'); m.lastIndex = j; const x = m.exec(t); if (!x) break;
+      let e = j + x[0].length;
+      if (x[2] === '=') {                                                                // the initialiser ends at the next `,` or `;` outside brackets
+        let end = r.mod.close; const c = scanBlock(t, e - 1, (k, ch, dd) => { if (dd === 0 && (ch === ',' || ch === ';')) { end = k; return true; } return false; });
+        if (c >= 0 && c < end) end = c;
+        if (out.has(x[1])) dup.add(x[1]); out.set(x[1], [e, end]); e = end;
+      }
+      if (t[e] !== ',') break;
+      j = e + 1;
+    }
+    return false;
+  });
+  for (const n of dup) out.delete(n);
+  return out;
+});
+/** The id `x` requires when x is `REQ("id")` (REQ is the factory's third parameter), else null. */
+const rsRequireId = (C, r, x) => { const req = r.mod.params.split(',')[2]; const m = req ? new RegExp(`^${esc(req)}\\("([^"]+)"\\)$`).exec(x) : null; return m ? m[1] : null; };
+/** What the module (its copies `refs`) exports as `name`: the entry `name:<value>` of a copy's `REQ.d(exports,{…})` list, an arrow getter unwrapped -> {r, s, e} or null. */
+function rsExport(C, refs, name) {
+  for (const r of refs) {
+    const t = C.text(r.file); const [, ex, req] = r.mod.params.split(',');
+    if (!req) continue;
+    const re = new RegExp(`(?<![\\w$.])${esc(req)}\\.d\\(${esc(ex)},`, 'g'); re.lastIndex = r.mod.open;
+    for (let m; (m = re.exec(t)) && m.index < r.mod.close;) {
+      const o = m.index + m[0].length; if (t[o] !== '{') continue;
+      const c = scanBlock(t, o);                                                              // d(exports,{re-exports}) or d(exports,{re-exports},{own exports}): both lists
+      const lists = t[c + 1] === ',' && t[c + 2] === '{' ? [o, c + 2] : [o];
+      const en = lists.map((l) => objectEntries(t, l)?.entries.find((x) => x.kind === 'prop' && x.key === name)).find(Boolean);
+      if (!en) continue;
+      const arrow = /^\s*\(\)=>/.exec(t.slice(en.valueStart, en.valueStart + 20));
+      return { r, s: en.valueStart + (arrow ? arrow[0].length : 0), e: en.end };
+    }
+  }
+  return null;
+}
+/** What the expression t[s..e) of module r is, chasing a module's own constants, `require` aliases, exports (through barrels) and `.key` of an object literal: a node, or null. A free name (a parameter, a local) is {r, s, e, free: true}. */
+function rsEval(C, r, s, e, depth = 0) {
+  const t = C.text(r.file);
+  while (s < e && /\s/.test(t[s])) s++;
+  while (e > s && /\s/.test(t[e - 1])) e--;
+  if (depth > 14 || e <= s) return null;
+  const x = t.slice(s, e); let m;
+  if ((m = /^\d+==[\w$]+\.j\?/.exec(x)) && x.endsWith(':null')) return rsEval(C, r, s + m[0].length, e - 5, depth + 1);      // `348410==n.j?{…}:null`: a value only the chunk that runs the module needs
+  if (IDENT.test(x)) { const d = rsTop(C, r).get(x); return d ? rsEval(C, r, d[0], d[1], depth + 1) : { r, s, e, free: true }; }
+  const id = rsRequireId(C, r, x); if (id) { const ref = rsIndex(C).get(id); return ref ? { ns: ref } : null; }
+  if ((m = /^([\w$.]+)\.([A-Za-z_$][\w$]*)$/.exec(x))) {
+    const base = rsEval(C, r, s, s + m[1].length, depth + 1); if (!base) return null;
+    if (base.ns) { const ex = rsExport(C, base.ns, m[2]); return ex && rsEval(C, ex.r, ex.s, ex.e, depth + 1); }
+    if (base.free || C.text(base.r.file)[base.s] !== '{') return null;
+    const en = objectEntries(C.text(base.r.file), base.s)?.entries.find((y) => y.kind === 'prop' && y.key === m[2]);
+    return en ? rsEval(C, base.r, en.valueStart, en.end, depth + 1) : null;
+  }
+  return { r, s, e };
+}
+/** The string value of the expression t[s..e) of module r (literal, template with resolvable `${}` parts, constant, export), else null. */
+function rsStr(C, r, s, e, depth = 0) {
+  const n = rsEval(C, r, s, e); if (!n || n.ns || n.free || depth > 4) return null;
+  const t = C.text(n.r.file); const x = t.slice(n.s, n.e); const lit = tpl(x);
+  if (lit !== null) return lit;
+  if (x[0] !== '`') return null;
+  let out = '';
+  for (let i = 1; i < x.length - 1;) {
+    if (x[i] === '$' && x[i + 1] === '{') { const c = scanBlock(x, i + 1); const v = rsStr(C, n.r, n.s + i + 2, n.s + c, depth + 1); if (v === null) return null; out += v; i = c + 1; } else out += x[i++];
+  }
+  return out;
+}
+/** The calls `(0,A.name)(…)` of the export `name` of module `id`, from every module that requires it, each host module read once (its first copy): [{r: host ref, args: [start, end] of the first argument}]. */
+function rsCalls(C, id, name) {
+  const q = `"${id}"`; const hosts = new Map();
+  for (const f of C.webFiles) {
+    const t = C.text(f); if (!t.includes(q)) continue;
+    const mods = modulesOf(C, f); if (!mods) continue;
+    for (let i = t.indexOf(q); i >= 0; i = t.indexOf(q, i + 1)) { const mod = moduleAt(mods, i); if (mod && !hosts.has(mod.id)) hosts.set(mod.id, { file: f, mod }); }
+  }
+  const out = [];
+  for (const r of hosts.values()) {
+    const t = C.text(r.file); const req = r.mod.params.split(',')[2]; if (!req) continue;
+    const alias = [...rsTop(C, r)].filter(([, [s, e]]) => t.slice(s, e) === `${req}(${q})`).map(([n]) => n);
+    for (const h of [...alias.map((a) => `(0,${a}.${name})(`), `(0,${req}(${q}).${name})(`]) {
+      for (let i = t.indexOf(h, r.mod.open); i >= 0 && i < r.mod.close; i = t.indexOf(h, i + 1)) { const open = i + h.length - 1; out.push({ r, args: [open + 1, exprEnd(t, open + 1, scanBlock(t, open))] }); }
+    }
+  }
+  return out;
+}
 fam['choke.jsx'] = (C) => {
-  const r = countRe(C, C.webFiles, '.jsxs=', JSX_RE); const m = countRe(C, C.mainFiles, '.jsxs=', JSX_RE);
-  const tot = r.reduce((a, x) => a + x.n, 0);
-  if (tot !== 1) throw new CensusError(`choke.jsx: factory shape X.Fragment=F,X.jsx=G,X.jsxs=G} matched ${tot} times in renderer chunks (expected 1)`);
-  return { anchor: '`X.Fragment=F,X.jsx=G,X.jsxs=G}` (jsx and jsxs are the same function)', files: [role(C, r[0].f)], anchorHits: { jsxFactory: 1 }, count: 1, values: [stem(r[0].f)],
+  const r = sitesRe(C, C.webFiles, '.jsxs=', JSX_RE); const m = countRe(C, C.mainFiles, '.jsxs=', JSX_RE);
+  if (r.length !== 1) throw new CensusError(`choke.jsx: factory shape X.Fragment=F,X.jsx=G,X.jsxs=G} matched ${r.length} times in renderer chunks (expected 1)`);
+  return { anchor: '`X.Fragment=F,X.jsx=G,X.jsxs=G}` (jsx and jsxs are the same function)', files: [role(C, r[0].files[0])], anchorHits: { jsxFactory: 1 }, count: 1, values: [stem(r[0].files[0])],
+    ...(r[0].files.length > 1 ? { copies: r[0].files.map((f) => role(C, f)) } : {}),
     otherCopies: m.map((x) => `${role(C, x.f)}x${x.n}`), falsePositiveRisk: 'a second JSX factory ships inside the in-app browser page-preload bundle (main-process directory); it is a different realm and is not the app renderer' };
 };
 fam['choke.lazy'] = (C) => {
+  // an rspack renderer has no Vite preload helper: its lazy modules load through the webpack runtime, and no seam is made there (seams.mjs deriveLazySeam)
+  if (rspackRenderer(C) && !C.find(C.webFiles, LAZY_GUARD).length) return { anchor: 'none: an rspack renderer loads its lazy modules through the webpack runtime (no Vite preload helper)', files: [], anchorHits: {}, count: 0, values: [], falsePositiveRisk: 'none' };
   const r = countRe(C, C.webFiles, 'Promise.resolve();if(', LAZY_RE);
   const tot = r.reduce((a, x) => a + x.n, 0);
   if (tot !== 1) throw new CensusError(`choke.lazy: Vite preload helper shape matched ${tot} times in renderer chunks (expected 1)`);
@@ -1298,7 +1619,25 @@ fam['choke.lazy'] = (C) => {
   if (guard !== 1) throw new CensusError(`choke.lazy: the helper's chunk holds ${guard} \`${LAZY_GUARD}\` events (expected 1)`);
   return { anchor: '`N=function(a,b,c){let r=Promise.resolve();if(b&&b.length>0){let a=document.getElementsByTagName(`link`)` (Vite preload helper)', files: [role(C, r[0].f)], anchorHits: { vitePreloadHelper: 1 }, count: 1, values: [stem(r[0].f)], falsePositiveRisk: 'none seen; the helper is vendor code and its shape tracks Vite' };
 };
+/** React in an rspack renderer: each package is an ordinary CJS module of the module map (`Vlts(e,t){…t.useSyncExternalStore=function…t.version="19.2.7"}`), copied into every chunk that needs it.
+ *  Bundled libraries ship their own react-dom (an older reconciler that never assigns `.version`), so react and react-dom are the modules that also assign their `.version`; react-dom/client is the one `createRoot` module. */
+function reactRspack(C) {
+  const react = {}; const mods = {};
+  for (const [what, member, versioned] of [['react', 'useSyncExternalStore', true], ['react-dom', 'createPortal', true], ['react-dom-client', 'createRoot', false]]) {
+    const hits = rsSites(C, new RegExp(`(?<![\\w$.])(${ID})\\.${member}=function`, 'g'), `.${member}=function`).map((h) => {
+      const v = new RegExp(`(?<![\\w$.])${esc(h.m[1])}\\.version=(?:"(\\d+\\.\\d+\\.\\d+[^"]*)"|\`(\\d+\\.\\d+\\.\\d+[^\`]*)\`)`).exec(C.text(h.r.file).slice(h.m.index, h.r.mod.close));
+      return { ...h, version: v ? (v[1] ?? v[2]) : null };
+    }).filter((h) => !versioned || h.version);
+    if (hits.length !== 1 || hits[0].per !== 1) throw new CensusError(`choke.react: X.${member}=function${versioned ? ' with an X.version= assignment' : ''} matched ${hits.length} modules${hits.length ? ` (${hits.map((h) => h.r.mod.id).join(', ')})` : ''} in the renderer (expected 1)`);
+    react[what] = hits[0].version; mods[what] = hits[0].r.mod.id;
+  }
+  if (!react.react || !react['react-dom']) throw new CensusError('choke.react: version string not found after the React anchors');
+  return { anchor: '`.version=` assignment of the module holding `X.useSyncExternalStore=function` (react) and of the one holding `X.createPortal=function` (react-dom; vendored reconcilers assign no `.version`), each a CJS module of the rspack module map', files: uniq(Object.values(mods)).map((id) => `renderer:module:${id}`),
+    anchorHits: { 'e.useSyncExternalStore=function': 1, 'e.createPortal=function': 1, 'e.createRoot=function': 1 },
+    count: 1, values: [react.react], versions: react, falsePositiveRisk: 'low; React ships as CJS modules whose version strings are exact. Other bundled copies of react-dom (no .version assignment) are not seen' };
+}
 fam['choke.react'] = (C) => {
+  if (rspackRenderer(C)) return reactRspack(C);
   const sh = appShared(C); const st = C.text(sh);
   const react = {};
   for (const [what, anchor] of [['react', 'e.useSyncExternalStore=function'], ['react-dom', 'e.createPortal=function'], ['react-dom-client', 'e.createRoot=function']]) {
@@ -1318,23 +1657,24 @@ fam['choke.taps'] = (C) => {
     ['messages', 'command message table `X={...Y,"codex.command.importExternalAgent":`', '"codex.command.importExternalAgent":', TAP_MESSAGES_RE, C.webFiles]];
   const found = {}; const files = [];
   for (const [name, what, needle, re, scope] of sites) {
-    const r = countRe(C, scope, needle, re); const tot = r.reduce((a, x) => a + x.n, 0);
-    if (tot !== 1) throw new CensusError(`choke.taps: the ${what} matched ${tot} times in renderer chunks (expected 1)`);
-    found[name] = role(C, r[0].f); files.push(found[name]);
+    const r = sitesRe(C, scope, needle, re);
+    if (r.length !== 1) throw new CensusError(`choke.taps: the ${what} matched ${r.length} times in renderer chunks (expected 1)`);
+    found[name] = role(C, r[0].files[0]); files.push(found[name]);
   }
   return { anchor: 'the three command sites a tap prepends to: the descriptor array (`X=[{id:`newTask`,`), the default-handler Map (`X=new Map([[`newTask`,`) and the message catalog (`X={...Y,"codex.command.importExternalAgent":`)',
     files: uniq(files), anchorHits: { commands: 1, handlers: 1, messages: 1 }, count: 3, values: Object.entries(found).map(([k, v]) => `${k}@${v}`),
     falsePositiveRisk: 'low; the strings are command ids. The locale catalogs hold the message id as data and are not matched by the `X={...Y,` form' };
 };
 fam['choke.menus'] = (C) => {
-  const r = countRe(C, C.webFiles, MENU_NEEDLE, MENU_RE); const tot = r.reduce((a, x) => a + x.n, 0);
-  if (tot !== 1) throw new CensusError(`choke.menus: the thread menu item builder (\`async function F({scope,target,actions,…,showForkInSidebar,…})\`) matched ${tot} times in renderer chunks (expected 1)`);
-  return { anchor: 'the item builder of a thread\'s menus, `async function F({scope:S,target:T,actions:A,…,showForkInSidebar:…})` (the sidebar row\'s and the thread header\'s menus)', files: [role(C, r[0].f)], anchorHits: { menus: 1 }, count: 1, values: [`menus@${role(C, r[0].f)}`],
+  const r = sitesRe(C, C.webFiles, MENU_NEEDLE, MENU_RE);
+  if (r.length !== 1) throw new CensusError(`choke.menus: the thread menu item builder (\`async function F({scope,target,actions,…,showForkInSidebar,…})\`) matched ${r.length} times in renderer chunks (expected 1)`);
+  return { anchor: 'the item builder of a thread\'s menus, `async function F({scope:S,target:T,actions:A,…,showForkInSidebar:…})` (the sidebar row\'s and the thread header\'s menus)', files: [role(C, r[0].files[0])], anchorHits: { menus: 1 }, count: 1, values: [`menus@${role(C, r[0].files[0])}`],
+    ...(r[0].files.length > 1 ? { copies: r[0].files.map((f) => role(C, f)) } : {}),
     falsePositiveRisk: 'low; the parameter names are the app\'s own, and the one other `showForkInSidebar:` is the call site, not a definition' };
 };
 fam['choke.appHost'] = (C) => {
   // 21477 binds the host (`H=C?.createAppHost(…),V=make(port,H)`); 22943 passes it inline (`V=make(port,C?.createAppHost(…))`)
-  const r = [...countRe(C, C.mainFiles, 'registerAppView(', APP_HOST_RE), ...countRe(C, C.mainFiles, 'registerAppView(', APP_HOST_INLINE_RE)]; const tot = r.reduce((a, x) => a + x.n, 0);
+  const r = [...countRe(C, C.mainFiles, 'registerAppView(', APP_HOST_RE), ...countRe(C, C.mainFiles, 'registerAppView(', APP_HOST_INLINE_RE), ...countRe(C, C.mainFiles, 'registerAppView(', APP_HOST_SPLIT_RE)]; const tot = r.reduce((a, x) => a + x.n, 0);
   if (tot !== 1) throw new CensusError(`choke.appHost: AppHost creation and AppView registration (\`H=C?.createAppHost(e.sender),V=make(port,H);C?.registerAppView(e.sender,V)\`) matched ${tot} times in the main-process bundles (expected 1)`);
   return { anchor: '`H=C?.createAppHost(e.sender),V=make(port,H);C?.registerAppView(e.sender,V)` in the main-process bundle (the AppHost of each window)', files: [role(C, r[0].f)], anchorHits: { appHost: 1 }, count: 1, values: [stem(r[0].f)],
     falsePositiveRisk: 'none seen; both method names occur only here and in their definitions' };
@@ -1355,7 +1695,42 @@ fam['ui.exposures'] = (C) => {
     missing: Object.fromEntries(ex.missing.map((m) => [m.item.replace(/^expose:/, ''), m.tried])),
     falsePositiveRisk: 'an exposure whose anchor still matches once but whose object changed meaning is caught by the binding that uses it (canary), not here' };
 };
+/** lazy.addresses on an rspack renderer. A lazily loaded module is `Promise.all([A.e(<chunk>),…]).then(A.bind(A,"<module id>"))` (also `A.e(<chunk>).then(…)` and `Promise.resolve().then(…)` for a module already in the chunk); the chunk has no name, the
+ *  module id is the address. The pairs are the named exports the code takes from it right away, in the five ways it writes that (the ones Vite rewrites to `let{X:e}=await import(…);return{X:e}`):
+ *  `{X:e}=await IMP`, `(await IMP).X`, `IMP.then(e=>e.X)`, `IMP.then(({X:e})=>…)`, `IMP.then(e=>{let{X:t}=e;…})`. A module is read once, whatever its number of copies. */
+const RS_IMPORT_RE = new RegExp(`(?:${ID}\\.e\\(\\d+\\)|Promise\\.all\\(\\[[^\\]]*\\]\\)|Promise\\.resolve\\(\\))\\.then\\(${ID}\\.bind\\(${ID},"(${ID})"\\)\\)`, 'g');
+function rsNamedExports(t, m) {
+  const before = t.slice(Math.max(0, m.index - 160), m.index); const after = t.slice(m.index + m[0].length, m.index + m[0].length + 200); let x;
+  const names = (list) => list.split(',').map((y) => y.trim().split(/[:=]/)[0].trim()).filter((y) => IDENT.test(y));
+  if ((x = /\{([^{}]*)\}\s*=\s*await\s+$/.exec(before))) return names(x[1]);
+  if (/\(await\s+$/.test(before) && (x = /^\)\.([\w$]+)/.exec(after))) return [x[1]];
+  if ((x = /^\.then\(([\w$]+)=>\1\.([\w$]+)[),]/.exec(after))) return [x[2]];
+  if ((x = /^\.then\((?:async)?\(\{([^}]*)\}\)=>/.exec(after))) return names(x[1]);
+  if ((x = /^\.then\((?:async)?\(?([\w$]+)\)?=>\{(?:let|const|var)\{([^}]*)\}=\1[;,}]/.exec(after))) return names(x[2]);
+  return [];
+}
+function lazyAddressesRspack(C) {
+  const pairs = new Set(); const perModule = new Map();
+  for (const f of C.webFiles) {
+    const t = C.text(f); if (!t.includes('.bind(')) continue;
+    const mods = modulesOf(C, f); if (!mods) continue;
+    const mine = new Map();
+    for (const m of t.matchAll(RS_IMPORT_RE)) {
+      const mod = moduleAt(mods, m.index); if (!mod) continue;
+      const ns = rsNamedExports(t, m); if (!ns.length) continue;
+      mine.set(mod.id, (mine.get(mod.id) ?? 0) + 1);
+      for (const n of ns) pairs.add(`${m[1]}:${n}`);
+    }
+    for (const [id, n] of mine) if (!perModule.has(id)) perModule.set(id, n);                // a module's first copy
+  }
+  const sites = [...perModule.values()].reduce((a, n) => a + n, 0);
+  if (!pairs.size) throw new CensusError('lazy.addresses: no lazily loaded named export `A.e(<chunk>).then(A.bind(A,"<module id>"))` taken apart (`{X:e}=await …`, `(await …).X`, `.then(e=>e.X)`, …) found in the renderer chunks');
+  return { anchor: 'static (module id, export) pairs of the lazy imports `Promise.all([A.e(<chunk>),…]).then(A.bind(A,"<id>"))` whose named export the code takes at once (`{X:e}=await …`, `(await …).X`, `.then(e=>e.X)`, `.then(({X:e})=>…)`, `.then(e=>{let{X:t}=e;…})`): what the lazy loads hand to a binding (the id of the module that exports X; a module counts once whatever its number of copies)',
+    files: ['renderer:*'], anchorHits: { importers: sites }, count: pairs.size, values: sorted([...pairs]),
+    falsePositiveRisk: 'pairs only; imports of a whole module (`await …` bound to a name, `.default`) and loads whose export list is built dynamically are not addresses' };
+}
 fam['lazy.addresses'] = (C) => {
+  if (rspackRenderer(C)) return lazyAddressesRspack(C);
   const re = /\(\)=>\{let\{([\w$:,\s]+)\}=await import\(`\.\/([\w.-]+?)-[0-9a-f]{12}\.js`\);return\{([\w$:,\s]+)\}\}/g;
   const pairs = new Set(); let sites = 0;
   for (const f of C.webFiles) {

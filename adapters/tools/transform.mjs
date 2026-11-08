@@ -58,11 +58,13 @@ export function sealTransforms(drafts, readFile) {
 /**
  * The name of a build file without directory, content hash and extension: `.vite/build/main-CLu1A25j.js` -> `main`, `worker.js` -> `worker`,
  * `app-initial-dddef47d6ef6.js` -> `app-initial`, and 22943's numbered main-process chunks `early-bootstrap-916-2f6483d5bfd826f1.js` ->
- * `early-bootstrap-916`. A hash is 8 base64url characters (Vite) or 12 or 16 hex digits (the webview's, and 22943's main process), so a
+ * `early-bootstrap-916`, and an rspack renderer chunk `assets/async/182735.d1916dd704.js` -> `182735`. A hash is 8 base64url characters (Vite) or 12 or 16 hex digits (the webview's, and 22943's main process), so a
  * hyphenated name (`browser-page-preload.js`) stays whole.
  */
 export function fileStem(file) {
   const base = String(file).split('/').pop();
+  const rspack = /^(\d+)\.[0-9a-f]{10}\.js$/.exec(base);   // an rspack renderer chunk (25679 on): `<chunk id>.<hash>.js`
+  if (rspack) return rspack[1];
   const hashed = /^(.+)-(?:[A-Za-z0-9_-]{8}|[0-9a-f]{12}|[0-9a-f]{16})\.[cm]?js$/.exec(base);
   return hashed ? hashed[1] : base.replace(/\.[^.]+$/, '');
 }

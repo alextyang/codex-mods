@@ -366,3 +366,12 @@ test('bareIdSite is fail-closed: a literal that is not whole, or whose neighbour
   assert.equal(typeof t(`a=f(\`${BARE}\`)`), 'string', 'no neighbouring literal');
   assert.equal(typeof t(`a=[\`x\`,\`${BARE}\`,\`y\`]`, 100), 'string', 'would overlap an earlier edit');
 });
+
+test('installerReachable: only a complete leading `return null;` or literal throw makes the rest dead (the 25679 executor); a use inside the throw\'s operand is reachable', () => {
+  const arr = 'Bj=[`computer-use`,`Codex Computer Use.app`,`Contents`,`MacOS`,`Codex Computer Use Installer`];';
+  // 25679's executor after cua-disable-locked-use: returns null first, the installer path after it is dead, though BQ is still called
+  assert.deepEqual(installerReachable(`${arr}async function BQ(e){return null;let{stdout:t}=await BJ(ee().join(home(),...Bj),[e]);return t}async function z(){await BQ(\`install\`)}`), []);
+  assert.deepEqual(installerReachable(`${arr}async function BQ(e){throw Error(\`Locked use is unavailable in this copy\`);let{stdout:t}=await BJ(ee().join(home(),...Bj),[e])}BQ(1)`), []);
+  // the throw's own operand runs before the throw: not exempt (review 2026-11-07, P1)
+  assert.equal(installerReachable(`${arr}function extraInstaller(){throw Error(BJ(ee().join(home(),...Bj),[\`install\`]))}extraInstaller();`).length, 1);
+});

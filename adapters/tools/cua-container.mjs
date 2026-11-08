@@ -221,8 +221,9 @@ export function deriveCuaContainerTransform(source) {
     why: `Computer Use relocation: the helper is installed, refreshed, discovered and spawned from $${COMPUTER_USE_DIR_ENV} (set by framework-main to layout.computerUse), never from <CODEX_HOME>/computer-use` });
 
   // helper overlay config: kc -> Fc -> Ic writes <dir>/config.json
-  // the "computer-use" segment is a constant (21477) or inline (22943)
-  const cfgRe = new RegExp(`async function (${ID})\\(\\{codexHome:(${ID}),config:(${ID})\\}\\)\\{let (${ID})=(${PATH_FN('join')})\\(\\2,(${ID}|${lit('computer-use')})\\),(${ID})=${PATH_FN('join')}\\(\\4,(${ID})\\),`, 'g');
+  // the "computer-use" segment is a constant (21477) or inline (22943); the writer is a named function, or (25679, whose minifier inlines
+  // single-use functions) an anonymous function expression called where it is used
+  const cfgRe = new RegExp(`async function(?: (${ID}))?\\(\\{codexHome:(${ID}),config:(${ID})\\}\\)\\{let (${ID})=(${PATH_FN('join')})\\(\\2,(${ID}|${lit('computer-use')})\\),(${ID})=${PATH_FN('join')}\\(\\4,(${ID})\\),`, 'g');
   const cfgs = [...main.text.matchAll(cfgRe)];
   const segConst = cfgs.length === 1 && !new RegExp(`^${Q}`).test(cfgs[0][6]);
   const cfgOk = cfgs.length === 1 && (!segConst || new RegExp(`[,; ]${cfgs[0][6].replaceAll('$', '\\$')}=${lit('computer-use')}`).test(main.text)) && new RegExp(`[,; ]${cfgs[0][8].replaceAll('$', '\\$')}=${lit('config.json')}`).test(main.text);
@@ -230,9 +231,10 @@ export function deriveCuaContainerTransform(source) {
   const [, cfn, carg, cconf, cdir, cjoin, cseg] = cfgs[0];
   const cfgScope = moduleText(main.text, cfgs[0].index);
   if (segConst && countUses(cfgScope, cseg) !== 2) return miss(`the "computer-use" segment constant ${cseg} is used ${countUses(cfgScope, cseg) - 1} times (expected only by the config writer)`);
-  const cfgFind = `async function ${cfn}({codexHome:${carg},config:${cconf}}){let ${cdir}=${cjoin}(${carg},${cseg})`;
+  const cfnHead = `async function${cfn ? ` ${cfn}` : ''}`;
+  const cfgFind = `${cfnHead}({codexHome:${carg},config:${cconf}}){let ${cdir}=${cjoin}(${carg},${cseg})`;
   drafts.push({ id: 'cua-relocate-config', seam: 'other', file: main.file, op: 'replace-once', find: cfgFind,
-    text: `async function ${cfn}({codexHome:${carg},config:${cconf}}){let ${cdir}=process.env.${COMPUTER_USE_DIR_ENV}||${cjoin}(${carg},\`computer-use-codexmods\`)`,
+    text: `${cfnHead}({codexHome:${carg},config:${cconf}}){let ${cdir}=process.env.${COMPUTER_USE_DIR_ENV}||${cjoin}(${carg},\`computer-use-codexmods\`)`,
     why: `Computer Use relocation: the helper's overlay config (config.json) is written to $${COMPUTER_USE_DIR_ENV} (the directory of cua-relocate-dir), never to <CODEX_HOME>/computer-use` });
 
   // locked-use installer: Vhe() = join(codexHome, ...Phe) run by cT() (status / install / uninstall)
@@ -261,32 +263,57 @@ export function deriveCuaContainerTransform(source) {
   const lkRe = new RegExp(`async function (${ID})\\((${ID})\\)\\{return process\\.platform===\`darwin\`\\?\\(await (${ID})\\(\\2\\?\`install\`:\`uninstall\`\\),(${ID})\\(\\)\\):null\\}async function \\4\\(\\)\\{return\\(await \\3\\(\`status\`\\)\\)\\.trim\\(\\)===\`OK: installed\`\\}async function \\3\\((${ID})\\)\\{let\\{stdout:(${ID})\\}=await (${ID})\\((${ID})\\(\\),\\[\\5\\],\\{env:[^{}]*?timeout:12e4\\}\\);return \\6\\}`, 'g');
   // 22943: Yoda comparisons, and the installer path inlined in the executor (cua-relocate-installer edits it): the find ends at the executor's call
   const lkRe2 = new RegExp(`async function (${ID})\\((${ID})\\)\\{return${lit('darwin')}!==process\\.platform\\?null:\\(await (${ID})\\(\\2\\?${lit('install')}:${lit('uninstall')}\\),(${ID})\\(\\)\\)\\}async function \\4\\(\\)\\{return${lit('OK: installed')}===\\(await \\3\\(${lit('status')}\\)\\)\\.trim\\(\\)\\}async function \\3\\((${ID})\\)\\{let\\{stdout:(${ID})\\}=await (${ID})\\(`, 'g');
+  // 25679: the minifier inlines single-use functions, so install/uninstall sits inline in setLockedUseEnabled and the status reader inline in getLockedUseState;
+  // the adjacent group is the status function and the executor. The executor now returns null before it runs anything, so the status reads null (the row is
+  // hidden) and install/uninstall resolves null (no toast); nothing else may call either (counted by binding).
+  const lkRe3 = new RegExp(`async function (${ID})\\(\\)\\{return${lit('OK: installed')}===\\(await (${ID})\\(${lit('status')}\\)\\)\\.trim\\(\\)\\}async function \\2\\((${ID})\\)\\{let\\{stdout:(${ID})\\}=await (${ID})\\(`, 'g');
   const lks = [...main.text.matchAll(lkRe)], lks2 = [...main.text.matchAll(lkRe2)];
-  if (lks.length + lks2.length !== 1) return miss(`the locked-use status/install/uninstall functions (sT/Bhe/cT, the only executors of the installer) occur ${lks.length + lks2.length} times in the main bundle (expected exactly 1 adjacent group)`);
-  const lk = lks[0] ?? lks2[0];
-  const [lkm, bhe, , cT, sT] = lk;
-  const lkScope = moduleText(main.text, lk.index);
-  const callers = [
-    new RegExp(`async function (${ID})\\(\\)\\{if\\((?:process\\.platform!==${lit('darwin')}|${lit('darwin')}!==process\\.platform)\\)return null;try\\{return await ${sT.replaceAll('$', '\\$')}\\(\\)\\}catch\\{return!1\\}\\}`),
-    new RegExp(`async getLockedUseState\\(\\)\\{let\\[e,t\\]=await Promise\\.all\\(\\[(${ID})\\(\\),(${ID})\\(\\)\\]\\);return\\{enabled:e,\\.\\.\\.t\\}\\}setLockedUseEnabled\\(e\\)\\{return ${bhe.replaceAll('$', '\\$')}\\(e\\)\\}`),
-  ].map((r) => r.exec(lkScope));
-  if (callers.some((c) => !c) || callers[1][1] !== callers[0][1]) return miss('the locked-use callers (status reader, getLockedUseState, setLockedUseEnabled) do not have the expected shape: the "unsupported" result would not flow to the UI');
-  // each name counted where it is bound: its declaration and the known callers only
-  for (const [name, n] of [[bhe, 2], [sT, 3], [cT, 3]]) {
-    const at = main.text.indexOf(`async function ${name}(`, lk.index);
-    const used = boundUses(main.text, name, at);
-    if (used !== n) return miss(`${name} has other callers than the locked-use functions (${used} uses, expected ${n}: its declaration and the known callers)`);
-  }
+  const lks3 = lks.length + lks2.length ? [] : [...main.text.matchAll(lkRe3)];   // the older shapes contain this one: only when neither is there
+  const lkCount = lks.length + lks2.length + lks3.length;
+  if (lkCount !== 1) return miss(`the locked-use status/install/uninstall functions (sT/Bhe/cT, the only executors of the installer) occur ${lkCount} times in the main bundle (expected exactly 1 adjacent group)`);
   const lockedWhy = 'Locked use is unavailable in the copy: its installer changes system-wide state shared with stock (SecurityAgentPlugins bundle, Application Support plugin dir, system.login.screensaver rule). Status and install/uninstall return null (the non-darwin "unsupported" result the settings already handle: row hidden, no toast); the installer is never executed';
-  if (lks.length) {
+  if (lks3.length) {
+    const lk = lks3[0];
+    const [lkm, sT, cT, earg, eout, eexec] = lk;
+    const lkScope = moduleText(main.text, lk.index);
+    const notDarwin = `(?:process\\.platform!==${lit('darwin')}|${lit('darwin')}!==process\\.platform)`;
+    const callers = [
+      new RegExp(`async getLockedUseState\\(\\)\\{let\\[(${ID}),(${ID})\\]=await Promise\\.all\\(\\[async function\\(\\)\\{if\\(${notDarwin}\\)return null;try\\{return await ${sT.replaceAll('$', '\\$')}\\(\\)\\}catch\\{return!1\\}\\}\\(\\),async function\\(\\)\\{if\\(${notDarwin}\\)return\\{computerIconDataURL:null,lockIconDataURL:null\\};[^]{0,400}?\\}\\(\\)\\]\\);return\\{enabled:\\1,\\.\\.\\.\\2\\}\\}`),
+      new RegExp(`setLockedUseEnabled\\((${ID})\\)\\{return async function\\((${ID})\\)\\{return ?${notDarwin}\\?null:\\(await ${cT.replaceAll('$', '\\$')}\\(\\2\\?${lit('install')}:${lit('uninstall')}\\),${sT.replaceAll('$', '\\$')}\\(\\)\\)\\}\\(\\1\\)\\}`),
+    ].map((r) => r.exec(lkScope));
+    if (callers.some((c) => !c)) return miss('the locked-use callers (the status reader inline in getLockedUseState, install/uninstall inline in setLockedUseEnabled) do not have the expected shape: the "unsupported" result would not flow to the UI');
+    for (const [name, n] of [[sT, 3], [cT, 3]]) {
+      const used = boundUses(main.text, name, main.text.indexOf(`async function ${name}(`, lk.index));
+      if (used !== n) return miss(`${name} has other callers than the locked-use functions (${used} uses, expected ${n}: its declaration and the known callers)`);
+    }
     drafts.push({ id: 'cua-disable-locked-use', seam: 'other', file: main.file, op: 'replace-once', find: lkm,
-      text: `async function ${bhe}(e){return null}async function ${sT}(){return null}async function ${cT}(e){throw Error(\`Locked use is unavailable in this copy\`)}`,
+      text: `async function ${sT}(){return null}async function ${cT}(${earg}){return null;let{stdout:${eout}}=await ${eexec}(`,
       why: lockedWhy });
   } else {
-    const [, , , , , earg, eout, eexec] = lk;
-    drafts.push({ id: 'cua-disable-locked-use', seam: 'other', file: main.file, op: 'replace-once', find: lkm,
-      text: `async function ${bhe}(e){return null}async function ${sT}(){return null}async function ${cT}(${earg}){throw Error(\`Locked use is unavailable in this copy\`);let{stdout:${eout}}=await ${eexec}(`,
-      why: lockedWhy });
+    const lk = lks[0] ?? lks2[0];
+    const [lkm, bhe, , cT, sT] = lk;
+    const lkScope = moduleText(main.text, lk.index);
+    const callers = [
+      new RegExp(`async function (${ID})\\(\\)\\{if\\((?:process\\.platform!==${lit('darwin')}|${lit('darwin')}!==process\\.platform)\\)return null;try\\{return await ${sT.replaceAll('$', '\\$')}\\(\\)\\}catch\\{return!1\\}\\}`),
+      new RegExp(`async getLockedUseState\\(\\)\\{let\\[e,t\\]=await Promise\\.all\\(\\[(${ID})\\(\\),(${ID})\\(\\)\\]\\);return\\{enabled:e,\\.\\.\\.t\\}\\}setLockedUseEnabled\\(e\\)\\{return ${bhe.replaceAll('$', '\\$')}\\(e\\)\\}`),
+    ].map((r) => r.exec(lkScope));
+    if (callers.some((c) => !c) || callers[1][1] !== callers[0][1]) return miss('the locked-use callers (status reader, getLockedUseState, setLockedUseEnabled) do not have the expected shape: the "unsupported" result would not flow to the UI');
+    // each name counted where it is bound: its declaration and the known callers only
+    for (const [name, n] of [[bhe, 2], [sT, 3], [cT, 3]]) {
+      const at = main.text.indexOf(`async function ${name}(`, lk.index);
+      const used = boundUses(main.text, name, at);
+      if (used !== n) return miss(`${name} has other callers than the locked-use functions (${used} uses, expected ${n}: its declaration and the known callers)`);
+    }
+    if (lks.length) {
+      drafts.push({ id: 'cua-disable-locked-use', seam: 'other', file: main.file, op: 'replace-once', find: lkm,
+        text: `async function ${bhe}(e){return null}async function ${sT}(){return null}async function ${cT}(e){throw Error(\`Locked use is unavailable in this copy\`)}`,
+        why: lockedWhy });
+    } else {
+      const [, , , , , earg, eout, eexec] = lk;
+      drafts.push({ id: 'cua-disable-locked-use', seam: 'other', file: main.file, op: 'replace-once', find: lkm,
+        text: `async function ${bhe}(e){return null}async function ${sT}(){return null}async function ${cT}(${earg}){throw Error(\`Locked use is unavailable in this copy\`);let{stdout:${eout}}=await ${eexec}(`,
+        why: lockedWhy });
+    }
   }
 
   // helper start: pd(path) is the only place the app starts the managed Computer Use service (default spawnService of the managed-service class)
@@ -531,7 +558,9 @@ function bodyEnd(text, open) {
 
 /**
  * Every place the locked-use installer executable can still be reached from. The executable's name occurs as the last element of an array `P=[…,`Codex Computer Use Installer`]` (anything else naming it is a finding);
- * each use of `P` must sit in a named function `V` that nothing calls (a dead resolver); a call of `V`, or a use of `P` outside a function, is a finding. Returns descriptions (empty = unreachable).
+ * each use of `P` must sit in a named function `V` that nothing calls (a dead resolver) or whose body starts with a complete `return null;` or
+ * `throw Error(<literal>);` statement, the use after it (dead code);
+ * a call of any other `V`, or a use of `P` outside a function, is a finding. Returns descriptions (empty = unreachable).
  */
 export function installerReachable(text) {
   const out = new Set();
@@ -547,6 +576,10 @@ export function installerReachable(text) {
       const fns = [...text.slice(from, u.index).matchAll(/function ([A-Za-z_$][\w$]*)\([^()]*\)\{/g)].filter((m) => bodyEnd(text, from + m.index + m[0].length - 1) > u.index);
       const fn = fns.at(-1)?.[1];
       if (!fn) { out.add(`${P} used outside a named function: ${text.slice(Math.max(0, u.index - 40), u.index + 40)}`); continue; }
+      const fnBody = from + fns.at(-1).index + fns.at(-1)[0].length;
+      // the function returns null, or throws a literal message, as a COMPLETE first statement: the use comes after it and is dead code (a use inside the
+      // throw's own operand would run before the throw, and is not exempt)
+      if (/^(?:return null;|throw Error\((?:`[^`$\\]*`|"[^"\\]*"|'[^'\\]*')\);)/.test(text.slice(fnBody, u.index))) continue;
       const calls = [...text.matchAll(new RegExp(`(?<![\\w$.])${fn.replaceAll('$', '\\$')}(?![\\w$])`, 'g'))].filter((c) => !text.slice(Math.max(0, c.index - 9), c.index).endsWith('function '));
       for (const c of calls) out.add(`${fn} (resolves the installer path) is used: ${text.slice(Math.max(0, c.index - 40), c.index + 40)}`);
     }

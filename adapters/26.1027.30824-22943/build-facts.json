@@ -5616,7 +5616,7 @@
      "objects": 1
     }
    },
-   "addressesSha256": "f4bdd0ee58a5fef02dfc5de073922023bdf1ae4eb34fed86d0fbd33d59b1dec1",
+   "addressesSha256": "c51f0bd0fcd6a252a4aff0e855244ae7103a702b3a4102d81b2afc20525629a0",
    "notFound": [],
    "falsePositiveRisk": "a key set is evidence that the address exists, not of the component's identity (a one-key exact address matches many sites); the canary checks identity at run time",
    "digestSha256": "bfb924d5e776d4ed83059b38a755c295320c5a8f052ad2228303691eba2f5b04",

@@ -8,7 +8,7 @@ Codex Mods is an independent project. It is not made, endorsed or supported by O
 
 ## Status
 
-Pre-release (`1.0.0-dev`). The framework, the SDK and the maintained mods work on the app builds in `adapters/`. Each app update may need a refreshed adapter pack before the copy builds on it. Compatibility with a new build is best-effort, and the framework says when a mod or a feature is at risk (Settings → Mods). There are no prebuilt or notarized copies: each user builds their own from their own stock app.
+Pre-release (`1.0.0-dev`). Supports ChatGPT for Mac up to 26.1103.41825 (build 25679). The framework, the SDK and the maintained mods work on the app builds in `adapters/`. Each app update may need a refreshed adapter pack before the copy builds on it. Compatibility with a new build is best-effort, and the framework says when a mod or a feature is at risk (Settings → Mods). There are no prebuilt or notarized copies: each user builds their own from their own stock app.
 
 ## How it keeps you safe
 

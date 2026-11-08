@@ -12,6 +12,7 @@
 //                           checker below stays anchored). Its callers discard its result (checked).
 import vm from 'node:vm';
 import { applyOp, findMainBundle } from './transform.mjs';
+import { shapeOf } from './js-shape.mjs';
 
 const ID = '[A-Za-z_$][\\w$]*';
 const esc = (s) => s.replaceAll('$', '\\$');
@@ -65,37 +66,51 @@ export function locateSkillExposure(text) {
     .filter((m) => SKILL_NAMES.every((s) => new RegExp(`:${Q}${s}${Q}`).test(m[2])));
   if (maps.length !== 1) return { error: `the skill directory map (${SKILL_NAMES.join(', ')}) occurs ${maps.length} times (expected exactly 1)` };
   const map = maps[0][1];
-  // the enclosing function: the last `async function N(p){` before the error string whose body reaches past it
-  const heads = [...text.slice(0, at).matchAll(new RegExp(`async function (${ID})\\((${ID})\\)\\{`, 'g'))];
+  // the enclosing function: the last `async function N(p){` before the error string whose body reaches past it; 25679's minifier inlines single-use functions,
+  // so it may be an anonymous function expression called where it is used (`await async function(p){…}(args)`)
+  const heads = [...text.slice(0, at).matchAll(new RegExp(`async function(?: (${ID}))?\\((${ID})\\)\\{`, 'g'))];
   const head = heads.at(-1);
   if (!head) return { error: `no async function encloses "${MISMATCH}"` };
+  const label = head[1] ?? 'an anonymous function';
   const start = head.index; const end = matchClose(text, start + head[0].length - 1);
-  if (end < 0 || end <= at) return { error: `the function before "${MISMATCH}" (${head[1]}) does not enclose it` };
+  if (end < 0 || end <= at) return { error: `the function before "${MISMATCH}" (${label}) does not enclose it` };
   const fn = text.slice(start, end);
-  try { new vm.Script(`(${fn})`); } catch (e) { return { error: `the located function ${head[1]} does not parse on its own: ${e.message}` }; }
+  try { new vm.Script(`(${fn})`); } catch (e) { return { error: `the located function ${label} does not parse on its own: ${e.message}` }; }
   const need = [`${map}[`, quoted('skills'), quoted('SKILL.md'), quoted('.codex-plugin'), '`skill-${', '.cuaReplSurfaces.includes(', ...WRITES];
   const lacking = need.filter((s) => (typeof s === 'string' ? !fn.includes(s) : !s.test(fn)));
-  if (lacking.length) return { error: `the function ${head[1]} that throws "${MISMATCH}" lacks ${lacking.map((s) => `\`${typeof s === 'string' ? s : s.source}\``).join(', ')}` };
-  return { name: head[1], param: head[2], start, end, head: head[0], fn, map };
+  if (lacking.length) return { error: `the function ${label} that throws "${MISMATCH}" lacks ${lacking.map((s) => `\`${typeof s === 'string' ? s : s.source}\``).join(', ')}` };
+  return { name: head[1] ?? null, label, param: head[2], start, end, head: head[0], fn, map };
 }
 
 /**
  * Every reference to the function must be a call whose value is discarded (an expression statement, or a non-final operand of a comma expression), so
- * returning early changes no caller's data. Returns the references that are not (with context), or `{ error }`.
+ * returning early changes no caller's data. An anonymous function (25679) has one reference: it is called where it stands (`await async function(p){…}(args)`).
+ * Returns the references that are not (with context), or `{ error }`.
  */
 export function usedResults(text, loc) {
   const out = [];
+  const shape = shapeOf(text);
+  // a call that starts at `at` (its callee `callee` chars long, then the argument list) must be awaited, and its value discarded: by the parser, the
+  // `await` is an expression statement, or a non-final operand of a sequence expression (never an argument, an element, an operand of anything else)
+  const discarded = (at, callee) => {
+    const ctx = text.slice(Math.max(0, at - 40), at + Math.min(callee, 60) + 60);
+    const before = text.slice(Math.max(0, at - 6), at);
+    if (before !== 'await ' || text[at + callee] !== '(') return `not an awaited call: …${ctx}`;
+    if (!shape) return `the bundle does not parse, so the call's use cannot be checked: …${ctx}`;
+    const aw = shape.nodes.find((n) => n.type === 'AwaitExpression' && n.start === at - 6 && n.argument.type === 'CallExpression' && n.argument.start === at);
+    if (!aw) return `not an awaited call: …${ctx}`;
+    const up = shape.parent(aw);
+    const ok = up?.type === 'ExpressionStatement' || (up?.type === 'SequenceExpression' && up.expressions.indexOf(aw) < up.expressions.length - 1);
+    return ok ? null : `the call's value may be used: …${ctx}`;
+  };
+  if (loc.name == null) {
+    const why = discarded(loc.start, loc.end - loc.start);
+    return why ? [why] : [];
+  }
   for (const m of text.matchAll(new RegExp(`(?<![\\w$.#])${esc(loc.name)}(?![\\w$])`, 'g'))) {
     if (m.index === loc.start + 'async function '.length) continue;                  // the declaration
-    const ctx = text.slice(Math.max(0, m.index - 40), m.index + 60);
-    const before = text.slice(Math.max(0, m.index - 6), m.index);
-    if (before !== 'await ' || text[m.index + loc.name.length] !== '(') { out.push(`not an awaited call: …${ctx}`); continue; }
-    const prev = text[m.index - 7];
-    const close = matchClose(text, m.index + loc.name.length);
-    const next = close < 0 ? '' : text[close];
-    const statement = (prev === ';' || prev === '{' || prev === '}') && (next === ';' || next === '}');
-    const commaOperand = (prev === ',' || prev === ';' || prev === '{' || prev === '}') && next === ',';
-    if (!statement && !commaOperand) out.push(`the call's value may be used: …${ctx}`);
+    const why = discarded(m.index, loc.name.length);
+    if (why) out.push(why);
   }
   return out;
 }
@@ -107,7 +122,7 @@ export function usedResults(text, loc) {
 export function exposedCuaSkills(text) {
   const loc = locateSkillExposure(text);
   if (loc.error) return [`anchor not found: the CUA skill exposure (${loc.error}) (fail closed)`];
-  return loc.fn.startsWith(`${loc.head}return;`) ? [] : [`${loc.name}() still copies or removes skills in the shared plugin cache`];
+  return loc.fn.startsWith(`${loc.head}return;`) ? [] : [`${loc.name ?? loc.label}() still copies or removes skills in the shared plugin cache`];
 }
 
 /**
@@ -122,10 +137,10 @@ export function deriveCuaSkillsTransform(source) {
   const loc = locateSkillExposure(text);
   if (loc.error) return miss(loc.error);
   const used = usedResults(text, loc);
-  if (used.length) return miss(`a caller of ${loc.name} uses its result, so returning early is not a no-op: ${used.join(' | ')}`);
+  if (used.length) return miss(`a caller of ${loc.label} uses its result, so returning early is not a no-op: ${used.join(' | ')}`);
   // the find: the whole function (so its stock text is gone afterwards, like every mandatory edit's site); the text keeps the body as dead code after `return;`
   const find = loc.fn;
-  if (text.split(find).length - 1 !== 1) return miss(`the function ${loc.name} occurs more than once in ${file}`);
+  if (text.split(find).length - 1 !== 1) return miss(`the function ${loc.label} occurs more than once in ${file}`);
   const draft = { id: SKILLS_ID, seam: 'other', file, op: 'replace-once', find, text: `${loc.head}return;${find.slice(loc.head.length)}`,
     why: 'N1: the copy does not copy or remove the Computer Use / browser skills (skills/computer-use, skills/control-chrome, skills/control-in-app-browser) in the plugin cache shared with the stock app; the function returns before any filesystem access and its callers discard its result' };
   // dry run: the find applies exactly once, the function now returns first and still parses, and nothing else changed

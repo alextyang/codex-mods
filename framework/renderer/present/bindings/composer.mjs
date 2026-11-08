@@ -472,13 +472,15 @@ export const accessLegacyRow = defineBinding({ id: 'access.legacyRow', presents:
 export const branchPicker = defineBinding({ id: 'branch.startingState', presents: ['Draft'], subject: () => null });
 export const branchOptions = defineBinding({ id: 'branch.options', presents: ['Draft'], subject: () => null });
 const PICKER_WAIT_MS = 1500;
+/** The branch picker's setter of its starting state: `setStartingState` up to 22943, `onStartingStateChange` on 25679 (same value, `{type: 'branch', branchName}`). */
+const startingSetter = (p) => (typeof p?.setStartingState === 'function' ? p.setStartingState : typeof p?.onStartingStateChange === 'function' ? p.onStartingStateChange : null);
 /** The branch picker's props in an element the bar rendered (a few levels of fragments), or null. */
 function pickerIn(v, depth = 0) {
   if (!v || typeof v !== 'object' || depth > 6) return null;
   if (Array.isArray(v)) { for (const x of v) { const p = pickerIn(x, depth + 1); if (p) return p; } return null; }
   const p = v.props;
   if (!p) return null;
-  if (typeof p.setStartingState === 'function' && typeof p.branchSource === 'string') return p;
+  if (startingSetter(p) && (typeof p.branchSource === 'string' || (p.startingState && typeof p.hostConfig === 'object'))) return p;
   return pickerIn(p.children, depth + 1);
 }
 /**
@@ -523,7 +525,7 @@ export const composerRunLocation = defineBinding({
       const mine = (id) => (typeof ctx.mountsOf === 'function' ? ctx.mountsOf(id) : []).filter((m) => m.props && same(m));
       let failed = null;
       const picker = () => {
-        const shown = mine('branch.startingState').filter((m) => typeof m.props.setStartingState === 'function');
+        const shown = mine('branch.startingState').filter((m) => startingSetter(m.props));
         if (shown.length > 1) return { twice: true };
         if (shown.length) return shown[0].props;
         const menus = mine('branch.options').filter((m) => typeof m.props.options === 'function');
@@ -541,7 +543,7 @@ export const composerRunLocation = defineBinding({
       if (p?.twice) return { unavailable: 'two composers of this draft are shown: which one is not known' };
       if (!p && failed) return { unavailable: `the composer's options could not be read (${failed.slice(0, 120)})` };
       if (!p) return { unavailable: 'this new chat runs locally, on the project\'s checked-out branch: a new worktree or a cloud chat starts from a branch' };
-      p.setStartingState({ type: 'branch', branchName: name });
+      startingSetter(p)({ type: 'branch', branchName: name });
       return true;
     },
   },

@@ -1002,22 +1002,24 @@ const PROJECTS = 'x={onSelect:e=>{h(`/projects`,{state:e})},isCurrentDestination
 const SPLIT = 'let{primaryDestinations:L,standalonePrimaryDestinations:R,exploreDestinations:z}=Y(I,v===`disabled`,y,d);';
 
 test('layouts WL5b: the destinations go in before the provider\'s split; the provider follows them; a memo block around the list asks for their revision', () => {
-  const plain = deriveDestinationsSeam(oneFile(`${PROVIDER}${PROJECTS}${SPLIT}`));
+  const plain = deriveDestinationsSeam(oneFile(`${PROVIDER}${PROJECTS}${SPLIT}}`));
   const by = Object.fromEntries(plain.group.drafts.map((d) => [d.id, d]));
   assert.deepEqual(Object.keys(by), ['seam-destinations:head', 'seam-destinations']);
   assert.equal(by['seam-destinations:head'].text, '{children:n,desktopNavItemsEnabled:r}=e,__cmDest=globalThis.__codexmods?.useDestinationsRev?.(),');
   assert.equal(by['seam-destinations'].text, `I=globalThis.__codexmods?.destinations?.(I,{location:m,navigate:h})??I;${by['seam-destinations'].find}`);
-  const memo = deriveDestinationsSeam(oneFile(`${PROVIDER}let P,F;if(t[4]!==k||t[5]!==y){${PROJECTS}${SPLIT}}else I=t[29]`));
+  const memo = deriveDestinationsSeam(oneFile(`${PROVIDER}let P,F;if(t[4]!==k||t[5]!==y){${PROJECTS}${SPLIT}}else I=t[29]}`));
   const m = Object.fromEntries(memo.group.drafts.map((d) => [d.id, d]));
   assert.equal(m['seam-destinations:memo'].find, ';if(t[4]!==k||');
   assert.equal(m['seam-destinations:memo'].text, ';if(t.__cmDestRev!==globalThis.__codexmods?.destinationsRev?.()||t[4]!==k||');
   assert.match(m['seam-destinations'].text, /^t\.__cmDestRev=globalThis\.__codexmods\?\.destinationsRev\?\.\(\);I=/);
   assert.deepEqual(deriveDestinationsSeam(oneFile(SPLIT)).missing.map((x) => x.item), ['seam:destinations'], 'no provider before it');
   // another memo block before the list's own, closed before the split, is not the list's: the seam leaves it alone
-  const other = deriveDestinationsSeam(oneFile(`${PROVIDER}let a;if(t[1]!==q||t[2]!==w){a=1}else a=t[3];${PROJECTS}${SPLIT}`));
+  const other = deriveDestinationsSeam(oneFile(`${PROVIDER}let a;if(t[1]!==q||t[2]!==w){a=1}else a=t[3];${PROJECTS}${SPLIT}}`));
   assert.deepEqual(other.group.drafts.map((d) => d.id), ['seam-destinations:head', 'seam-destinations'], 'no memo draft');
   // a head from another component, a function between it and the split: not the provider's
-  assert.deepEqual(deriveDestinationsSeam(oneFile(`${PROVIDER}function z(){}${PROJECTS}${SPLIT}`)).missing.map((x) => x.item), ['seam:destinations']);
+  // a function inlined between them and closed before the split is fine (25679); the split in another function than the provider's head is not
+  assert.ok(deriveDestinationsSeam(oneFile(`${PROVIDER}function z(){}${PROJECTS}${SPLIT}}`)).group);
+  assert.deepEqual(deriveDestinationsSeam(oneFile(`${PROVIDER}${PROJECTS}}function z(){${SPLIT}}`)).missing.map((x) => x.item), ['seam:destinations']);
   assert.deepEqual(deriveDestinationsSeam(oneFile(PROVIDER)).missing.map((x) => x.item), ['seam:destinations'], 'no split');
 });
 

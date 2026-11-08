@@ -59,6 +59,8 @@ export const METHOD_CLASSES = Object.freeze({
   'thread/decrement_elicitation': MUTATE, // counter
   'thread/prediction/request': EXTERNAL, // asks for a next-prompt prediction; assumed to be model traffic (not documented in the schema)
   'thread/approveGuardianDeniedAction': MUTATE, // records an approval of an action the guardian denied; whether it re-runs the action is not in the schema
+  'thread/guardianReview': EXTERNAL, // (25679, experimental) the guardian's assessment of the thread's pending action, a model call; it also subscribes the
+  //   connection to the thread, which the mux does not record (only thread/start, resume, fork and turn/start do): the app itself does not call it
 
   // --- thread settings and metadata
   'thread/name/set': SET,
